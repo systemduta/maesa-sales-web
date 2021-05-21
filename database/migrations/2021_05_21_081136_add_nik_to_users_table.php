@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class AddNikToUsersTable extends Migration
 {
@@ -13,14 +14,18 @@ class AddNikToUsersTable extends Migration
      */
     public function up()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('devision_id');
             $table->string('nik')->nullable();
 
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('no action')->onUpdate('cascade');
-            $table->foreign('devision_id')->references('id')->on('devisions')->onDelete('no action')->onUpdate('cascade');
+            $table->foreign('company_id')->references('id')->on('companies');
+            $table->foreign('devision_id')->references('id')->on('devisions');
         });
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     /**
