@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Product;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 
-class ProductController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
@@ -17,24 +19,9 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        // dd($request->filled('search'),$request->filled('featured'));
-        $featured = $request->filled('featured') && ($request->featured=='yes')?$request->featured:null;
-        $search = $request->filled('search')?$request->search:null;
-        $product = Product::query();
-
-        $product->when($featured, function ($q, $featured) {
-            return $q->where('featured', $featured);
-        });
-
-        $product->when($search, function ($q, $search) {
-            return $q->where('name', 'LIKE', '%'.$search.'%');
-        });
-
-        $products = $product->get();
-
-        return response()->json(['Product' => $products]);
+        //
     }
 
     /**
@@ -66,9 +53,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::where('id',$id)->get();
-
-        return response()->json(['Product' => $product]);
+        //
     }
 
     /**
@@ -103,5 +88,14 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function profile()
+    {
+
+        $id = auth()->user()->id;
+        $user = User::where('id', $id)->with(array('company','devision'))->first();
+
+        return response()->json(['Profile' => $user]);
     }
 }
