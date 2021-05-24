@@ -21,3 +21,9 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', 'API\Auth\LoginController@login');
 Route::post('/forgot', 'API\Auth\ForgotController@forgot');
 Route::post('/logout', 'API\Auth\LogoutController@logout');
+
+Route::get('/profile', 'API\UserController@profile');
+
+//Product
+Route::get('/product', 'API\ProductController@index');
+Route::get('/product/{id}', 'API\ProductController@show');
