@@ -17,7 +17,7 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'company_id','devision_id',
     ];
 
     /**
@@ -37,4 +37,14 @@ class User extends \TCG\Voyager\Models\User
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo('App\Company');
+    }
+
+    public function devision()
+    {
+        return $this->belongsTo('App\Devision');
+    }
 }
