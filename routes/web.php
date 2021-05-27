@@ -13,6 +13,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('cache_clear', function () {
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    dd("cache:clear");
+});
+Route::get('config_clear', function () {
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    dd("config:clear");
+});
+Route::get('storage', function () {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    dd("storage");
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
