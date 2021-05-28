@@ -25,8 +25,10 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transaction = Transaction::all();
-        return response()->json(['Transaction' => $transaction]);
+        $transaction   = auth()->user()->id;
+        $transaction   = Transaction::all();
+        $transacdetail = TransactionDetail::all();
+        return response()->json(['Transaction' => $transaction, $transacdetail]);
     }
 
     /**
@@ -167,8 +169,8 @@ class TransactionController extends Controller
         TransactionDetail::findOrFail($id)->update([
             'transaction_id' => $request->transaction_id,
             'product_id'     => $request->product_id,
-            $price           = $request->total_price  - ($request->total_price * ($request->discount/100)) - $request->voucher,
-            $total           = $price  * $request->amount,
+            $price           =  $request->total_price  - ($request->total_price * ($request->discount/100)) - $request->voucher,
+            $total           =  $price  * $request->amount,
             'price'          => $total,
             'amount'         => $request->amount,
             'flag'           => $request->flag,
