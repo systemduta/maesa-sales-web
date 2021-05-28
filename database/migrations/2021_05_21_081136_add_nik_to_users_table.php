@@ -17,8 +17,8 @@ class AddNikToUsersTable extends Migration
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('devision_id');
+            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('devision_id')->nullable();
             $table->string('nik')->nullable();
 
             $table->foreign('company_id')->references('id')->on('companies');
