@@ -19,10 +19,10 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request->filled('search'),$request->filled('featured'));
         $featured = $request->filled('featured') && ($request->featured=='yes')?$request->featured:null;
-        $search = $request->filled('search')?$request->search:null;
-        $product = Product::query();
+        $search   = $request->filled('search')?$request->search:null;
+        $sort     = $request->filled('sort') && ($request->sort=='asc')?$request->sort:null;
+        $product  = Product::query();
 
         $product->when($featured, function ($q, $featured) {
             return $q->where('featured', $featured);
@@ -30,6 +30,10 @@ class ProductController extends Controller
 
         $product->when($search, function ($q, $search) {
             return $q->where('name', 'LIKE', '%'.$search.'%');
+        });
+
+        $product->when($sort == 'asc', function ($q) use ($sort) {
+            return $q->orderBy('created_at', $sort);
         });
 
         $products = $product->get();
@@ -42,6 +46,8 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
     public function create()
     {
         //
