@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\TransactionDetail;
-use App\Cart;
-use Mail;
-use Auth;
-use App\Mail\CheckoutMail;
+
 
 
 class TransactionController extends Controller
@@ -25,9 +22,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transaction   = auth()->user()->id;
         $transaction   = Transaction::all();
         $transacdetail = TransactionDetail::all();
+
         return response()->json(['Transaction' => $transaction, $transacdetail]);
     }
 
@@ -48,7 +45,7 @@ class TransactionController extends Controller
             'status'            => 'required',
             'product_id'        => 'required',
             'amount'            => 'required',
-            'transaction_id'            => 'required',
+            'transaction_id'    => 'required',
         ]);
 
         Transaction::create([
@@ -68,7 +65,7 @@ class TransactionController extends Controller
         TransactionDetail::create([
             'transaction_id' => $request->transaction_id,
             'product_id'     => $request->product_id,
-            $price = $request->total_price * $request->amount,
+            $price           =  $request->total_price * $request->amount,
             'price'          => $price,
             'amount'         => $request->amount,
             'flag'           => $request->flag,
@@ -112,10 +109,9 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        $transaction = Transaction::where('id',$id)->get();
-        $transdetail = TransactionDetail::where('id', $id)->get();
+        $transdetail = TransactionDetail::where('id', $id)->with('transaction')->first();
 
-        return response()->json(['Transaction' => $transaction, $transdetail]);
+        return response()->json(['Transaction' => $transdetail]);
     }
 
     /**
@@ -150,7 +146,7 @@ class TransactionController extends Controller
             'status'            => 'required',
             'product_id'        => 'required',
             'amount'            => 'required',
-            'transaction_id'            => 'required',
+            'transaction_id'    => 'required',
         ]);
 
         Transaction::findOrFail($id)->update([
