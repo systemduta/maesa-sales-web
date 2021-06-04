@@ -19,7 +19,6 @@ class CreateTransactionDetailsTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->double('price');
             $table->integer('amount');
-            $table->string('flag')->nullable();
             $table->timestamps();
 
             $table->foreign('transaction_id')->references('id')->on('transactions');

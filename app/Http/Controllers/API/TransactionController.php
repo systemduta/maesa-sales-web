@@ -43,9 +43,7 @@ class TransactionController extends Controller
             'customer_name'     => 'required|string',
             'address'           => 'required',
             'total_price'       => 'required',
-            // 'status'            => 'required',
-            // 'product_id'        => 'required',
-            // 'amount'            => 'required',
+            'status'            => 'required',
         ]);
 
         $transaction = Transaction::create([
@@ -62,17 +60,17 @@ class TransactionController extends Controller
             'status'            => $request->status,
         ]);
 
-        $new_products = collect([]);
+        $new_products = [];
         foreach ($request->products as $product) {
-                $new_products->push([
+                array_push($new_products,[
                     'transaction_id' => $transaction->getKey(),
-                    'product_id'     => $product->product_id,
-                    'amount'         => $product->amount,
-                    'price'          => $product->price,
+                    'product_id'     => $product['product_id'],
+                    'amount'         => $product['amount'],
+                    'price'          => $product['price'],
                 ]);
         }
-        dd($new_products);
-        TransactionDetail::create();
+
+        TransactionDetail::insert($new_products);
 
     return response()->json(['message' => 'Data Add Successfully']);
     }
