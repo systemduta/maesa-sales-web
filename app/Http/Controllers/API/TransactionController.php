@@ -35,6 +35,7 @@ class TransactionController extends Controller
      */
     public function create(Request $request)
     {
+        // dd($request->toArray());
         $request->validate([
             'user_id'           => 'required',
             'company_id'        => 'required|string',
@@ -42,13 +43,12 @@ class TransactionController extends Controller
             'customer_name'     => 'required|string',
             'address'           => 'required',
             'total_price'       => 'required',
-            'status'            => 'required',
-            'product_id'        => 'required',
-            'amount'            => 'required',
-            'transaction_id'    => 'required',
+            // 'status'            => 'required',
+            // 'product_id'        => 'required',
+            // 'amount'            => 'required',
         ]);
 
-        Transaction::create([
+        $transaction = Transaction::create([
             'user_id'           => auth()->user()->id,
             'company_id'        => $request->company_id,
             'invoice_number'    => $request->invoice_number,
@@ -62,14 +62,17 @@ class TransactionController extends Controller
             'status'            => $request->status,
         ]);
 
-        TransactionDetail::create([
-            'transaction_id' => $request->transaction_id,
-            'product_id'     => $request->product_id,
-            $price           =  $request->total_price * $request->amount,
-            'price'          => $price,
-            'amount'         => $request->amount,
-            'flag'           => $request->flag,
-        ]);
+        $new_products = collect([]);
+        foreach ($request->products as $product) {
+                $new_products->push([
+                    'transaction_id' => $transaction->getKey(),
+                    'product_id'     => $product->product_id,
+                    'amount'         => $product->amount,
+                    'price'          => $product->price,
+                ]);
+        }
+        dd($new_products);
+        TransactionDetail::create();
 
     return response()->json(['message' => 'Data Add Successfully']);
     }
