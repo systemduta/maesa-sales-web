@@ -5,6 +5,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>@yield('title')</title>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -36,12 +39,15 @@
   <!-- AdminLTE for demo purposes -->
   <script src="{{ asset('AdminLTE') }}/dist/js/demo.js"></script>
 
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
   <script src="https://code.highcharts.com/highcharts.js"></script>
 
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+<div class="wrapper" id="app">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
