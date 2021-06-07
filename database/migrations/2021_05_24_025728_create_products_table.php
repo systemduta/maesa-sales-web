@@ -23,6 +23,8 @@ class CreateProductsTable extends Migration
             $table->boolean('featured')->default(0);
             $table->string('img')->nullable();
             $table->timestamps();
+
+            $table->foreign('company_id')->references('id')->on('companies');
         });
     }
 
