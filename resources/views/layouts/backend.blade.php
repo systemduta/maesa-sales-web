@@ -76,7 +76,7 @@
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-white-red elevation-4">
+  <aside class="main-sidebar sidebar-dark-red elevation-4">
     <!-- Brand Logo -->
     <a href="/home" class="brand-link">
       <img src="{{ asset('AdminLTE') }}/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
@@ -84,86 +84,53 @@
       <span class="brand-text font-weight-light">Project Intern</span>
     </a>
     <br>
-    <br>
 
     <!-- Sidebar -->
     <div class="sidebar">
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-            <li class="nav-item">
-                <a href="/home" class="nav-link {{request()->is('home')? 'active': ''}}">
-                    <img src="{{ asset('AdminLTE/icon/dashboard.svg') }}" width="30">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+                 with font-awesome or any other icon font library -->
+
+              <li class="nav-item">
+                  <a href="/home" class="nav-link {{request()->is('home')? 'active': ''}}">
+                      <i class="nav-icon fas fa-tachometer-alt"></i>
+                      <p>
+                          Dashboard
+                      </p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="" class="nav-link {{request()->is('')? 'active': ''}}">
+                      <i class="nav-icon fas fa-cloud"></i>
+                      <p>
+                          PP
+                      </p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="" class="nav-link {{request()->is('')? 'active': ''}}">
+                      <i class="nav-icon fas fa-cubes"></i>
+                      <p>
+                          AA
+                      </p>
+                  </a>
+              </li>
+              <li class="nav-item ">
+                <a href="" class="nav-link {{request()->is('')? 'active': ''}}">
+                    <i class="nav-icon fa fa-graduation-cap"></i>
                     <p>
-                        Dashboard
+                        WW
                     </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="/bumdes" class="nav-link {{request()->is('bumdes')? 'active': ''}}">
-                    <img src="{{ asset('AdminLTE/icon/bumdes.svg') }}" width="30">
-                    <p>
-                        BUMDES
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/umkm" class="nav-link {{request()->is('umkm')? 'active': ''}}">
-                    <img src="{{ asset('AdminLTE/icon/umkm.svg') }}" width="30">
-                    <p>
-                        UMKM
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/product" class="nav-link {{request()->is('product')? 'active': ''}}">
-                    <img src="{{ asset('AdminLTE/icon/product.svg') }}" width="30">
-                    <p>
-                        PRODUCT
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/banner" class="nav-link {{request()->is('banner')? 'active': ''}}">
-                    <img src="{{ asset('AdminLTE/icon/Banner.svg') }}" width="30">
-                    <p>
-                        BANNER
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/cart" class="nav-link {{request()->is('cart')? 'active': ''}}">
-                    <img src="{{ asset('AdminLTE/icon/cart.svg') }}" width="30">
-                    <p>
-                        Cart
-                        <span class="badge badge-danger right">{{ \App\Cart::get()->count() }}</span>
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/transaction" class="nav-link {{request()->is('transaction')? 'active': ''}}">
-                    <img src="{{ asset('AdminLTE/icon/transaction.svg') }}" width="30">
-                    <p>
-                        Transactions
-                        <span class="badge badge-danger right">{{ \App\Transaction::get()->count() }}</span>
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/transdel" class="nav-link {{request()->is('transdel')? 'active': ''}}">
-                    <img src="{{ asset('AdminLTE/icon/transaction.svg') }}" width="30">
-                    <p>
-                        Transactions Detail
-                    </p>
-                </a>
-            </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
+
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
     <!-- /.sidebar -->
   </aside>
 
