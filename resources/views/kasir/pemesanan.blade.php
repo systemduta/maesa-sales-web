@@ -81,8 +81,23 @@
                     <div class="modal-body">
                         <h3>Price : Rp.{{ number_format($item->total_price)}} </h3>
                         <center><img src="{{ asset('bukti') }}/{{ $item->bukti }}" width="1000px"></center>
-
-
+                        <br>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Update Status</label>
+                                    <select name="status" class="form-control">
+                                        <option value="">--Pilih Status--</option>
+                                        <option value="">Order</option>
+                                        <option value=""></option>
+                                        <option value=""></option>
+                                    </select>
+                                    <div class="text-danger">
+                                        @error('status')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
