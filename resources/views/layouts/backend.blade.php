@@ -40,7 +40,7 @@
   <script src="{{ asset('AdminLTE') }}/dist/js/demo.js"></script>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
   <script src="https://code.highcharts.com/highcharts.js"></script>
 
@@ -109,30 +109,13 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a href="" class="nav-link {{request()->is('')? 'active': ''}}">
+                  <a href="/pemesanan" class="nav-link {{request()->is('pemesanan')? 'active': ''}}">
                       <i class="nav-icon fas fa-cloud"></i>
                       <p>
-                          PP
+                          Pemesanan
                       </p>
                   </a>
               </li>
-              <li class="nav-item">
-                  <a href="" class="nav-link {{request()->is('')? 'active': ''}}">
-                      <i class="nav-icon fas fa-cubes"></i>
-                      <p>
-                          AA
-                      </p>
-                  </a>
-              </li>
-              <li class="nav-item ">
-                <a href="" class="nav-link {{request()->is('')? 'active': ''}}">
-                    <i class="nav-icon fa fa-graduation-cap"></i>
-                    <p>
-                        WW
-                    </p>
-                </a>
-            </li>
-
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
