@@ -62,6 +62,22 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell mr-3"></i>
+            <span class="badge badge-warning navbar-badge">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">15 Notifications</span>
+          <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+                3 new reports
+              <span class="float-right text-muted text-sm">2 days</span>
+            </a>
+          <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
 
       <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}"

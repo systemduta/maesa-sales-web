@@ -13,6 +13,35 @@
 </div>
 @endsection
 @section('content')
+<style type="text/css">
+    .img-container{
+        text-align: center;
+    }
+    img.zoom {
+        width: 750px;
+        height: 400px;
+        -webkit-transition: all .2s ease-in-out;
+        -moz-transition: all .2s ease-in-out;
+        -o-transition: all .2s ease-in-out;
+        -ms-transition: all .2s ease-in-out;
+    }
+
+    .transisi {
+        -webkit-transform: scale(1.8);
+        -moz-transform: scale(1.8);
+        -o-transform: scale(1.8);
+        transform: scale(1.8);
+    }
+</style>
+<script>
+$(document).ready(function(){
+    $('.zoom').hover(function() {
+        $(this).addClass('transisi');
+    }, function() {
+        $(this).removeClass('transisi');
+    });
+});
+</script>
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-12">
@@ -54,9 +83,15 @@
                                             <img src="{{ asset('bukti') }}/{{ $item->bukti }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px">
                                             @endif
                                         </td>
-                                        <td>{{ $item->status}}</td>
+                                            @if($item->status =='cancel')
+                                                <td class="text-center"><span class="badge badge-primary">Cancel</span></td>
+                                            @elseif($item->status == 'unpaid')
+                                                <td class="text-center"><span class="badge badge-danger">Unpaid</span></td>
+                                            @elseif($item->status == 'paid')
+                                                <td class="text-center"><span class="badge badge-success">Paid</span></td>
+                                            @endif
                                         <td class="text-center">
-                                            <a href="/pemesanan/detail/{{ $item->id}}" class="btn btn-sm btn-flat btn-primary"><i class="fa fa-eye"></i></a>
+                                            <a href="/pemesanan/detail/{{ $item->id}}" class="btn btn-sm btn-flat btn-warning"><i class="fa fa-eye"></i></a>
                                             {{-- <button class="btn btn-sm btn-flat btn-danger" data-toggle="modal" data-target="#delete{{ $item->id}}"><i class="fa fa-trash"></i></button> --}}
                                         </td>
                                     </tr>
@@ -78,31 +113,34 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <h3>Price : Rp.{{ number_format($item->total_price)}} </h3>
-                        <center><img src="{{ asset('bukti') }}/{{ $item->bukti }}" width="1000px"></center>
-                        <br>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Update Status</label>
-                                    <select name="status" class="form-control">
-                                        <option value="">--Pilih Status--</option>
-                                        <option value="">Order</option>
-                                        <option value=""></option>
-                                        <option value=""></option>
-                                    </select>
-                                    <div class="text-danger">
-                                        @error('status')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                    <form action="/pemesanan/update/{{$item->id}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <h3>Price : Rp.{{ number_format($item->total_price)}} </h3>
+                            <div class="img-container">
+                                    <img src="{{ asset('bukti') }}/{{ $item->bukti }}" class="zoom">
                             </div>
+                            <br>
+                            <label>Update Status</label>
+                                <select name="status" class="form-control">
+                                    <option value="{{$item->status}}">{{$item->status}}</option>
+                                    <option value="order">Order</option>
+                                    <option value="unpaid">Unpaid</option>
+                                    <option value="paid">Paid</option>
+                                </select>
+                                <div class="text-danger">
+                                    @error('status')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+
                         </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <a href="/pemesanan/update/{{ $item->id}}" type="button" class="btn btn-warning">Save</a>
-                    </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-warning">Save</button>
+                        </div>
+                    </form>
                 </div>
               <!-- /.modal-content -->
             </div>
@@ -110,22 +148,22 @@
         </div>
         @endforeach
 
-        <script>
-            $(function () {
-              $("#example1").DataTable({
-                "responsive": true,
-                "autoWidth": false,
-              });
-              $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-              });
-            });
-        </script>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+        "responsive": true,
+        "autoWidth": false,
+        });
+        $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+        });
+    });
+</script>
 
 @endsection

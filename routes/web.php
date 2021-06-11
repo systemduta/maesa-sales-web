@@ -30,3 +30,5 @@ Route::group(['prefix' => 'admin'], function () {
 
 //pemesanan
 Route::get('/pemesanan', 'PemesananController@index');
+Route::put('/pemesanan/update/{id}', 'PemesananController@update');
+Route::get('/pemesanan/detail/{id}', 'PemesananController@show');

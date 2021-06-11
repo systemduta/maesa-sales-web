@@ -24,7 +24,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('discount')->nullable();
             $table->string('voucher')->nullable();
             $table->string('noted')->nullable();
-            $table->string('status')->default('order');
+            $table->string('status')->default('unpaid');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
