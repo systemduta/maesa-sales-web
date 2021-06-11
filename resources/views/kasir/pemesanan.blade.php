@@ -125,7 +125,7 @@ $(document).ready(function(){
                             <label>Update Status</label>
                                 <select name="status" class="form-control">
                                     <option value="{{$item->status}}">{{$item->status}}</option>
-                                    <option value="order">Order</option>
+                                    <option value="cancel">Cancel</option>
                                     <option value="unpaid">Unpaid</option>
                                     <option value="paid">Paid</option>
                                 </select>
