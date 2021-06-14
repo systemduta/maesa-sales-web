@@ -70,12 +70,12 @@
         <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
           <span class="dropdown-item dropdown-header">15 Notifications</span>
           <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
+            <a href="/notification" class="dropdown-item">
                 3 new reports
               <span class="float-right text-muted text-sm">2 days</span>
             </a>
           <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+            <a href="/notification" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
 

@@ -43,9 +43,41 @@ class PemesananController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function sendnotification()
     {
-        //
+        $token = "dAwIgmLZ6M8:APA91bF_E9a0vW9qw57dROZIHL7ddaMrfMSWHA1iJ0cNnJYnCa0SzyzVDjOm78zgBoTOiL3RSWfCfT9NKF3dEPHXnh9abUSpEkFBsREWM53HFnHJHj0SOyU_fYm1fKpVStlup-upAihT";
+        $from = "AAAA1qJu9Zc:APA91bHdaN91pCfYTI8j1QQiqbQP68cGoGe1SnEBr4lYiOvHSJwdO5NBHQkkbQDQePoFmVr3ilGAHoIAQTNvkK3Gfw6l5MteB4hjWe3KSxef5egr-jtHyhcb-ZZ-UwXIV7Cc-lJMvZqh";
+        $msg = array
+              (
+                'body'  => "Pengiriman Pemesanan",
+                'title' => "Hi, dari mana",
+                'receiver' => 'erw',
+                'icon'  => "https://image.flaticon.com/icons/png/512/270/270014.png",/*Default Icon*/
+                'sound' => 'mySound'/*Default sound*/
+              );
+
+        $fields = array
+                (
+                    'to'        => $token,
+                    'notification'  => $msg
+                );
+
+        $headers = array
+                (
+                    'Authorization: key='.$from,
+                    'Content-Type: application/json'
+                );
+        //#Send Reponse To FireBase Server
+        $ch = curl_init();
+        curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+        curl_setopt( $ch,CURLOPT_POST, true );
+        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
+        $result = curl_exec($ch );
+        dd($result);
+        curl_close( $ch );
     }
 
     /**
@@ -56,7 +88,10 @@ class PemesananController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'title' => 'Data Notification'
+        ];
+        return view('kasir.notification', $data);
     }
 
     /**
