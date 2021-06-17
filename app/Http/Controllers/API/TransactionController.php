@@ -32,7 +32,7 @@ class TransactionController extends Controller
         $transaction   = $transaction->get();
         $transacdetail = TransactionDetail::all();
 
-        return response()->json(['Transaction' => $transaction, $transacdetail]);
+        return response()->json(['transaction' => $transaction, $transacdetail]);
     }
 
     /**
@@ -104,7 +104,7 @@ class TransactionController extends Controller
     {
         $transdetail = TransactionDetail::where('id', $id)->with('transaction')->first();
 
-        return response()->json(['Transaction' => $transdetail]);
+        return response()->json(['transaction' => $transdetail]);
     }
 
     /**
