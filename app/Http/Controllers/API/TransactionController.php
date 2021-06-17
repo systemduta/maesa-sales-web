@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Company;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\TransactionDetail;
@@ -22,17 +24,16 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $sort         = $request->filled('sort') && ($request->sort=='asc')?$request->sort:null;
-        $transaction  = Transaction::query();
+        $user = auth()->user();
+        $company_id = $user->company_id;
+        $order_by_latest = ($request->filled('sort') && $request->sort == 'desc') ? 'desc' : null;
+        $transaction  = Transaction::query()->when($company_id, function ($query, $company_id){
+            return $query->where('company_id', $company_id);
+        })->with(['transaction_details'])->when($order_by_latest, function ($query, $order_by_latest){
+            return $query->orderBy('created_at', $order_by_latest);
+        })->get();
 
-        $transaction->when($sort == 'asc', function ($q) use ($sort) {
-            return $q->orderBy('created_at', $sort);
-        });
-
-        $transaction   = $transaction->get();
-        $transacdetail = TransactionDetail::all();
-
-        return response()->json(['transaction' => $transaction, $transacdetail]);
+        return response()->json(['transaction' => $transaction]);
     }
 
     /**
@@ -42,6 +43,17 @@ class TransactionController extends Controller
      */
     public function create(Request $request)
     {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
         $request->validate([
             'customer_name'     => 'required|string',
             'address'           => 'required',
@@ -49,7 +61,13 @@ class TransactionController extends Controller
         ]);
 
         $user = auth()->user();
-        $invoice_number = '#1234';
+        $company_code = $user->company_id ? $user->company->code : 'MH';
+        $latest_trx = Transaction::query()
+            ->where('company_id', $user->company_id ?? 1)
+            ->latest()->first();
+        $numb = str_pad(($latest_trx->getKey()+1), 4, '0', STR_PAD_LEFT);
+        $invoice_number = '#'.$company_code.$numb;
+
         $transaction = Transaction::create([
             'user_id'           => $user->id ?? 1,
             'company_id'        => $user->company_id ?? 1,
@@ -65,28 +83,17 @@ class TransactionController extends Controller
 
         $new_products = [];
         foreach ($request->products as $product) {
-                array_push($new_products,[
-                    'transaction_id' => $transaction->getKey(),
-                    'product_id'     => $product['product_id'],
-                    'amount'         => $product['amount'],
-                    'price'          => $product['price'],
-                ]);
+            array_push($new_products,[
+                'transaction_id' => $transaction->getKey(),
+                'product_id'     => $product['product_id'],
+                'amount'         => $product['amount'],
+                'price'          => $product['price'],
+            ]);
         }
 
         TransactionDetail::insert($new_products);
 
-    return response()->json(['message' => 'Data Add Successfully']);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return response()->json(['message' => 'Data Add Successfully']);
     }
 
     /**

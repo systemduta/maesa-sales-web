@@ -12,7 +12,7 @@ class TransactionDetail extends Model
 
     public function transaction()
     {
-        return $this->belongsTo('App\Transaction');
+        return $this->belongsTo(Transaction::class);
     }
 
     public function product()
