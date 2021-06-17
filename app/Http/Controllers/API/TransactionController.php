@@ -20,9 +20,16 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transaction   = Transaction::all();
+        $sort         = $request->filled('sort') && ($request->sort=='asc')?$request->sort:null;
+        $transaction  = Transaction::query();
+
+        $transaction->when($sort == 'asc', function ($q) use ($sort) {
+            return $q->orderBy('created_at', $sort);
+        });
+
+        $transaction   = $transaction->get();
         $transacdetail = TransactionDetail::all();
 
         return response()->json(['Transaction' => $transaction, $transacdetail]);
