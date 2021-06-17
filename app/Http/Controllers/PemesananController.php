@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Transaction;
+use App\User;
 use App\TransactionDetail;
 use App\Company;
 use Auth;
@@ -38,46 +39,49 @@ class PemesananController extends Controller
         return view('kasir.pemesanan',compact('transaction'), $data);
     }
 
+    public function saveToken(Request $request)
+    {
+        auth()->user()->update(['device_token'=>$request->token]);
+        return response()->json(['token saved successfully.']);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendnotification()
+    public function sendnotification(Request $request)
     {
-        $token = "dAwIgmLZ6M8:APA91bF_E9a0vW9qw57dROZIHL7ddaMrfMSWHA1iJ0cNnJYnCa0SzyzVDjOm78zgBoTOiL3RSWfCfT9NKF3dEPHXnh9abUSpEkFBsREWM53HFnHJHj0SOyU_fYm1fKpVStlup-upAihT";
-        $from = "AAAA1qJu9Zc:APA91bHdaN91pCfYTI8j1QQiqbQP68cGoGe1SnEBr4lYiOvHSJwdO5NBHQkkbQDQePoFmVr3ilGAHoIAQTNvkK3Gfw6l5MteB4hjWe3KSxef5egr-jtHyhcb-ZZ-UwXIV7Cc-lJMvZqh";
-        $msg = array
-              (
-                'body'  => "Pengiriman Pemesanan",
-                'title' => "Hi, dari mana",
-                'receiver' => 'erw',
-                'icon'  => "https://image.flaticon.com/icons/png/512/270/270014.png",/*Default Icon*/
-                'sound' => 'mySound'/*Default sound*/
-              );
+        $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
 
-        $fields = array
-                (
-                    'to'        => $token,
-                    'notification'  => $msg
-                );
+        $SERVER_API_KEY = 'AAAASiQ_6eE:APA91bFELTTv0YghgFpkMvlhrR00zwYTsrasAZJ4tyz8NAXInfKlF0YPOrxrqVqDjjuLSCkpSzOlKBTkFnn1wVFjHfBs_3yoUWsAAyNaTXErQ9p390H0xH6TqIGZmtMGk-R66T4xsrsW';
 
-        $headers = array
-                (
-                    'Authorization: key='.$from,
-                    'Content-Type: application/json'
-                );
-        //#Send Reponse To FireBase Server
+        $data = [
+            "registration_ids" => $firebaseToken,
+            "notification" => [
+                "status" => $request->status,
+            ]
+        ];
+        $dataString = json_encode($data);
+
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+
         $ch = curl_init();
-        curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
-        curl_setopt( $ch,CURLOPT_POST, true );
-        curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
-        curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
-        curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
-        curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
-        $result = curl_exec($ch );
-        dd($result);
-        curl_close( $ch );
+
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+        $response = curl_exec($ch);
+
+        dd($response);
+
     }
 
     /**
@@ -86,13 +90,7 @@ class PemesananController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $data = [
-            'title' => 'Data Notification'
-        ];
-        return view('kasir.notification', $data);
-    }
+
 
     /**
      * Display the specified resource.
