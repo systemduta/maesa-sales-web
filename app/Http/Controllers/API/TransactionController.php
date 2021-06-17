@@ -42,30 +42,25 @@ class TransactionController extends Controller
      */
     public function create(Request $request)
     {
-        // dd($request->toArray());
         $request->validate([
-            'user_id'           => 'required',
-            'company_id'        => 'required|string',
-            'invoice_number'    => 'required',
             'customer_name'     => 'required|string',
             'address'           => 'required',
             'total_price'       => 'required',
-            'status'            => 'required',
         ]);
 
-        $total = $request->total_price - ($request->total_price * $request->discount/100) - $request->voucher;
-
+        $user = auth()->user();
+        $invoice_number = '#1234';
         $transaction = Transaction::create([
-            'user_id'           => auth()->user()->id,
-            'company_id'        => $request->company_id,
-            'invoice_number'    => $request->invoice_number,
+            'user_id'           => $user->id ?? 1,
+            'company_id'        => $user->company_id ?? 1,
+            'invoice_number'    => $invoice_number,
             'customer_name'     => $request->customer_name,
             'address'           => $request->address,
-            'total_price'       => $total,
-            'discount'          => $request->discount,
-            'voucher'           => $request->voucher,
+            'total_price'       => $request->total_price,
             'noted'             => $request->noted,
-            'status'            => $request->status,
+            'status'            => "order",
+//            'discount'          => $request->discount,
+//            'voucher'           => $request->voucher,
         ]);
 
         $new_products = [];
