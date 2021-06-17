@@ -20,12 +20,19 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transaction   = Transaction::all();
+        $sort         = $request->filled('sort') && ($request->sort=='asc')?$request->sort:null;
+        $transaction  = Transaction::query();
+
+        $transaction->when($sort == 'asc', function ($q) use ($sort) {
+            return $q->orderBy('created_at', $sort);
+        });
+
+        $transaction   = $transaction->get();
         $transacdetail = TransactionDetail::all();
 
-        return response()->json(['Transaction' => $transaction, $transacdetail]);
+        return response()->json(['transaction' => $transaction, $transacdetail]);
     }
 
     /**
@@ -46,13 +53,14 @@ class TransactionController extends Controller
             'status'            => 'required',
         ]);
 
+        $total = $request->total_price - ($request->total_price * $request->discount/100) - $request->voucher;
+
         $transaction = Transaction::create([
             'user_id'           => auth()->user()->id,
             'company_id'        => $request->company_id,
             'invoice_number'    => $request->invoice_number,
             'customer_name'     => $request->customer_name,
             'address'           => $request->address,
-            $total = $request->total_price - ($request->total_price * $request->discount/100) - $request->voucher,
             'total_price'       => $total,
             'discount'          => $request->discount,
             'voucher'           => $request->voucher,
@@ -83,23 +91,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        // $carts = Cart::where('user_id', Auth::user()->id);
-        // $cartUser = $carts->get();
-
-        // $transaction = Transaction::create([
-        //     'user_id' => Auth::user()->id
-        // ]);
-
-        // foreach ($cartUser as $cart) {
-        //     $transaction->detail()->create([
-        //         'product_id' => $cart->product_id,
-        //         'qty' => $cart->qty
-        //     ]);
-        // }
-
-        // Mail::to($carts->first()->user->email)->send(new CheckoutMail($cartUser));
-        // Cart::where('user_id', Auth::user()->id)->delete();
-        // return redirect('/');
+        //
     }
 
     /**
@@ -112,7 +104,7 @@ class TransactionController extends Controller
     {
         $transdetail = TransactionDetail::where('id', $id)->with('transaction')->first();
 
-        return response()->json(['Transaction' => $transdetail]);
+        return response()->json(['transaction' => $transdetail]);
     }
 
     /**
@@ -135,42 +127,33 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transaction = Transaction::where('id',$id)->first();
+
+        // $request->old($key = null, $default = null);
+
+        // dd($request->hasFile('bukti'), $request->file('bukti'));
 
         $request->validate([
-            'user_id'           => 'required',
-            'company_id'        => 'required|string',
-            'invoice_number'    => 'required',
-            'customer_name'     => 'required|string',
-            'address'           => 'required',
-            'total_price'       => 'required',
-            'status'            => 'required',
-            'product_id'        => 'required',
-            'amount'            => 'required',
-            'transaction_id'    => 'required',
+            'bukti' => 'required|image|max:2000',
         ]);
+
+        $bukti = Transaction::where('id',$id)->first();
+
+        if ($request->hasFile('bukti')) {
+            //Hapus gambar Lama
+            if ($bukti->bukti) {
+                unlink(public_path('bukti'). '/' .$bukti->bukti);
+            }
+            $filenameWithExt = $request->file('bukti')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('bukti')->getClientOriginalExtension();
+            $fileimgSimpan = $filename.'_'.time().'.'.$extension;
+            $path = $request->file('bukti')->move(public_path('bukti'),$fileimgSimpan);
+        }else{
+            $fileimgSimpan = $bukti->bukti;
+        }
 
         Transaction::findOrFail($id)->update([
-            'user_id'           => auth()->user()->id,
-            'company_id'        => $request->company_id,
-            'invoice_number'    => $request->invoice_number,
-            'customer_name'     => $request->customer_name,
-            'address'           => $request->address,
-            'total_price'       => $request->total_price,
-            'discount'          => $request->discount ?? $transaction->discount,
-            'voucher'           => $request->voucher ?? $transaction->voucher,
-            'noted'             => $request->noted ?? $transaction->noted,
-            'status'            => $request->status,
-        ]);
-
-        TransactionDetail::findOrFail($id)->update([
-            'transaction_id' => $request->transaction_id,
-            'product_id'     => $request->product_id,
-            $price           =  $request->total_price  - ($request->total_price * ($request->discount/100)) - $request->voucher,
-            $total           =  $price  * $request->amount,
-            'price'          => $total,
-            'amount'         => $request->amount,
-            'flag'           => $request->flag,
+            'bukti'            => $fileimgSimpan,
         ]);
 
         return response()->json(['message' => 'Data Update Successfully']);

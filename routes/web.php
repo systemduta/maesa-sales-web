@@ -41,4 +41,9 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
+//pemesanan
+Route::get('/pemesanan', 'PemesananController@index');
+Route::put('/pemesanan/update/{id}', 'PemesananController@update');
+Route::get('/pemesanan/detail/{id}', 'PemesananController@show');
+Route::get('/notification', 'PemesananController@store');
+Route::get('/send-notification', 'PemesananController@sendnotification');
