@@ -1,25 +1,42 @@
-importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js');
+/*
+Give the service worker access to Firebase Messaging.
+Note that you can only use Firebase Messaging here, other Firebase libraries are not available in the service worker.
+*/
+importScripts('https://www.gstatic.com/firebasejs/7.23.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/7.23.0/firebase-messaging.js');
 
-// Initialize the Firebase app in the service worker by passing in the
-// messagingSenderId.
+/*
+Initialize the Firebase app in the service worker by passing in the messagingSenderId.
+* New configuration for app@pulseservice.com
+*/
 firebase.initializeApp({
-   'messagingSenderId': '567315129019'
-});
+        apiKey: "AIzaSyDSsHNrxv2J83XrtWI128E7ouxGrt1InQM",
+        authDomain: "salesapps-5df55.firebaseapp.com",
+        projectId: "salesapps-5df55",
+        storageBucket: "salesapps-5df55.appspot.com",
+        messagingSenderId: "318435748321",
+        appId: "1:318435748321:web:bde2bdd41a4b3c63cecaa0",
+        measurementId: "G-D0HSWX8ZWC"
+    });
 
-// Retrieve an instance of Firebase Messaging so that it can handle background
-// messages.
+/*
+Retrieve an instance of Firebase Messaging so that it can handle background messages.
+*/
 const messaging = firebase.messaging();
-
 messaging.setBackgroundMessageHandler(function(payload) {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
-  // Customize notification here
-  const notificationTitle = 'Background Message Title';
-  const notificationOptions = {
-    body: 'Background Message body.',
-    icon: 'https://images.theconversation.com/files/93616/original/image-20150902-6700-t2axrz.jpg' //your logo here
-  };
+    console.log(
+        "[firebase-messaging-sw.js] Received background message ",
+        payload,
+    );
+    /* Customize notification here */
+    const notificationTitle = "Update Status";
+    const notificationOptions = {
+        body: "Status Berhasil di Update",
+        icon: "/itwonders-web-logo.png",
+    };
 
-  return self.registration.showNotification(notificationTitle,
-      notificationOptions);
+    return self.registration.showNotification(
+        notificationTitle,
+        notificationOptions,
+    );
 });
