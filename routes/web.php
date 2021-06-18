@@ -50,5 +50,6 @@ Route::group(['prefix' => 'admin'], function () {
 Route::get('/pemesanan', 'PemesananController@index');
 Route::put('/pemesanan/update/{id}', 'PemesananController@update');
 Route::get('/pemesanan/detail/{id}', 'PemesananController@show');
+Route::delete('/pemesanan/{id}', 'PemesananController@destroy')->name('DeletePemesanan');
 Route::get('/notification', 'PemesananController@store');
 Route::get('/send-notification', 'PemesananController@sendnotification');

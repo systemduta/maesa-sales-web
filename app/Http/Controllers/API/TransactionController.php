@@ -27,6 +27,7 @@ class TransactionController extends Controller
         $user = auth()->user();
         $company_id = $user->company_id;
         $order_by_latest = ($request->filled('sort') && $request->sort == 'desc') ? 'desc' : null;
+
         $transaction  = Transaction::query()->when($company_id, function ($query, $company_id){
             return $query->where('company_id', $company_id);
         })->with(['transaction_details'])->when($order_by_latest, function ($query, $order_by_latest){
