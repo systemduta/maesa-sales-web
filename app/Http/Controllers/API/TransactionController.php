@@ -77,7 +77,7 @@ class TransactionController extends Controller
             'address'           => $request->address,
             'total_price'       => $request->total_price,
             'noted'             => $request->noted,
-            'status'            => "order",
+            'status'            => "unpaid",
 //            'discount'          => $request->discount,
 //            'voucher'           => $request->voucher,
         ]);

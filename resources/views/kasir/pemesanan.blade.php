@@ -107,7 +107,7 @@ $(document).ready(function(){
                                         </td>
                                             @if($item->status =='cancel')
                                                 <td class="text-center"><span class="badge badge-primary">Cancel</span></td>
-                                            @elseif($item->status == 'order')
+                                            @elseif($item->status == 'unpaid')
                                                 <td class="text-center"><span class="badge badge-danger">Unpaid</span></td>
                                             @elseif($item->status == 'paid')
                                                 <td class="text-center"><span class="badge badge-success">Paid</span></td>
