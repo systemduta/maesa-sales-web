@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Company;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\TransactionDetail;
@@ -22,17 +24,17 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $sort         = $request->filled('sort') && ($request->sort=='asc')?$request->sort:null;
-        $transaction  = Transaction::query();
+        $user = auth()->user();
+        $company_id = $user->company_id;
+        $order_by_latest = ($request->filled('sort') && $request->sort == 'desc') ? 'desc' : null;
 
-        $transaction->when($sort == 'asc', function ($q) use ($sort) {
-            return $q->orderBy('created_at', $sort);
-        });
+        $transaction  = Transaction::query()->when($company_id, function ($query, $company_id){
+            return $query->where('company_id', $company_id);
+        })->with(['transaction_details'])->when($order_by_latest, function ($query, $order_by_latest){
+            return $query->orderBy('created_at', $order_by_latest);
+        })->get();
 
-        $transaction   = $transaction->get();
-        $transacdetail = TransactionDetail::all();
-
-        return response()->json(['Transaction' => $transaction, $transacdetail]);
+        return response()->json(['transaction' => $transaction]);
     }
 
     /**
@@ -42,45 +44,7 @@ class TransactionController extends Controller
      */
     public function create(Request $request)
     {
-        // dd($request->toArray());
-        $request->validate([
-            'user_id'           => 'required',
-            'company_id'        => 'required|string',
-            'invoice_number'    => 'required',
-            'customer_name'     => 'required|string',
-            'address'           => 'required',
-            'total_price'       => 'required',
-            'status'            => 'required',
-        ]);
-
-        $total = $request->total_price - ($request->total_price * $request->discount/100) - $request->voucher;
-
-        $transaction = Transaction::create([
-            'user_id'           => auth()->user()->id,
-            'company_id'        => $request->company_id,
-            'invoice_number'    => $request->invoice_number,
-            'customer_name'     => $request->customer_name,
-            'address'           => $request->address,
-            'total_price'       => $total,
-            'discount'          => $request->discount,
-            'voucher'           => $request->voucher,
-            'noted'             => $request->noted,
-            'status'            => $request->status,
-        ]);
-
-        $new_products = [];
-        foreach ($request->products as $product) {
-                array_push($new_products,[
-                    'transaction_id' => $transaction->getKey(),
-                    'product_id'     => $product['product_id'],
-                    'amount'         => $product['amount'],
-                    'price'          => $product['price'],
-                ]);
-        }
-
-        TransactionDetail::insert($new_products);
-
-    return response()->json(['message' => 'Data Add Successfully']);
+        //
     }
 
     /**
@@ -91,7 +55,46 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'customer_name'     => 'required|string',
+            'address'           => 'required',
+            'total_price'       => 'required',
+        ]);
+
+        $user = auth()->user();
+        $company_code = $user->company_id ? $user->company->code : 'MH';
+        $latest_trx = Transaction::query()
+            ->where('company_id', $user->company_id ?? 1)
+            ->latest()->first();
+        $numb = str_pad(($latest_trx->getKey()+1), 4, '0', STR_PAD_LEFT);
+        $invoice_number = '#'.$company_code.$numb;
+
+        $transaction = Transaction::create([
+            'user_id'           => $user->id ?? 1,
+            'company_id'        => $user->company_id ?? 1,
+            'invoice_number'    => $invoice_number,
+            'customer_name'     => $request->customer_name,
+            'address'           => $request->address,
+            'total_price'       => $request->total_price,
+            'noted'             => $request->noted,
+            'status'            => "order",
+//            'discount'          => $request->discount,
+//            'voucher'           => $request->voucher,
+        ]);
+
+        $new_products = [];
+        foreach ($request->products as $product) {
+            array_push($new_products,[
+                'transaction_id' => $transaction->getKey(),
+                'product_id'     => $product['product_id'],
+                'amount'         => $product['amount'],
+                'price'          => $product['price'],
+            ]);
+        }
+
+        TransactionDetail::insert($new_products);
+
+        return response()->json(['message' => 'Data Add Successfully']);
     }
 
     /**
@@ -104,7 +107,7 @@ class TransactionController extends Controller
     {
         $transdetail = TransactionDetail::where('id', $id)->with('transaction')->first();
 
-        return response()->json(['Transaction' => $transdetail]);
+        return response()->json(['transaction' => $transdetail]);
     }
 
     /**

@@ -125,7 +125,7 @@ class PemesananController extends Controller
             'title' => 'Detail Data Pemesanan'
         ];
 
-        $pemesanan = Transaction::where('id',$id)->get();
+        $pemesanan = Transaction::query()->with(['transaction_details'])->findOrFail($id);
 
         return view('kasir.detail',compact('pemesanan'),$data);
     }
@@ -165,6 +165,7 @@ class PemesananController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Transaction::find($id)->delete();
+        return redirect('pemesanan')->with('status','Transaksi berhasil di hapus');
     }
 }

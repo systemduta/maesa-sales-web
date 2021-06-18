@@ -13,6 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('cache_clear', function () {
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    dd("cache:clear");
+});
+Route::get('config_clear', function () {
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    dd("config:clear");
+});
+Route::get('storage', function () {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    dd("storage");
+});
+
+Route::get('migrate', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate');
+    dd("migrate");
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -32,4 +50,10 @@ Route::group(['prefix' => 'admin'], function () {
 Route::get('/pemesanan', 'PemesananController@index');
 Route::put('/pemesanan/update/{id}', 'PemesananController@sendnotification');
 Route::get('/pemesanan/detail/{id}', 'PemesananController@show');
+<<<<<<< HEAD
+=======
+Route::delete('/pemesanan/{id}', 'PemesananController@destroy')->name('DeletePemesanan');
+Route::get('/notification', 'PemesananController@store');
+Route::put('/send-notification','PemesananController@sendNotification')->name('send.notification');
+>>>>>>> 84bb088c5e8f1f7e4f82d9df4875824cf8cb24ff
 Route::post('/save-token','PemesananController@saveToken')->name('save-token');
