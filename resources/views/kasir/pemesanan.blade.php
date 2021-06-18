@@ -113,8 +113,8 @@ $(document).ready(function(){
                                                 <td class="text-center"><span class="badge badge-success">Paid</span></td>
                                             @endif
                                         <td class="text-center">
-                                            <a href="/pemesanan/detail/{{ $item->id}}" class="btn btn-outline-success btn-sm"><i class="fa fa-eye"></i></a>
-{{--                                             <button class="btn btn-sm btn-outline btn-danger" data-toggle="modal" data-target="#delete{{ $item->id}}"><i class="fa fa-trash"></i></button>--}}
+                                            <a href="/pemesanan/detail/{{ $item->id}}" class="btn btn-sm btn-flat btn-warning"><i class="fa fa-eye"></i></a>
+                                            {{-- <button class="btn btn-sm btn-flat btn-danger" data-toggle="modal" data-target="#delete{{ $item->id}}"><i class="fa fa-trash"></i></button> --}}
                                         </td>
                                     </tr>
                                 @endforeach

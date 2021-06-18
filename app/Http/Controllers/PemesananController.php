@@ -51,27 +51,22 @@ class PemesananController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendnotification(Request $request)
+    public function sendnotification(Request $request, $id)
     {
-        $recipients = [
-            'clKMv.......',
-            'GxQQW.......',
-        ];
+        $transaction         = Transaction::findOrFail($id);
+        $transaction->status = $request->status;
+        $transaction->save();
 
         fcm()
-            ->to($recipients) // $recipients must an array
-            ->priority('normal')
+            ->to($transaction)
+            ->priority('high')
             ->timeToLive(0)
             ->data([
-                'status' => $request->status,
-                'body' => 'This is a test of FCM',
-            ])
-            ->notification([
-                'status' => $request->status,
+                'title' => 'Test FCM',
                 'body' => 'This is a test of FCM',
             ])
             ->send();
-        dd(fcm());
+        // dd(fcm());
         return redirect('pemesanan')->with('status','Status Berhasil di Update');
         // $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
 
