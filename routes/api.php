@@ -31,6 +31,6 @@ Route::get('/product/{id}', 'API\ProductController@show');
 //Transaction
 Route::get('/transactions', 'API\TransactionController@index');
 Route::get('/transactions/detail/{id}', 'API\TransactionController@show');
-Route::post('/transactions', 'API\TransactionController@create');
+Route::post('/transactions', 'API\TransactionController@store');
 Route::put('/transactions/{id}', 'API\TransactionController@update');
 Route::delete('/transactions/{id}', 'API\TransactionController@destroy');

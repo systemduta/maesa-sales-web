@@ -49,81 +49,111 @@ $(document).ready(function(){
             <div class="card card-outline card-primary">
                 <!-- /.card-header -->
 
-                @foreach ($pemesanan as $item)
                 <div class="card-header">
-                    <h2 class="card-title">Invoice Number : {{$item->id}}</h2>
+                    <h2 class="card-title">Invoice Number : {{$pemesanan->invoice_number}}</h2>
                     <div class="card-tools">
                         <a href="/pemesanan" type="button" class="btn btn-secondary btn-sm btn-flat">
                             <i class="fa fa-undo"></i>Back
                         </a>
                     </div>
-                <!-- /.card-tools -->
                 </div>
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-8">
+                        <div class="col-sm-12">
                             <table id="example1" class="table table-bordered table-striped">
                                 <tbody>
                                     <tr>
-                                        <td>Name Sales</td>
-                                        <td>{{$item->user->name}}</td>
+                                        <td style="width: 25%;">Name Sales</td>
+                                        <td>{{$pemesanan->user->name}}</td>
                                     </tr>
                                     <tr>
                                         <td>Company</td>
-                                        <td>{{$item->company->name}}</td>
+                                        <td>{{$pemesanan->company->name}}</td>
                                     </tr>
                                     <tr>
                                         <td>Name Customer</td>
-                                        <td>{{$item->customer_name}}</td>
+                                        <td>{{$pemesanan->customer_name}}</td>
                                     </tr>
                                     <tr>
                                         <td>Address</td>
-                                        <td>{{$item->address}}</td>
+                                        <td>{{$pemesanan->address}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Totoal Price</td>
-                                        <td>{{$item->total_price}}</td>
+                                        <td>Total Price</td>
+                                        <td>{{$pemesanan->total_price}}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Discount</td>
-                                        <td>{{$item->discount}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Voucher</td>
-                                        <td>{{$item->voucher}}</td>
-                                    </tr>
+{{--                                    <tr>--}}
+{{--                                        <td>Discount</td>--}}
+{{--                                        <td>{{$pemesanan->discount}}</td>--}}
+{{--                                    </tr>--}}
+{{--                                    <tr>--}}
+{{--                                        <td>Voucher</td>--}}
+{{--                                        <td>{{$pemesanan->voucher}}</td>--}}
+{{--                                    </tr>--}}
                                     <tr>
                                         <td>Noted</td>
-                                        <td>{{$item->noted}}</td>
+                                        <td>{{$pemesanan->noted}}</td>
                                     </tr>
                                     <tr>
                                         <td>Status</td>
-                                        @if($item->status =='cancel')
+                                        @if($pemesanan->status =='cancel')
                                             <td><span class="text-primary">Cancel</span></td>
-                                        @elseif($item->status == 'unpaid')
+                                        @elseif($pemesanan->status == 'order')
                                             <td><span class="text-danger">Unpaid</span></td>
-                                        @elseif($item->status == 'paid')
+                                        @elseif($pemesanan->status == 'paid')
                                             <td><span class="text-success">Paid</span></td>
                                         @endif
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-sm-12">
-                            <label>Bukti</label>
+                        <div class="col-sm-12 text-center mt-3">
+                            <label>Bukti Pembayaran</label>
                             <div class="img-container">
-                                @if($item->bukti)
-                                    <img src="{{ asset('bukti')}}/{{ $item->bukti}}" class="zoom">
+                                @if($pemesanan->bukti)
+                                    <img src="{{ asset('bukti')}}/{{ $pemesanan->bukti}}" class="zoom">
                                 @else
                                     <p class="text-danger">Belum Ada Bukti Pembayaran</p>
                                 @endif
                             </div>
                         </div>
+                        <div class="col-sm-12">
+                            <h5>Detail Pesanan</h5>
+                            <table id="example2" class="table table-head-fixed text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10px;">No</th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Amount</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($pemesanan->transaction_details as $key => $td)
+                                <tr>
+                                    <td>{{ $key+1 }}</td>
+                                    <td>{{ $td->product->name }}</td>
+                                    <td>{{ $td->price }}</td>
+                                    <td>{{ $td->amount }}</td>
+                                    <td>{{ $td->price * $td->amount }}</td>
+                                </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    @endforeach
                 </div>
                 <!-- /.card-body -->
+                <div class="card-footer clearfix">
+                    <form action="{{ route('DeletePemesanan', [$pemesanan->id]) }}" method="POST" onsubmit="return confirm('Anda yakin ingin Hapus?');" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-danger btn-sm float-right" name="_method" value="DELETE">
+                            <i class="fas fa-trash"></i> Delete Transaction
+                        </button>
+                    </form>
+                </div>
             </div>
          <!-- /.card -->
         </div>
