@@ -42,12 +42,11 @@ class PemesananController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function sendnotification(Request $request)
+    public function sendnotification(Request $request, $id)
     {
-        $recipients = [
-            'clKMv.......',
-            'GxQQW.......',
-        ];
+        $transaction         = Transaction::findOrFail($id);
+        $transaction->status = $request->status;
+        $transaction->save();
 
         fcm()->to($recipients)
             ->timeToLive(0)
