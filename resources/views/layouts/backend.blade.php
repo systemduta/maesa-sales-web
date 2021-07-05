@@ -44,6 +44,18 @@
 
   <script src="https://code.highcharts.com/highcharts.js"></script>
 
+    <!-- firebase integration started -->
+
+{{--    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>--}}
+{{--    <script src="{{ asset('firebase_notifications') }}/notification.js"></script>--}}
+{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-app.js"></script>--}}
+
+{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-auth.js"></script>--}}
+{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-database.js"></script>--}}
+{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-firestore.js"></script>--}}
+{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-messaging.js"></script>--}}
+{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-functions.js"></script>--}}
+<!-- firebase integration end -->
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
