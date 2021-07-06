@@ -33,21 +33,14 @@
         transform: scale(1.8);
     }
 </style>
-<script>
-$(document).ready(function(){
-    $('.zoom').hover(function() {
-        $(this).addClass('transisi');
-    }, function() {
-        $(this).removeClass('transisi');
-    });
-});
-</script>
+
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-12">
             <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title">{{$title }}</h3>
+
                 <!-- /.card-tools -->
                 </div>
                 <!-- /.card-header -->
@@ -80,19 +73,21 @@ $(document).ready(function(){
                                         <td>Rp. {{ number_format($item->total_price) }}</td>
                                         <td class="text-center">
                                             @if($item->bukti)
-                                            <img src="{{ asset('bukti') }}/{{ $item->bukti }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px">
+                                                <img src="{{ asset('bukti/').$item->bukti }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px">
+                                            @else
+                                                <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" width="100px"/>
                                             @endif
                                         </td>
                                             @if($item->status =='cancel')
                                                 <td class="text-center"><span class="badge badge-primary">Cancel</span></td>
                                             @elseif($item->status == 'order')
-                                                <td class="text-center"><span class="badge badge-danger">Unpaid</span></td>
+                                                <td class="text-center"><span class="badge badge-danger">Order</span></td>
                                             @elseif($item->status == 'paid')
                                                 <td class="text-center"><span class="badge badge-success">Paid</span></td>
                                             @endif
                                         <td class="text-center">
-                                            <a href="/pemesanan/detail/{{ $item->id}}" class="btn btn-outline-success btn-sm"><i class="fa fa-eye"></i></a>
-{{--                                             <button class="btn btn-sm btn-outline btn-danger" data-toggle="modal" data-target="#delete{{ $item->id}}"><i class="fa fa-trash"></i></button>--}}
+                                            <a href="/pemesanan/detail/{{ $item->id}}" class="btn btn-sm btn-flat btn-warning"><i class="fa fa-eye"></i></a>
+                                            {{-- <button class="btn btn-sm btn-flat btn-danger" data-toggle="modal" data-target="#delete{{ $item->id}}"><i class="fa fa-trash"></i></button> --}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -119,14 +114,16 @@ $(document).ready(function(){
                         <div class="modal-body">
                             <h3>Price : Rp.{{ number_format($item->total_price)}} </h3>
                             <div class="img-container">
+                                @if($item->bukti)
                                     <img src="{{ asset('bukti') }}/{{ $item->bukti }}" class="zoom">
+                                @endif
                             </div>
                             <br>
                             <label>Update Status</label>
                                 <select name="status" class="form-control">
                                     <option value="{{$item->status}}">{{$item->status}}</option>
                                     <option value="cancel">Cancel</option>
-                                    <option value="unpaid">Unpaid</option>
+                                    <option value="order">Order</option>
                                     <option value="paid">Paid</option>
                                 </select>
                                 <div class="text-danger">
@@ -147,8 +144,18 @@ $(document).ready(function(){
             <!-- /.modal-dialog -->
         </div>
         @endforeach
+    </div>
+</div>
 
 <script>
+    $(document).ready(function(){
+        $('.zoom').hover(function() {
+            $(this).addClass('transisi');
+        }, function() {
+            $(this).removeClass('transisi');
+        });
+    });
+
     $(function () {
         $("#example1").DataTable({
         "responsive": true,
@@ -165,5 +172,4 @@ $(document).ready(function(){
         });
     });
 </script>
-
 @endsection

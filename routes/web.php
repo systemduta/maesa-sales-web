@@ -48,8 +48,9 @@ Route::group(['prefix' => 'admin'], function () {
 
 //pemesanan
 Route::get('/pemesanan', 'PemesananController@index');
-Route::put('/pemesanan/update/{id}', 'PemesananController@update');
-Route::get('/pemesanan/detail/{id}', 'PemesananController@show');
-Route::delete('/pemesanan/{id}', 'PemesananController@destroy')->name('DeletePemesanan');
+Route::put('/pemesanan/update/{id}', 'PemesananController@sendnotification');
+Route::get('/pemesanan/detail/{id}', 'PemesananController@show')->name('pemesanan.detail');
+Route::delete('/pemesanan/{id}', 'PemesananController@destroy')->name('pemesanan.delete');
 Route::get('/notification', 'PemesananController@store');
-Route::get('/send-notification', 'PemesananController@sendnotification');
+Route::put('/send-notification','PemesananController@sendNotification')->name('send.notification');
+Route::post('/update_token','UserController@update_token')->name('update_token');

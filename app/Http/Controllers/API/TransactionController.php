@@ -4,11 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Company;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\TransactionDetail;
-
+use TCG\Voyager\Models\Role;
 
 
 class TransactionController extends Controller
@@ -66,8 +67,9 @@ class TransactionController extends Controller
         $latest_trx = Transaction::query()
             ->where('company_id', $user->company_id ?? 1)
             ->latest()->first();
-        $numb = str_pad(($latest_trx->getKey()+1), 4, '0', STR_PAD_LEFT);
+        $numb = str_pad(($latest_trx ? ($latest_trx->getKey() + 1) : 1), 4, '0', STR_PAD_LEFT);
         $invoice_number = '#'.$company_code.$numb;
+
 
         $transaction = Transaction::create([
             'user_id'           => $user->id ?? 1,
@@ -77,9 +79,7 @@ class TransactionController extends Controller
             'address'           => $request->address,
             'total_price'       => $request->total_price,
             'noted'             => $request->noted,
-            'status'            => "order",
-//            'discount'          => $request->discount,
-//            'voucher'           => $request->voucher,
+            'status'            => "order"
         ]);
 
         $new_products = [];
@@ -94,7 +94,27 @@ class TransactionController extends Controller
 
         TransactionDetail::insert($new_products);
 
-        return response()->json(['message' => 'Data Add Successfully']);
+        $cashier_device_token = User::query()->where('company_id', '=', ($user->company_id ?? 1))
+            ->whereHas('role', function ($q) {
+                return $q->where('name', 'cashier');
+            })->first()->device_token;
+        $recipients = [$cashier_device_token];
+
+        $res = fcm()->to($recipients)
+            ->timeToLive(0)
+            ->priority('normal')
+            ->data([
+                'id' => $transaction->getKey(),
+                'title' => 'Hai, ada transaksi baru ini!',
+                'body' => 'Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number,
+            ])
+            ->notification([
+                'title' => 'Hai, ada transaksi baru ini!',
+                'body' => 'Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number,
+            ])
+            ->send();
+
+        return response()->json(['message' => 'Transaction data added successfully']);
     }
 
     /**

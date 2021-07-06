@@ -44,6 +44,10 @@
 
   <script src="https://code.highcharts.com/highcharts.js"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-messaging.js"></script>
+    <script src="{{ asset('firebase_notifications') }}/config.js"></script>
+
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -70,12 +74,7 @@
         <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
           <span class="dropdown-item dropdown-header">15 Notifications</span>
           <div class="dropdown-divider"></div>
-            <a href="/notification" class="dropdown-item">
-                3 new reports
-              <span class="float-right text-muted text-sm">2 days</span>
-            </a>
-          <div class="dropdown-divider"></div>
-            <a href="/notification" class="dropdown-item dropdown-footer">See All Notifications</a>
+            <a href="/send-notification" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
 
@@ -161,6 +160,7 @@
   </aside>
 </div>
 
+<script src="{{ asset('firebase_notifications') }}/show_notification.js"></script>
 <script>
     window.setTimeout(function(){
       $(".alert").fadeTo(500,0).slideUp(500,function(){
