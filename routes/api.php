@@ -37,6 +37,3 @@ Route::delete('/transactions/{id}', 'API\TransactionController@destroy');
 
 //Notification
 Route::get('/notification','API\NotificationController@listNotification');
-
-// end of api for testing
-// you can update every where
