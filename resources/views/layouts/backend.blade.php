@@ -132,10 +132,18 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a href="/order" class="nav-link {{request()->is('pemesanan')? 'active': ''}}">
+                  <a href="/pemesanan" class="nav-link {{request()->is('pemesanan')? 'active': ''}}">
                       <i class="nav-icon fas fa-cloud"></i>
                       <p>
                           Order
+                      </p>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a href="/test" class="nav-link {{request()->is('test')? 'active': ''}}">
+                      <i class="nav-icon fas fa-clone"></i>
+                      <p>
+                          Test
                       </p>
                   </a>
               </li>
