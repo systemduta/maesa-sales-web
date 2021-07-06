@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Company;
 use App\Http\Controllers\Controller;
+use App\NotificationHistory;
 use App\User;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class TransactionController extends Controller
 
         $transaction  = Transaction::query()->when($company_id, function ($query, $company_id){
             return $query->where('company_id', $company_id);
-        })->with(['transaction_details.product'])->when($order_by_latest, function ($query, $order_by_latest){
+        })->with(['transaction_details'])->when($order_by_latest, function ($query, $order_by_latest){
             return $query->orderBy('created_at', $order_by_latest);
         })->get();
 
@@ -94,25 +95,34 @@ class TransactionController extends Controller
 
         TransactionDetail::insert($new_products);
 
-        $cashier_device_token = User::query()->where('company_id', '=', ($user->company_id ?? 1))
+        $cashier = User::query()->where('company_id', '=', ($user->company_id ?? 1))
             ->whereHas('role', function ($q) {
                 return $q->where('name', 'cashier');
-            })->first()->device_token;
-        $recipients = [$cashier_device_token];
+            })->first();
+        $recipients = [$cashier->device_token];
+        $title ='Hai, ada transaksi baru ini!';
+        $body='Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number;
 
         $res = fcm()->to($recipients)
             ->timeToLive(0)
             ->priority('normal')
             ->data([
                 'id' => $transaction->getKey(),
-                'title' => 'Hai, ada transaksi baru ini!',
-                'body' => 'Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number,
+                'title' => $title,
+                'body' => $body,
             ])
             ->notification([
-                'title' => 'Hai, ada transaksi baru ini!',
-                'body' => 'Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number,
-            ])
-            ->send();
+                'title' => $title,
+                'body' => $body,
+            ])->send();
+
+//        save history notification
+        $notification_history = new NotificationHistory;
+        $notification_history->title = $title;
+        $notification_history->body = $body;
+        $notification_history->from_user = $user->getKey();
+        $notification_history->to_user = $cashier->getKey();
+        $notification_history->save();
 
         return response()->json(['message' => 'Transaction data added successfully']);
     }

@@ -35,5 +35,5 @@ Route::post('/transactions', 'API\TransactionController@store');
 Route::put('/transactions/{id}', 'API\TransactionController@update');
 Route::delete('/transactions/{id}', 'API\TransactionController@destroy');
 
-//Notification
-Route::get('/notification','API\NotificationController@listNotification');
+//NotificationHistory
+Route::get('/notification_history','API\NotificationHistoryController@listNotification');

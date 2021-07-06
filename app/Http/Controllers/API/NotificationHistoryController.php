@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Notification;
+use App\NotificationHistory;
 
-class NotificationController extends Controller
+class NotificationHistoryController extends Controller
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ class NotificationController extends Controller
     public function listNotification(Request $request)
     {
         $sort         = $request->filled('sort') && ($request->sort=='asc')?$request->sort:null;
-        $notification  = Notification::query();
+        $notification  = NotificationHistory::query();
 
         $notification->when($sort == 'asc', function ($q) use ($sort) {
             return $q->orderBy('created_at', $sort);
@@ -28,6 +28,6 @@ class NotificationController extends Controller
 
         $notification   = $notification->get();
 
-        return response()->json(['Notification' => $notification]);
+        return response()->json(['notification' => $notification]);
     }
 }

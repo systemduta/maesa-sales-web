@@ -137,7 +137,7 @@
 {{--            requireInteraction: true--}}
 {{--        };--}}
 {{--        console.log(payload, noteTitle, noteOptions);--}}
-{{--        var message = new Notification(noteTitle, noteOptions);--}}
+{{--        var message = new NotificationHistory(noteTitle, noteOptions);--}}
 
 {{--        message.onclick = function(){--}}
 {{--            window.location.replace('/pemesanan/detail/'+payload.data.id)--}}
