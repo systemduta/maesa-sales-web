@@ -49,7 +49,7 @@ Route::group(['prefix' => 'admin'], function () {
 //pemesanan
 Route::get('/pemesanan', 'PemesananController@index');
 Route::put('/pemesanan/update/{id}', 'PemesananController@sendnotification');
-Route::get('/pemesanan/detail/{id}', 'PemesananController@show');
+Route::get('/pemesanan/detail/{id}', 'PemesananController@show')->name('pemesanan.detail');
 Route::delete('/pemesanan/{id}', 'PemesananController@destroy')->name('pemesanan.delete');
 Route::get('/notification', 'PemesananController@store');
 Route::put('/send-notification','PemesananController@sendNotification')->name('send.notification');

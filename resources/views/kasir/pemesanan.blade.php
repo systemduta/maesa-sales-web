@@ -40,11 +40,6 @@
             <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title">{{$title }}</h3>
-                    <button id="btn-nft-enable"
-                            onclick="initFirebaseMessagingRegistration()"
-                            class="btn btn-danger btn-xs btn-flat">
-                        Allow for Notification
-                    </button>
 
                 <!-- /.card-tools -->
                 </div>
@@ -78,13 +73,15 @@
                                         <td>Rp. {{ number_format($item->total_price) }}</td>
                                         <td class="text-center">
                                             @if($item->bukti)
-                                            <img src="{{ asset('bukti') }}/{{ $item->bukti }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px">
+                                                <img src="{{ asset('bukti/').$item->bukti }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px">
+                                            @else
+                                                <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" width="100px"/>
                                             @endif
                                         </td>
                                             @if($item->status =='cancel')
                                                 <td class="text-center"><span class="badge badge-primary">Cancel</span></td>
-                                            @elseif($item->status == 'unpaid')
-                                                <td class="text-center"><span class="badge badge-danger">Unpaid</span></td>
+                                            @elseif($item->status == 'order')
+                                                <td class="text-center"><span class="badge badge-danger">Order</span></td>
                                             @elseif($item->status == 'paid')
                                                 <td class="text-center"><span class="badge badge-success">Paid</span></td>
                                             @endif
@@ -117,14 +114,16 @@
                         <div class="modal-body">
                             <h3>Price : Rp.{{ number_format($item->total_price)}} </h3>
                             <div class="img-container">
+                                @if($item->bukti)
                                     <img src="{{ asset('bukti') }}/{{ $item->bukti }}" class="zoom">
+                                @endif
                             </div>
                             <br>
                             <label>Update Status</label>
                                 <select name="status" class="form-control">
                                     <option value="{{$item->status}}">{{$item->status}}</option>
                                     <option value="cancel">Cancel</option>
-                                    <option value="unpaid">Unpaid</option>
+                                    <option value="order">Order</option>
                                     <option value="paid">Paid</option>
                                 </select>
                                 <div class="text-danger">
