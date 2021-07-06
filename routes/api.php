@@ -35,5 +35,8 @@ Route::post('/transactions', 'API\TransactionController@store');
 Route::put('/transactions/{id}', 'API\TransactionController@update');
 Route::delete('/transactions/{id}', 'API\TransactionController@destroy');
 
-//Notofication
+//Notification
 Route::get('/notification','API\NotificationController@listNotification');
+
+// end of api for testing
+// you can update every where
