@@ -61,7 +61,7 @@ $(document).ready(function(){
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped">
                                 <tbody>
                                     <tr>
                                         <td style="width: 25%;">Name Sales</td>
@@ -100,7 +100,7 @@ $(document).ready(function(){
                                         @if($pemesanan->status =='cancel')
                                             <td><span class="text-primary">Cancel</span></td>
                                         @elseif($pemesanan->status == 'order')
-                                            <td><span class="text-danger">Unpaid</span></td>
+                                            <td><span class="text-danger">Order</span></td>
                                         @elseif($pemesanan->status == 'paid')
                                             <td><span class="text-success">Paid</span></td>
                                         @endif
@@ -112,7 +112,7 @@ $(document).ready(function(){
                             <label>Bukti Pembayaran</label>
                             <div class="img-container">
                                 @if($pemesanan->bukti)
-                                    <img src="{{ asset('bukti')}}/{{ $pemesanan->bukti}}" class="zoom">
+                                    <img src="{{ asset('bukti/').$pemesanan->bukti}}" class="zoom">
                                 @else
                                     <p class="text-danger">Belum Ada Bukti Pembayaran</p>
                                 @endif
@@ -120,7 +120,7 @@ $(document).ready(function(){
                         </div>
                         <div class="col-sm-12">
                             <h5>Detail Pesanan</h5>
-                            <table id="example2" class="table table-head-fixed text-nowrap">
+                            <table class="table table-head-fixed text-nowrap">
                                 <thead>
                                 <tr>
                                     <th style="width: 10px;">No</th>
@@ -159,23 +159,5 @@ $(document).ready(function(){
         </div>
     </div>
 </div>
-
-        <script>
-            $(function () {
-              $("#example1").DataTable({
-                "responsive": true,
-                "autoWidth": false,
-              });
-              $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-              });
-            });
-        </script>
 
 @endsection
