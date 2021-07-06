@@ -147,7 +147,7 @@ $(document).ready(function(){
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
-                    <form action="{{ route('DeletePemesanan', [$pemesanan->id]) }}" method="POST" onsubmit="return confirm('Anda yakin ingin Hapus?');" style="display: inline;">
+                    <form action="{{ route('pemesanan.delete', [$pemesanan->id]) }}" method="POST" onsubmit="return confirm('Anda yakin ingin Hapus?');" style="display: inline;">
                         @csrf
                         <button type="submit" class="btn btn-danger btn-sm float-right" name="_method" value="DELETE">
                             <i class="fas fa-trash"></i> Delete Transaction

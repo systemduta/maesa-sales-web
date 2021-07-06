@@ -23,27 +23,18 @@ class PemesananController extends Controller
             'title' => 'Data Transaction',
         ];
 
-        // dd(auth()->user()->company_id);
-        $sort         = $request->filled('sort') && ($request->sort=='asc')?$request->sort:null;
+        $sort         = $request->filled('sort') && ($request->sort=='desc')?$request->sort:null;
         $transaction  = Transaction::query();
 
-        $transaction->when($sort == 'asc', function ($q) use ($sort) {
-            return $q->orderBy('created_at', $sort);
-        },function ($q) {
-            return $q->orderBy('created_at', 'desc');
-        })->when(auth()->user()->company_id, function($q){
+        $transaction->when(auth()->user()->company_id, function($q){
             return $q->where('company_id',auth()->user()->company_id);
+        })->when($sort, function ($q) use ($sort) {
+            return $q->orderBy('created_at', $sort);
         });
 
-        $transaction   = $transaction->get();
+        $transaction = $transaction->get();
 
         return view('kasir.pemesanan',compact('transaction'), $data);
-    }
-
-    public function saveToken(Request $request)
-    {
-        auth()->user()->update(['device_token'=>$request->token]);
-        return response()->json(['token saved successfully.']);
     }
 
     /**
@@ -57,46 +48,22 @@ class PemesananController extends Controller
         $transaction->status = $request->status;
         $transaction->save();
 
-        fcm()
-            ->to($transaction)
-            ->priority('high')
+        fcm()->to($recipients)
             ->timeToLive(0)
+            ->priority('normal')
+            ->notification([
+                'title' => 'Hai, ada update transaksi!',
+                'body' => 'Status Transaksi Invoice menjadi di Bayar',
+            ])
             ->data([
-                'title' => 'Test FCM',
-                'body' => 'This is a test of FCM',
+                'title' => 'Hai, ada update transaksi!',
+                'body' => 'Status Transaksi Invoice menjadi di Bayar',
             ])
             ->send();
-        // dd(fcm());
+
         return redirect('pemesanan')->with('status','Status Berhasil di Update');
+
         // $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
-
-        // $SERVER_API_KEY = 'AAAASiQ_6eE:APA91bFELTTv0YghgFpkMvlhrR00zwYTsrasAZJ4tyz8NAXInfKlF0YPOrxrqVqDjjuLSCkpSzOlKBTkFnn1wVFjHfBs_3yoUWsAAyNaTXErQ9p390H0xH6TqIGZmtMGk-R66T4xsrsW';
-
-        // $data = [
-        //     "registration_ids" => $firebaseToken,
-        //     "notification" => [
-        //         "status" => $request->status,
-        //     ]
-        // ];
-        // $dataString = json_encode($data);
-
-        // $headers = [
-        //     'Authorization: key=' . $SERVER_API_KEY,
-        //     'Content-Type: application/json',
-        // ];
-
-        // $ch = curl_init();
-
-        // curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-        // curl_setopt($ch, CURLOPT_POST, true);
-        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-
-        // $response = curl_exec($ch);
-
-        // dd($response);
 
     }
 
