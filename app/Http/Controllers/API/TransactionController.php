@@ -31,7 +31,7 @@ class TransactionController extends Controller
 
         $transaction  = Transaction::query()->when($company_id, function ($query, $company_id){
             return $query->where('company_id', $company_id);
-        })->with(['transaction_details'])->when($order_by_latest, function ($query, $order_by_latest){
+        })->with(['transaction_details.product'])->when($order_by_latest, function ($query, $order_by_latest){
             return $query->orderBy('created_at', $order_by_latest);
         })->get();
 
