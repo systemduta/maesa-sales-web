@@ -86,7 +86,7 @@
                                                 <td class="text-center"><span class="badge badge-success">Paid</span></td>
                                             @endif
                                         <td class="text-center">
-                                            <a href="/pemesanan/detail/{{ $item->id}}" class="btn btn-sm btn-flat btn-warning"><i class="fa fa-eye"></i></a>
+                                            <a href="/transactions/detail/{{ $item->id}}" class="btn btn-sm btn-flat btn-warning"><i class="fa fa-eye"></i></a>
                                             {{-- <button class="btn btn-sm btn-flat btn-danger" data-toggle="modal" data-target="#delete{{ $item->id}}"><i class="fa fa-trash"></i></button> --}}
                                         </td>
                                     </tr>
@@ -108,7 +108,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="/pemesanan/update/{{$item->id}}" method="POST" enctype="multipart/form-data">
+                    <form action="/transactions/update/{{$item->id}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">

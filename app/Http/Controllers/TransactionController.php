@@ -9,7 +9,7 @@ use App\TransactionDetail;
 use App\Company;
 use Auth;
 
-class PemesananController extends Controller
+class TransactionController extends Controller
 {
 
     /**
@@ -34,46 +34,8 @@ class PemesananController extends Controller
 
         $transaction = $transaction->get();
 
-        return view('kasir.pemesanan',compact('transaction'), $data);
+        return view('kasir.transaction',compact('transaction'), $data);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function sendnotification(Request $request, $id)
-    {
-        $transaction         = Transaction::findOrFail($id);
-        $transaction->status = $request->status;
-        $transaction->save();
-
-        fcm()->to($recipients)
-            ->timeToLive(0)
-            ->priority('normal')
-            ->notification([
-                'title' => 'Hai, ada update transaksi!',
-                'body' => 'Status Transaksi Invoice menjadi di Bayar',
-            ])
-            ->data([
-                'title' => 'Hai, ada update transaksi!',
-                'body' => 'Status Transaksi Invoice menjadi di Bayar',
-            ])
-            ->send();
-
-        return redirect('pemesanan')->with('status','Status Berhasil di Update');
-
-        // $firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
 
     /**
      * Display the specified resource.
@@ -87,9 +49,9 @@ class PemesananController extends Controller
             'title' => 'Detail Data Pemesanan'
         ];
 
-        $pemesanan = Transaction::query()->with(['transaction_details'])->findOrFail($id);
+        $transaction = Transaction::query()->with(['transaction_details'])->findOrFail($id);
 
-        return view('kasir.detail',compact('pemesanan'),$data);
+        return view('kasir.detail',compact('transaction'),$data);
     }
 
     /**
@@ -116,7 +78,7 @@ class PemesananController extends Controller
         $transaction->status = $request->status;
         $transaction->save();
 
-        return redirect('pemesanan')->with('status','Status Berhasil di Update');
+        return redirect('transaction')->with('status','Status Berhasil di Update');
     }
 
     /**
@@ -128,6 +90,6 @@ class PemesananController extends Controller
     public function destroy($id)
     {
         Transaction::find($id)->delete();
-        return redirect('pemesanan')->with('status','Transaksi berhasil di hapus');
+        return redirect('transaction')->with('status','Transaksi berhasil di hapus');
     }
 }
