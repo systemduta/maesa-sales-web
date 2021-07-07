@@ -135,9 +135,9 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        $transdetail = TransactionDetail::where('id', $id)->with('transaction')->first();
+        $transaction = Transaction::where('id', $id)->with(['transaction_details'])->first();
 
-        return response()->json(['transaction' => $transdetail]);
+        return response()->json(['transaction' => $transaction]);
     }
 
     /**
@@ -160,10 +160,6 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        // $request->old($key = null, $default = null);
-
-        // dd($request->hasFile('bukti'), $request->file('bukti'));
 
         $request->validate([
             'bukti' => 'required|image|max:2000',

@@ -124,10 +124,10 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a href="/pemesanan" class="nav-link {{request()->is('pemesanan')? 'active': ''}}">
+                  <a href="/transactions" class="nav-link {{request()->is('transactions')? 'active': ''}}">
                       <i class="nav-icon fas fa-cloud"></i>
                       <p>
-                          Pemesanan
+                          Transaction
                       </p>
                   </a>
               </li>
