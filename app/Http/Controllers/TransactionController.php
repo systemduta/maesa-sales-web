@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\NotificationHistory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\User;
@@ -78,7 +80,35 @@ class TransactionController extends Controller
         $transaction->status = $request->status;
         $transaction->save();
 
-        return redirect('transaction')->with('status','Status Berhasil di Update');
+        if ($transaction->user->device_token) {
+            $recipients = [$transaction->user->device_token];
+            $title ='Hai, update status tagihan!';
+            $body='Tagihan atas nama pelanggan '.$transaction->customer_name.' telah berubah status menjadi '.$transaction->status;
+
+            $res = fcm()->to($recipients)
+                ->timeToLive(0)
+                ->priority('normal')
+                ->data([
+                    'id' => $transaction->getKey(),
+                    'title' => $title,
+                    'body' => $body,
+                ])
+                ->notification([
+                    'title' => $title,
+                    'body' => $body,
+                ])->send();
+
+//        save history notification
+            $notification_history = new NotificationHistory;
+            $notification_history->transaction_id = $transaction->getKey();
+            $notification_history->title = $title;
+            $notification_history->body = $body;
+            $notification_history->from_user = auth()->user()->getKey();
+            $notification_history->to_user = $transaction->user->id;
+            $notification_history->save();
+        }
+
+        return redirect('transactions')->with('status','Status Berhasil di Update');
     }
 
     /**

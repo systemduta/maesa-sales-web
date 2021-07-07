@@ -52,7 +52,7 @@ $(document).ready(function(){
                 <div class="card-header">
                     <h2 class="card-title">Invoice Number : {{$transaction->invoice_number}}</h2>
                     <div class="card-tools">
-                        <a href="/pemesanan" type="button" class="btn btn-secondary btn-sm btn-flat">
+                        <a href="/transactions" type="button" class="btn btn-secondary btn-sm btn-flat">
                             <i class="fa fa-undo"></i>Back
                         </a>
                     </div>
@@ -108,11 +108,11 @@ $(document).ready(function(){
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-sm-12 text-center mt-3">
+                        <div class="col-sm-12 text-center mt-3 mb-3">
                             <label>Bukti Pembayaran</label>
                             <div class="img-container">
                                 @if($transaction->bukti)
-                                    <img src="{{ asset('bukti/').$transaction->bukti}}" class="zoom">
+                                    <img src="{{ asset('bukti').'/'.$transaction->bukti}}">
                                 @else
                                     <p class="text-danger">Belum Ada Bukti Pembayaran</p>
                                 @endif

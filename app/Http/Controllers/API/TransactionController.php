@@ -6,6 +6,7 @@ use App\Company;
 use App\Http\Controllers\Controller;
 use App\NotificationHistory;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use App\Transaction;
@@ -99,30 +100,35 @@ class TransactionController extends Controller
             ->whereHas('role', function ($q) {
                 return $q->where('name', 'cashier');
             })->first();
-        $recipients = [$cashier->device_token];
-        $title ='Hai, ada transaksi baru ini!';
-        $body='Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number;
 
-        $res = fcm()->to($recipients)
-            ->timeToLive(0)
-            ->priority('normal')
-            ->data([
-                'id' => $transaction->getKey(),
-                'title' => $title,
-                'body' => $body,
-            ])
-            ->notification([
-                'title' => $title,
-                'body' => $body,
-            ])->send();
+        if ($cashier->device_token) {
+            $recipients = [$cashier->device_token];
+            $title ='Hai, ada transaksi baru ini!';
+            $body='Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number;
+
+            $res = fcm()->to($recipients)
+                ->timeToLive(0)
+                ->priority('normal')
+                ->data([
+                    'id' => $transaction->getKey(),
+                    'title' => $title,
+                    'body' => $body,
+                ])
+                ->notification([
+                    'title' => $title,
+                    'body' => $body,
+                ])->send();
 
 //        save history notification
-        $notification_history = new NotificationHistory;
-        $notification_history->title = $title;
-        $notification_history->body = $body;
-        $notification_history->from_user = $user->getKey();
-        $notification_history->to_user = $cashier->getKey();
-        $notification_history->save();
+            $notification_history = new NotificationHistory;
+            $notification_history->transaction_id = $transaction->getKey();
+            $notification_history->title = $title;
+            $notification_history->body = $body;
+            $notification_history->from_user = $user->getKey();
+            $notification_history->to_user = $cashier->getKey();
+            $notification_history->save();
+
+        }
 
         return response()->json(['message' => 'Transaction data added successfully']);
     }
