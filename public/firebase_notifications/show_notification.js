@@ -9,6 +9,6 @@ messaging.onMessage(function(payload) {
     var message = new Notification(noteTitle, noteOptions);
 
     message.onclick = function(){
-        window.location.replace('/pemesanan/detail/'+payload.data.id)
+        window.location.replace('/transactions/detail/'+payload.data.id)
     };
 });
