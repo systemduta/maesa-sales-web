@@ -40,9 +40,13 @@
   <script src="{{ asset('AdminLTE') }}/dist/js/demo.js"></script>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
   <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-messaging.js"></script>
+    <script src="{{ asset('firebase_notifications') }}/config.js"></script>
 
 
 </head>
@@ -62,6 +66,17 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell mr-3"></i>
+            <span class="badge badge-warning navbar-badge">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">15 Notifications</span>
+          <div class="dropdown-divider"></div>
+            <a href="/send-notification" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
 
       <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}"
@@ -109,30 +124,13 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a href="" class="nav-link {{request()->is('')? 'active': ''}}">
+                  <a href="/transactions" class="nav-link {{request()->is('transactions')? 'active': ''}}">
                       <i class="nav-icon fas fa-cloud"></i>
                       <p>
-                          PP
+                          Transaction
                       </p>
                   </a>
               </li>
-              <li class="nav-item">
-                  <a href="" class="nav-link {{request()->is('')? 'active': ''}}">
-                      <i class="nav-icon fas fa-cubes"></i>
-                      <p>
-                          AA
-                      </p>
-                  </a>
-              </li>
-              <li class="nav-item ">
-                <a href="" class="nav-link {{request()->is('')? 'active': ''}}">
-                    <i class="nav-icon fa fa-graduation-cap"></i>
-                    <p>
-                        WW
-                    </p>
-                </a>
-            </li>
-
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -162,6 +160,7 @@
   </aside>
 </div>
 
+<script src="{{ asset('firebase_notifications') }}/show_notification.js"></script>
 <script>
     window.setTimeout(function(){
       $(".alert").fadeTo(500,0).slideUp(500,function(){

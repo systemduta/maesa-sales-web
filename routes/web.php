@@ -13,8 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('cache_clear', function () {
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    dd("cache:clear");
+});
+Route::get('config_clear', function () {
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    dd("config:clear");
+});
+Route::get('storage', function () {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    dd("storage");
+});
+
+Route::get('migrate', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate');
+    dd("migrate");
+});
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 Auth::routes([
@@ -27,3 +45,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
+//pemesanan
+Route::get('/transactions', 'TransactionController@index');
+Route::put('/transactions/update/{id}', 'TransactionController@update');
+Route::get('/transactions/detail/{id}', 'TransactionController@show')->name('transactions.detail');
+Route::delete('/transactions/{id}', 'TransactionController@destroy')->name('transactions.delete');
+
+Route::post('/update_token','UserController@update_token')->name('update_token');

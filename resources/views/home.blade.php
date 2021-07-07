@@ -80,5 +80,7 @@
       </div>
     </div>
 </section>
+
+<script src="{{ asset('firebase_notifications') }}/initialization_notification.js"></script>
 @endsection
 

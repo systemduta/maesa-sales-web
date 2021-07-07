@@ -6,17 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionDetail extends Model
 {
+    protected $appends = ['product_name'];
+
     protected $fillable = [
-        'transaction_id', 'product_id', 'price', 'amount',
+        'transaction_id', 'product_id', 'price', 'amount'
     ];
 
     public function transaction()
     {
-        return $this->belongsTo('App\Transaction');
+        return $this->belongsTo(Transaction::class);
     }
 
     public function product()
     {
         return $this->belongsTo('App\Product');
+    }
+
+    public function getProductNameAttribute()
+    {
+        return $this->product->name;
     }
 }

@@ -38,7 +38,7 @@ class ProductController extends Controller
 
         $products = $product->get();
 
-        return response()->json(['Product' => $products]);
+        return response()->json(['product' => $products]);
     }
 
     /**
@@ -74,7 +74,7 @@ class ProductController extends Controller
     {
         $product = Product::where('id',$id)->get();
 
-        return response()->json(['Product' => $product]);
+        return response()->json(['product' => $product]);
     }
 
     /**

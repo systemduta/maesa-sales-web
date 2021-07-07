@@ -1,19 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
-use App\Company;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\User;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -90,12 +82,9 @@ class UserController extends Controller
         //
     }
 
-    public function profile()
+    public function update_token(Request $request)
     {
-
-        $id = auth()->user()->id;
-        $user = User::where('id', $id)->with(array('company','devision'))->first();
-
-        return response()->json(['profile' => $user]);
+        auth()->user()->update(['device_token'=>$request->token]);
+        return response()->json(['token saved successfully.']);
     }
 }
