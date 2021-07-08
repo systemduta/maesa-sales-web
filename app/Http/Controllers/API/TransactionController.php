@@ -124,7 +124,7 @@ class TransactionController extends Controller
             $notification_history->transaction_id = $transaction->getKey();
             $notification_history->title = $title;
             $notification_history->body = $body;
-            $notification_history->from_user = $user->getKey();
+            $notification_history->from_user = $user->id;
             $notification_history->to_user = $cashier->getKey();
             $notification_history->save();
 

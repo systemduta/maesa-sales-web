@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use TCG\Voyager\Facades\Voyager;
 
 class User extends \TCG\Voyager\Models\User
 {
@@ -62,14 +63,12 @@ class User extends \TCG\Voyager\Models\User
     public function getPerformanceAttribute()
     {
         $acheived = $this->transaction->count();
-//        ganti nilai target dari data setting yaak
         return collect([
-            'achieved' => $acheived,
-            'target_low' => 5,
-            'target_middle' => 9,
-            'target_high' => 16,
+            'acheived'      => $acheived,
+            'target_low'    => Voyager::setting('target_low', 3),
+            'target_middle' => Voyager::setting('target_middle', 5),
+            'target_hight'  => Voyager::setting('target_hight', 10),
         ]);
-
     }
 
     public function getDevisionNameAttribute()

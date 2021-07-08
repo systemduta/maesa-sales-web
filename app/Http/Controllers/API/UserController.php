@@ -4,9 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Company;
 use App\Http\Controllers\Controller;
+use App\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -96,6 +98,8 @@ class UserController extends Controller
         $id = auth()->user()->id;
         $user = User::query()->findOrFail($id);
 
-        return response()->json(['profile' => $user]);
+        return response()->json([
+            'profile' => $user
+        ]);
     }
 }
