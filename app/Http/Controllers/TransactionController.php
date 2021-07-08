@@ -120,6 +120,6 @@ class TransactionController extends Controller
     public function destroy($id)
     {
         Transaction::find($id)->delete();
-        return redirect('transaction')->with('status','Transaksi berhasil di hapus');
+        return redirect('transactions')->with('status','Transaksi berhasil di hapus');
     }
 }
