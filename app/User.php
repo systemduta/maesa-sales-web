@@ -38,6 +38,12 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'performance',
+        'devision_name',
+        'company_logo'
+    ];
+
     public function company()
     {
         return $this->belongsTo('App\Company');
@@ -46,5 +52,33 @@ class User extends \TCG\Voyager\Models\User
     public function devision()
     {
         return $this->belongsTo('App\Devision');
+    }
+
+    public function transaction()
+    {
+        return $this->hasMany('App\Transaction');
+    }
+
+    public function getPerformanceAttribute()
+    {
+        $acheived = $this->transaction->count();
+//        ganti nilai target dari data setting yaak
+        return collect([
+            'achieved' => $acheived,
+            'target_low' => 1,
+            'target_midle' => 5,
+            'target_high' => 10,
+        ]);
+
+    }
+
+    public function getDevisionNameAttribute()
+    {
+        return $this->devision ? $this->devision->name : null;
+    }
+
+    public function getCompanyLogoAttribute()
+    {
+        return $this->company->logo;
     }
 }
