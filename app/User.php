@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use TCG\Voyager\Facades\Voyager;
 
 class User extends \TCG\Voyager\Models\User
 {
@@ -38,6 +39,10 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'performance'
+    ];
+
     public function company()
     {
         return $this->belongsTo('App\Company');
@@ -46,5 +51,21 @@ class User extends \TCG\Voyager\Models\User
     public function devision()
     {
         return $this->belongsTo('App\Devision');
+    }
+
+    public function transaction()
+    {
+        return $this->hasMany('App\Transaction');
+    }
+
+    public function getPerformanceAttribute()
+    {
+        $acheived = $this->transaction->count();
+        return collect([
+            'acheived'      => $acheived,
+            'target_low'    => Voyager::setting('target_low', 3),
+            'target_middle' => Voyager::setting('target_middle', 5),
+            'target_hight'  => Voyager::setting('target_hight', 10),
+        ]);
     }
 }

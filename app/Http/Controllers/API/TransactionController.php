@@ -100,8 +100,7 @@ class TransactionController extends Controller
             ->whereHas('role', function ($q) {
                 return $q->where('name', 'cashier');
             })->first();
-
-        if ($cashier->device_token) {
+        if ($cashier) {
             $recipients = [$cashier->device_token];
             $title ='Hai, ada transaksi baru ini!';
             $body='Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number;
