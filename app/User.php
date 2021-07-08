@@ -65,9 +65,9 @@ class User extends \TCG\Voyager\Models\User
 //        ganti nilai target dari data setting yaak
         return collect([
             'achieved' => $acheived,
-            'target_low' => 1,
-            'target_middle' => 5,
-            'target_high' => 10,
+            'target_low' => 5,
+            'target_middle' => 9,
+            'target_high' => 16,
         ]);
 
     }
