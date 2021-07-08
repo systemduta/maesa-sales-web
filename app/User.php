@@ -66,7 +66,7 @@ class User extends \TCG\Voyager\Models\User
         return collect([
             'achieved' => $acheived,
             'target_low' => 1,
-            'target_midle' => 5,
+            'target_middle' => 5,
             'target_high' => 10,
         ]);
 
