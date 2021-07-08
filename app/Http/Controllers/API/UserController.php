@@ -94,8 +94,9 @@ class UserController extends Controller
 
     public function profile()
     {
-        $id     = auth()->user()->id;
-        $user = User::where('id', $id)->with(array('company','devision'))->first();
+
+        $id = auth()->user()->id;
+        $user = User::query()->findOrFail($id);
 
         return response()->json([
             'profile' => $user

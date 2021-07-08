@@ -40,7 +40,9 @@ class User extends \TCG\Voyager\Models\User
     ];
 
     protected $appends = [
-        'performance'
+        'performance',
+        'devision_name',
+        'company_logo'
     ];
 
     public function company()
@@ -67,5 +69,15 @@ class User extends \TCG\Voyager\Models\User
             'target_middle' => Voyager::setting('target_middle', 5),
             'target_hight'  => Voyager::setting('target_hight', 10),
         ]);
+    }
+
+    public function getDevisionNameAttribute()
+    {
+        return $this->devision ? $this->devision->name : null;
+    }
+
+    public function getCompanyLogoAttribute()
+    {
+        return $this->company->logo;
     }
 }
