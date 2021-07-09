@@ -10,6 +10,8 @@ class Transaction extends Model
         'user_id', 'company_id', 'invoice_number', 'customer_name', 'address', 'total_price', 'discount', 'voucher', 'noted', 'status', 'bukti',
     ];
 
+    protected $appends = ['invoice'];
+
     public function user()
     {
         return $this->belongsTo('App\User');
@@ -40,5 +42,10 @@ class Transaction extends Model
                 $notification_history->delete();
             });
         });
+    }
+
+    public function getInvoiceAttribute()
+    {
+        return route('invoice', ['id'=> $this->getKey()]);
     }
 }

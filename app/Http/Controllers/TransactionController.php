@@ -13,6 +13,15 @@ use Auth;
 
 class TransactionController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth')->except('invoice');
+    }
 
     /**
      * Display a listing of the resource.
@@ -121,5 +130,11 @@ class TransactionController extends Controller
     {
         Transaction::find($id)->delete();
         return redirect('transactions')->with('status','Transaksi berhasil di hapus');
+    }
+
+    public function invoice($id)
+    {
+        $transaction = Transaction::query()->findOrFail($id);
+        return view('invoice', ['transaction' => $transaction]);
     }
 }
