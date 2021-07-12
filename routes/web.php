@@ -56,3 +56,15 @@ Route::post('/update_token','UserController@update_token')->name('update_token')
 
 //test
 Route::get('/test', 'TestController@index');
+
+//customer
+Route::get('/customer', 'CustomerController@index');
+
+//frontend
+Route::get('/login', function(){
+    return View::make('auth.login');
+});
+
+Route::get('/forgot-password', function(){
+    return View::make('auth.passwords.email');
+});

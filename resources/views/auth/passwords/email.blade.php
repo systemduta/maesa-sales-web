@@ -1,74 +1,108 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Reset Password</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('AdminLTE') }}/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{{ asset('AdminLTE') }}/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('AdminLTE') }}/dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-</head>
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href=""><b>Reset Password</b></a>
-        </div>
-        <div class="card">
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">Reset Password</p>
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                <form method="POST" action="{{ route('password.email') }}">
-                    @csrf
-                    <div class="input-group mb-3">
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-envelope"></span>
-                                </div>
-                            </div>
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block">
-                                {{ __('Send Password Reset Link') }}
-                            </button>
-                        </div>
+    <body>
+        <div class="floating-box">
+            <div class="pic-container">
+                <img class="prof-pic" src="https://bit.ly/fcc-relaxing-cat" alt="A cute orange cat lying on its back.">
+            </div>
+            <div class="field-container">
+                <p>Lupa password? Silahkan masukkan email Anda untuk  menerima link reset password dari kami. </p>
+                <form>
+                    <input type="text" id="email" name="email" placeholder="Email" required 
+                        oninvalid="this.setCustomValidity('Please enter your email.')"
+                        oninput="this.setCustomValidity('')">
+                    <div style="text-align:center;">
+                        <input type="submit" value="Send Email">
                     </div>
                 </form>
-                <p class="mt-3 mb-1">
-                    <a href="/login">Login</a>
-                </p>
+                <a class="login" href="{{url('/login')}}">Login</a>
             </div>
         </div>
-    </div>
-<!-- /.login-box -->
-
-<!-- jQuery -->
-<script src="{{ asset('AdminLTE') }}/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('AdminLTE') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('AdminLTE') }}/dist/js/adminlte.min.js"></script>
-
-</body>
+    </body>
 </html>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+    body{
+        display:flex;
+        background:rgba(128, 128, 128, 0.3);
+        justify-content:center;
+    }
+
+    .floating-box{
+        display: flex;
+        width: 20rem;
+        height: 20rem;
+        background: #FFFFFF;
+        border-radius: 1rem;
+        align-self: center;
+        flex-direction:column;
+        padding: 2rem 2rem;
+        text-align: center;
+    }
+
+    .pic-container{
+        display: flex;
+        height: 35%;
+        width: 100%;
+        justify-content:center;
+    }
+
+    .prof-pic{
+        border-radius:50%;
+    }
+
+    .field-container{
+        margin-top: 1rem;
+        display: flex;
+        height: 65%;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        font-family: Poppins;
+        font-size:0.8rem;
+        color: #808080;
+    }
+
+    input[type=text]{
+        display:flex;
+        width: 16rem;
+        height: 2.1rem;
+        border-radius: 4px;
+        border: 1px solid #808080;
+        box-sizing: border-box;
+        margin: 0.75rem 1rem;
+        font-family: Poppins;
+        font-size:0.7rem;
+    }
+
+    input[type=submit]{
+        display:inline-block;
+        width: 16rem;
+        height: 2.1rem;
+        text-align:center;
+        background:#E6C02F;
+        border: none;
+        border-radius: 4px;
+        border: 1px solid #808080;
+        color:#FFFFFF;
+        font-family: Poppins;
+        font-weight: bold;
+    }
+
+    input[type=submit]:hover{
+        background: #ed9d24;
+    }
+
+    .login{
+        margin: 1rem 0;
+        font-family: Poppins;
+        font-size:0.7rem;
+        font-style: normal;
+        color: #808080;
+    }
+
+    .login:hover{
+        color: #1a49d9;
+    }
+</style>
