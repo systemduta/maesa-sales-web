@@ -27,8 +27,9 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'company', 'devision', 'transaction', 'settings'
     ];
+//    update this
 
     /**
      * The attributes that should be cast to native types.

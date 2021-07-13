@@ -12,6 +12,15 @@ class TransactionDetail extends Model
         'transaction_id', 'product_id', 'price', 'amount'
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'product'
+    ];
+
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);

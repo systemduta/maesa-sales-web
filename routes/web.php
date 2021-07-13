@@ -51,5 +51,6 @@ Route::get('/transactions', 'TransactionController@index');
 Route::put('/transactions/update/{id}', 'TransactionController@update');
 Route::get('/transactions/detail/{id}', 'TransactionController@show')->name('transactions.detail');
 Route::delete('/transactions/{id}', 'TransactionController@destroy')->name('transactions.delete');
+Route::get('/invoice/{id}', 'TransactionController@invoice')->name('invoice');
 
 Route::post('/update_token','UserController@update_token')->name('update_token');
