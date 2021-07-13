@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/login', 'API\Auth\LoginController@login');
+Route::post('/update_token','API\Auth\LoginController@update_token')->name('update_token');
 Route::post('/forgot', 'API\Auth\ForgotController@forgot');
 Route::post('/logout', 'API\Auth\LogoutController@logout');
 

@@ -22,10 +22,16 @@ class LoginController extends Controller
 
 
         if(Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password,
+            'email'         => $request->email,
+            'password'      => $request->password,
             ])){
+
                 $user = Auth::user();
+
+                if ($request->device_token)
+                $user->device_token = $request->device_token;
+                $user->save();
+
                 $success['token'] =  $user->createToken('MyApp')->accessToken;
                 $success['data'] = $user;
                 return response()->json(['success' => $success], $this->successStatus);
@@ -33,5 +39,11 @@ class LoginController extends Controller
         else{
             return response()->json(['error'=>'Terjadi Kesalahan'], 401);
         }
+    }
+
+    public function update_token(Request $request)
+    {
+        auth()->user()->update(['device_token'=>$request->token]);
+        return response()->json(['token saved successfully.']);
     }
 }
