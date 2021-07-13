@@ -22,7 +22,9 @@ Route::post('/login', 'API\Auth\LoginController@login');
 Route::post('/forgot', 'API\Auth\ForgotController@forgot');
 Route::post('/logout', 'API\Auth\LogoutController@logout');
 
+//Update Profile
 Route::get('/profile', 'API\UserController@profile');
+Route::post('/profile/update/{id}', 'API\UserController@update');
 
 //Product
 Route::get('/product', 'API\ProductController@index');
@@ -37,3 +39,5 @@ Route::delete('/transactions/{id}', 'API\TransactionController@destroy');
 
 //NotificationHistory
 Route::get('/notifications','API\NotificationHistoryController@listNotification');
+
+
