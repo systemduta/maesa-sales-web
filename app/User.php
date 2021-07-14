@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -80,5 +81,18 @@ class User extends \TCG\Voyager\Models\User
     public function getCompanyLogoAttribute()
     {
         return $this->company->logo;
+    }
+
+    /**
+     * @param Builder $query
+     * @param User|null $user
+     * @return \Illuminate\Database\Concerns\BuildsQueries|Builder|mixed
+     */
+    public function scopeByUser(Builder $query, User $user = null)
+    {
+        $user = $user ? : auth()->user();
+        return $query->when($user instanceof User && !$user->hasRole('admin'), function (Builder $query) use($user) {
+            return $query->whereNotNull('company_id')->where('company_id', $user->company_id);
+        });
     }
 }
