@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -78,7 +79,27 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'email'     => 'required', 'string', 'email', 'max:255', 'unique:users',
+            'password'  => 'required', 'string', 'min:8', 'confirmed',
+            'email'     => 'required', 'string', 'email', 'max:255', 'unique:users',
+            'avatar'    => 'required','max:2044'
+        ]);
+
+        $users = User::find($id);
+        $users->name    = $request->name;
+        $users->email   = $request->email;
+        $users->avatar  = $request->avatar->store('users','public');
+        $users->password= bcrypt($request['password']);
+        $users->save();
+
+        $data[]= [
+            'id'        => $users->id,
+            'name'      => $users->name,
+            'avatar'    => Storage::url($users->avatar),
+        ];
+
+        return response()->json($data);
     }
 
     /**
