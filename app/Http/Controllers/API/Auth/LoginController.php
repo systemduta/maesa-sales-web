@@ -18,6 +18,7 @@ class LoginController extends Controller
         [
             'email'         => 'required|email',
             'password'      => 'required',
+            'device_token'  => 'required|string',
         ]);
 
 
@@ -26,14 +27,16 @@ class LoginController extends Controller
             'password'      => $request->password,
             ])){
 
-                $user = Auth::user();
+                $aut_user = Auth::user();
 
-                if ($request->device_token)
-                $user->device_token = $request->device_token;
-                $user->save();
-
-                $success['token'] =  $user->createToken('MyApp')->accessToken;
-                $success['data'] = $user;
+                //Save Token
+                $user = User::query()->findOrFail($aut_user->id);
+                if ($request->device_token){
+                    $user->device_token = $request->device_token;
+                    $user->save();
+                }
+                $success['token'] =  $aut_user->createToken('MyApp')->accessToken;
+                $success['data'] = $aut_user;
                 return response()->json(['success' => $success], $this->successStatus);
         }
         else{
