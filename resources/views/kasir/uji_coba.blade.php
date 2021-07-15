@@ -40,11 +40,6 @@
             <div class="card card-outline card-primary">
                 <div class="card-header">
                     <h3 class="card-title">{{$title }}</h3>
-                    <button id="btn-nft-enable"
-                            onclick="initFirebaseMessagingRegistration()"
-                            class="btn btn-danger btn-xs btn-flat">
-                        Allow for Notification
-                    </button>
 
                 <!-- /.card-tools -->
                 </div>
