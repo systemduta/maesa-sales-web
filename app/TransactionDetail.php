@@ -6,8 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionDetail extends Model
 {
+    protected $appends = ['product_name'];
+
     protected $fillable = [
-        'transaction_id', 'product_id', 'price', 'amount',
+        'transaction_id', 'product_id', 'price', 'amount'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'product'
     ];
 
     public function transaction()
@@ -18,5 +29,10 @@ class TransactionDetail extends Model
     public function product()
     {
         return $this->belongsTo('App\Product');
+    }
+
+    public function getProductNameAttribute()
+    {
+        return $this->product->name;
     }
 }

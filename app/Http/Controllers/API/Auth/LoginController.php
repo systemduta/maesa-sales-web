@@ -18,20 +18,35 @@ class LoginController extends Controller
         [
             'email'         => 'required|email',
             'password'      => 'required',
+            'device_token'  => 'required|string',
         ]);
 
 
         if(Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password,
+            'email'         => $request->email,
+            'password'      => $request->password,
             ])){
-                $user = Auth::user();
-                $success['token'] =  $user->createToken('MyApp')->accessToken;
-                $success['data'] = $user;
+
+                $aut_user = Auth::user();
+
+                //Save Token
+                $user = User::query()->findOrFail($aut_user->id);
+                if ($request->device_token){
+                    $user->device_token = $request->device_token;
+                    $user->save();
+                }
+                $success['token'] =  $aut_user->createToken('MyApp')->accessToken;
+                $success['data'] = $aut_user;
                 return response()->json(['success' => $success], $this->successStatus);
         }
         else{
             return response()->json(['error'=>'Terjadi Kesalahan'], 401);
         }
+    }
+
+    public function update_token(Request $request)
+    {
+        auth()->user()->update(['device_token'=>$request->token]);
+        return response()->json(['token saved successfully.']);
     }
 }

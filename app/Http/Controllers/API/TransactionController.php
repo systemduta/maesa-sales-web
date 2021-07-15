@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Company;
 use App\Http\Controllers\Controller;
+use App\NotificationHistory;
 use App\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use App\Transaction;
@@ -71,48 +73,62 @@ class TransactionController extends Controller
         $invoice_number = '#'.$company_code.$numb;
 
 
-//        $transaction = Transaction::create([
-//            'user_id'           => $user->id ?? 1,
-//            'company_id'        => $user->company_id ?? 1,
-//            'invoice_number'    => $invoice_number,
-//            'customer_name'     => $request->customer_name,
-//            'address'           => $request->address,
-//            'total_price'       => $request->total_price,
-//            'noted'             => $request->noted,
-//            'status'            => "order"
-//        ]);
+        $transaction = Transaction::create([
+            'user_id'           => $user->id ?? 1,
+            'company_id'        => $user->company_id ?? 1,
+            'invoice_number'    => $invoice_number,
+            'customer_name'     => $request->customer_name,
+            'address'           => $request->address,
+            'total_price'       => $request->total_price,
+            'noted'             => $request->noted,
+            'status'            => "order"
+        ]);
 
         $new_products = [];
         foreach ($request->products as $product) {
             array_push($new_products,[
-//                'transaction_id' => $transaction->getKey(),
-                'transaction_id' => 1,
+                'transaction_id' => $transaction->getKey(),
                 'product_id'     => $product['product_id'],
                 'amount'         => $product['amount'],
                 'price'          => $product['price'],
             ]);
         }
 
-//        TransactionDetail::insert($new_products);
+        TransactionDetail::insert($new_products);
 
-        $cashier_device_token = User::query()->where('company_id', '=', ($user->company_id ?? 1))
+        $cashier = User::query()->where('company_id', '=', ($user->company_id ?? 1))
             ->whereHas('role', function ($q) {
                 return $q->where('name', 'cashier');
-            })->first()->device_token;
-        $recipients = [$cashier_device_token];
+            })->first();
 
-        fcm()->to($recipients)
-            ->timeToLive(0)
-            ->priority('normal')
-            ->data([
-                'title' => 'Hai, ada transaksi baru ini!',
-                'body' => 'Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number,
-            ])
-            ->notification([
-                'title' => 'Hai, ada transaksi baru ini!',
-                'body' => 'Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number,
-            ])
-            ->send();
+        if ($cashier) {
+            $recipients = [$cashier->device_token];
+            $title ='Hai, ada transaksi baru ini!';
+            $body='Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number;
+
+            $res = fcm()->to($recipients)
+                ->timeToLive(0)
+                ->priority('normal')
+                ->data([
+                    'id' => $transaction->getKey(),
+                    'title' => $title,
+                    'body' => $body,
+                ])
+                ->notification([
+                    'title' => $title,
+                    'body' => $body,
+                ])->send();
+
+//        save history notification
+            $notification_history = new NotificationHistory;
+            $notification_history->transaction_id = $transaction->getKey();
+            $notification_history->title = $title;
+            $notification_history->body = $body;
+            $notification_history->from_user = $user->id;
+            $notification_history->to_user = $cashier->getKey();
+            $notification_history->save();
+
+        }
 
         return response()->json(['message' => 'Transaction data added successfully']);
     }
@@ -125,9 +141,9 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        $transdetail = TransactionDetail::where('id', $id)->with('transaction')->first();
+        $transaction = Transaction::where('id', $id)->with(['transaction_details'])->first();
 
-        return response()->json(['transaction' => $transdetail]);
+        return response()->json(['transaction' => $transaction]);
     }
 
     /**
@@ -150,10 +166,6 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        // $request->old($key = null, $default = null);
-
-        // dd($request->hasFile('bukti'), $request->file('bukti'));
 
         $request->validate([
             'bukti' => 'required|image|max:2000',

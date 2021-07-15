@@ -44,18 +44,10 @@
 
   <script src="https://code.highcharts.com/highcharts.js"></script>
 
-    <!-- firebase integration started -->
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-messaging.js"></script>
+    <script src="{{ asset('firebase_notifications') }}/config.js"></script>
 
-{{--    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>--}}
-{{--    <script src="{{ asset('firebase_notifications') }}/notification.js"></script>--}}
-{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-app.js"></script>--}}
-
-{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-auth.js"></script>--}}
-{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-database.js"></script>--}}
-{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-firestore.js"></script>--}}
-{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-messaging.js"></script>--}}
-{{--<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase-functions.js"></script>--}}
-<!-- firebase integration end -->
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -92,7 +84,6 @@
                             document.getElementById('logout-form').submit();">
             <i class="fas fa-th-large"></i>
                 Logout
-            </a>
         </a>
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -132,10 +123,10 @@
                   </a>
               </li>
               <li class="nav-item">
-                  <a href="/pemesanan" class="nav-link {{request()->is('pemesanan')? 'active': ''}}">
+                  <a href="/transactions" class="nav-link {{request()->is('transactions')? 'active': ''}}">
                       <i class="nav-icon fas fa-cloud"></i>
                       <p>
-                          Order
+                          Transaction
                       </p>
                   </a>
               </li>
@@ -176,6 +167,7 @@
   </aside>
 </div>
 
+<script src="{{ asset('firebase_notifications') }}/show_notification.js"></script>
 <script>
     window.setTimeout(function(){
       $(".alert").fadeTo(500,0).slideUp(500,function(){

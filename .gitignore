@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+vendor.zip
 .env
 .env.backup
 .phpunit.result.cache
@@ -10,6 +11,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+public/bukti
 
 .idea
 composer.lock

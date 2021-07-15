@@ -32,7 +32,7 @@ Route::get('migrate', function () {
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 Auth::routes([
@@ -46,12 +46,12 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 //pemesanan
-Route::get('/pemesanan', 'PemesananController@index');
-Route::put('/pemesanan/update/{id}', 'PemesananController@sendnotification');
-Route::get('/pemesanan/detail/{id}', 'PemesananController@show');
-Route::delete('/pemesanan/{id}', 'PemesananController@destroy')->name('pemesanan.delete');
-Route::get('/notification', 'PemesananController@store');
-Route::put('/send-notification','PemesananController@sendNotification')->name('send.notification');
+Route::get('/transactions', 'TransactionController@index');
+Route::put('/transactions/update/{id}', 'TransactionController@update');
+Route::get('/transactions/detail/{id}', 'TransactionController@show')->name('transactions.detail');
+Route::delete('/transactions/{id}', 'TransactionController@destroy')->name('transactions.delete');
+Route::get('/invoice/{id}', 'TransactionController@invoice')->name('invoice');
+
 Route::post('/update_token','UserController@update_token')->name('update_token');
 
 //test

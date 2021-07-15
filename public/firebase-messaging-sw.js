@@ -32,11 +32,27 @@ messaging.setBackgroundMessageHandler(function(payload) {
     const notificationTitle = "Update Status";
     const notificationOptions = {
         body: "Status Berhasil di Update",
-        icon: "/itwonders-web-logo.png",
+        icon: "/AdminLTE/img/umkm.png",
+        action: "https://google.com",
+        requireInteraction: true
     };
 
-    return self.registration.showNotification(
+    self.registration.showNotification(
         notificationTitle,
         notificationOptions,
     );
+
+    // self.registration.showNotification("New mail from Alice", {
+    //     actions: [
+    //         {
+    //             action: 'archive',
+    //             title: 'Archive'
+    //         }
+    //     ]
+    // });
+
+    self.addEventListener('notificationclick', function(event) {
+        event.notification.close();
+        clients.openWindow('/pemesanan');
+    }, false);
 });

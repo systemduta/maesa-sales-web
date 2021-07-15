@@ -50,9 +50,9 @@ $(document).ready(function(){
                 <!-- /.card-header -->
 
                 <div class="card-header">
-                    <h2 class="card-title">Invoice Number : {{$pemesanan->invoice_number}}</h2>
+                    <h2 class="card-title">Invoice Number : {{$transaction->invoice_number}}</h2>
                     <div class="card-tools">
-                        <a href="/pemesanan" type="button" class="btn btn-secondary btn-sm btn-flat">
+                        <a href="/transactions" type="button" class="btn btn-secondary btn-sm btn-flat">
                             <i class="fa fa-undo"></i>Back
                         </a>
                     </div>
@@ -61,58 +61,58 @@ $(document).ready(function(){
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id="example1" class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped">
                                 <tbody>
                                     <tr>
                                         <td style="width: 25%;">Name Sales</td>
-                                        <td>{{$pemesanan->user->name}}</td>
+                                        <td>{{$transaction->user->name}}</td>
                                     </tr>
                                     <tr>
                                         <td>Company</td>
-                                        <td>{{$pemesanan->company->name}}</td>
+                                        <td>{{$transaction->company->name}}</td>
                                     </tr>
                                     <tr>
                                         <td>Name Customer</td>
-                                        <td>{{$pemesanan->customer_name}}</td>
+                                        <td>{{$transaction->customer_name}}</td>
                                     </tr>
                                     <tr>
                                         <td>Address</td>
-                                        <td>{{$pemesanan->address}}</td>
+                                        <td>{{$transaction->address}}</td>
                                     </tr>
                                     <tr>
                                         <td>Total Price</td>
-                                        <td>{{$pemesanan->total_price}}</td>
+                                        <td>{{$transaction->total_price}}</td>
                                     </tr>
 {{--                                    <tr>--}}
 {{--                                        <td>Discount</td>--}}
-{{--                                        <td>{{$pemesanan->discount}}</td>--}}
+{{--                                        <td>{{$transaction->discount}}</td>--}}
 {{--                                    </tr>--}}
 {{--                                    <tr>--}}
 {{--                                        <td>Voucher</td>--}}
-{{--                                        <td>{{$pemesanan->voucher}}</td>--}}
+{{--                                        <td>{{$transaction->voucher}}</td>--}}
 {{--                                    </tr>--}}
                                     <tr>
                                         <td>Noted</td>
-                                        <td>{{$pemesanan->noted}}</td>
+                                        <td>{{$transaction->noted}}</td>
                                     </tr>
                                     <tr>
                                         <td>Status</td>
-                                        @if($pemesanan->status =='cancel')
+                                        @if($transaction->status =='cancel')
                                             <td><span class="text-primary">Cancel</span></td>
-                                        @elseif($pemesanan->status == 'order')
-                                            <td><span class="text-danger">Unpaid</span></td>
-                                        @elseif($pemesanan->status == 'paid')
+                                        @elseif($transaction->status == 'order')
+                                            <td><span class="text-danger">Order</span></td>
+                                        @elseif($transaction->status == 'paid')
                                             <td><span class="text-success">Paid</span></td>
                                         @endif
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-sm-12 text-center mt-3">
+                        <div class="col-sm-12 text-center mt-3 mb-3">
                             <label>Bukti Pembayaran</label>
                             <div class="img-container">
-                                @if($pemesanan->bukti)
-                                    <img src="{{ asset('bukti')}}/{{ $pemesanan->bukti}}" class="zoom">
+                                @if($transaction->bukti)
+                                    <img src="{{ asset('bukti').'/'.$transaction->bukti}}">
                                 @else
                                     <p class="text-danger">Belum Ada Bukti Pembayaran</p>
                                 @endif
@@ -120,7 +120,7 @@ $(document).ready(function(){
                         </div>
                         <div class="col-sm-12">
                             <h5>Detail Pesanan</h5>
-                            <table id="example2" class="table table-head-fixed text-nowrap">
+                            <table class="table table-head-fixed text-nowrap">
                                 <thead>
                                 <tr>
                                     <th style="width: 10px;">No</th>
@@ -131,7 +131,7 @@ $(document).ready(function(){
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($pemesanan->transaction_details as $key => $td)
+                                @foreach($transaction->transaction_details as $key => $td)
                                 <tr>
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $td->product->name }}</td>
@@ -147,7 +147,7 @@ $(document).ready(function(){
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer clearfix">
-                    <form action="{{ route('pemesanan.delete', [$pemesanan->id]) }}" method="POST" onsubmit="return confirm('Anda yakin ingin Hapus?');" style="display: inline;">
+                    <form action="{{ route('transactions.delete', [$transaction->id]) }}" method="POST" onsubmit="return confirm('Anda yakin ingin Hapus?');" style="display: inline;">
                         @csrf
                         <button type="submit" class="btn btn-danger btn-sm float-right" name="_method" value="DELETE">
                             <i class="fas fa-trash"></i> Delete Transaction
@@ -159,23 +159,5 @@ $(document).ready(function(){
         </div>
     </div>
 </div>
-
-        <script>
-            $(function () {
-              $("#example1").DataTable({
-                "responsive": true,
-                "autoWidth": false,
-              });
-              $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-              });
-            });
-        </script>
 
 @endsection
