@@ -7,8 +7,8 @@
             <div class="field-container">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <input type="text" id="username" name="username" placeholder="Username" required 
-                        oninvalid="this.setCustomValidity('Please enter your username.')"
+                    <input type="email" id="email" name="email" placeholder="Email" required 
+                        oninvalid="this.setCustomValidity('Please enter your email.')"
                         oninput="this.setCustomValidity('')">
                     <input type="password" id="password" name="password" placeholder="Password" required 
                         oninvalid="this.setCustomValidity('Please enter your password.')"
@@ -63,7 +63,7 @@
         align-items: center;
     }
 
-    input[type=text], input[type=password]{
+    input[type=email], input[type=password]{
         display:flex;
         width: 16rem;
         height: 2.1rem;
