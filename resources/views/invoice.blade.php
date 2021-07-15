@@ -68,6 +68,21 @@
             display: flex;
             justify-content: space-between;
         }
+        .save-button-wrapper {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .save-invoice {
+            width: 400px;
+            background: #E6C02F;
+            border-color: #E6C02F;
+            color: #ffffff;
+            padding: .5rem 1rem;
+            font-size: 1.25rem;
+            line-height: 1.5;
+            border-radius: .3rem;
+        }
     </style>
 </head>
 <body>
@@ -147,14 +162,19 @@
         <p class="product-label">2309802388987 - Pnd Ice Making System (Bank Mandiri)</p>
     </div>
 </div>
+<div class="save-button-wrapper">
+    <button class="save-invoice" onclick="saveInvoice()">Simpan Invoice</button>
+</div>
 <script src="{{ asset('AdminLTE') }}/plugins/jquery/jquery.min.js"></script>
 <script src="{{ asset('AdminLTE') }}/plugins/canvas2/html2canvas.min.js"></script>
 <script src="{{ asset('AdminLTE') }}/plugins/canvas2/canvas2image.js"></script>
 <script>
+    function saveInvoice() {
         var elm = $("#invoice").get(0);
         html2canvas(elm).then(function (canvas) {
             Canvas2Image.saveAsImage(canvas, "400", "600", 'png', "{{'Invoice - '.$transaction->invoice_number}}");
         });
+    }
 </script>
 </body>
 
