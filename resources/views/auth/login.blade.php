@@ -5,7 +5,8 @@
                 <img class="prof-pic" src="https://bit.ly/fcc-relaxing-cat" alt="A cute orange cat lying on its back.">
             </div>
             <div class="field-container">
-                <form>
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
                     <input type="text" id="username" name="username" placeholder="Username" required 
                         oninvalid="this.setCustomValidity('Please enter your username.')"
                         oninput="this.setCustomValidity('')">
@@ -16,7 +17,7 @@
                         <input type="submit" value="Sign In">
                     </div>
                 </form>
-                <a class="forget-pass" href="{{url('/forgot-password')}}">Forgot Password?</a>
+                <a class="forget-pass" href="{{ route('password.request') }}">Forgot Password?</a>
             </div>
         </div>
     </body>

@@ -6,10 +6,11 @@
             </div>
             <div class="field-container">
                 <p>Lupa password? Silahkan masukkan email Anda untuk  menerima link reset password dari kami. </p>
-                <form>
-                    <input type="text" id="email" name="email" placeholder="Email" required 
-                        oninvalid="this.setCustomValidity('Please enter your email.')"
-                        oninput="this.setCustomValidity('')">
+                <form method="POST" action="{{ route('password.email') }}">
+                    @csrf
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                        <!-- oninvalid="this.setCustomValidity('Please enter your email.')"
+                        oninput="this.setCustomValidity('')" -->
                     <div style="text-align:center;">
                         <input type="submit" value="Send Email">
                     </div>
@@ -64,7 +65,7 @@
         color: #808080;
     }
 
-    input[type=text]{
+    input[type=email]{
         display:flex;
         width: 16rem;
         height: 2.1rem;

@@ -58,13 +58,6 @@ Route::post('/update_token','UserController@update_token')->name('update_token')
 Route::get('/test', 'TestController@index');
 
 //customer
-Route::get('/customer', 'CustomerController@index');
-
-//frontend
-Route::get('/login', function(){
-    return View::make('auth.login');
-});
-
-Route::get('/forgot-password', function(){
-    return View::make('auth.passwords.email');
-});
+Route::get('/customer', 'CustomerController@index')->name('customers.index');
+Route::get('/customer/create', 'CustomerController@create')->name('customers.create');
+Route::get('/customer/store', 'CustomerController@store')->name('customers.store');
