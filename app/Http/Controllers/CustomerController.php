@@ -17,18 +17,42 @@ class CustomerController extends Controller
     }
 
     public function store(Request $request){
-        return 'haha';
+        $this->validate($request, [
+            'name' =>'required|string',
+            'address' => 'required|string'
+        ]);
+
+        $customer = new Customer;
+        $customer->name = $request->name;
+        $customer->address = $request->address;
+        $customer->save();
+
+        // return redirect()->route('customers.show', [$customer->id]);
+        return redirect()->route('customers.index');
     }
 
     public function edit($id){
-        return 'haha';
+        $customer = Customer::find($id);
+        return view('customers.edit', ['customer' => $customer]);
     }
 
     public function update(Request $request, $id){
-        return 'haha';
+        $this->validate($request, [
+            'name' =>'required|string',
+            'address' => 'required|string'
+        ]);
+
+        $customer = Customer::find($id);
+        $customer->name = $request->name;
+        $customer->address = $request->address;
+        $customer->save();
+
+        // return redirect()->route('customers.show', [$customer->id]);
+        return redirect()->route('customers.index');
     }
 
     public function destroy($id){
-        return 'haha';
+        Customer::find($id)->delete();
+        return redirect()->route('customers.index');
     }
 }

@@ -4,15 +4,14 @@
 @endif
 <table border="1">
     <tr>
-        <td>ID</td>
         <td>Name</td>
         <td>Address</td>
     </tr>
     @foreach ($customers as $customer)
     <tr>
-        <td>{{$customer->id}}</td>
         <td>{{$customer->name}}</td>
         <td>{{$customer->address}}</td>
     </tr>
     @endforeach
 </table>
+<a href="{{ route('customers.create') }}" role="button">Tambah</a>
