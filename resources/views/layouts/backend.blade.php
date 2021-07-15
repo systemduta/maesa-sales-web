@@ -138,6 +138,14 @@
                       </p>
                   </a>
               </li>
+              <li class="nav-item">
+                <a href="/customer" class="nav-link {{request()->is('customer')? 'active': ''}}">
+                    <i class="nav-icon fas fa-clone"></i>
+                    <p>
+                        Customers
+                    </p>
+                </a>
+            </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->

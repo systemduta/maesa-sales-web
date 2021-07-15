@@ -106,7 +106,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="/pemesanan/update/{{$item->id}}" method="POST" enctype="multipart/form-data">
+                    <form action="/ujicoba/update/{{$item->id}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">

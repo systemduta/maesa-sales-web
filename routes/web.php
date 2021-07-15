@@ -60,4 +60,7 @@ Route::get('/test', 'TestController@index');
 //customer
 Route::get('/customer', 'CustomerController@index')->name('customers.index');
 Route::get('/customer/create', 'CustomerController@create')->name('customers.create');
-Route::get('/customer/store', 'CustomerController@store')->name('customers.store');
+Route::post('/customer/store', 'CustomerController@store')->name('customers.store');
+Route::get('/customer/edit/{id}', 'CustomerController@edit')->name('customers.edit');
+Route::put('/customer/update/{id}', 'CustomerController@update')->name('customers.update');
+Route::get('/customer/destroy/{id}', 'CustomerController@destroy')->name('customers.destroy');
