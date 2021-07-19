@@ -61,3 +61,9 @@ Route::get('/test', 'TestController@index');
 Route::get('/customer', 'CustomerController@index')->name('customers.index');
 Route::get('/customer/create', 'CustomerController@create')->name('customers.create');
 Route::get('/customer/store', 'CustomerController@store')->name('customers.store');
+Route::get('/customer/coba', 'CustomerController@coba');
+
+//notification
+Route::get('/notifications','NotificationHistoryController@listNotification');
+
+

@@ -74,7 +74,7 @@
         <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
           <span class="dropdown-item dropdown-header">15 Notifications</span>
           <div class="dropdown-divider"></div>
-            <a href="/send-notification" class="dropdown-item dropdown-footer">See All Notifications</a>
+            <a href="/notifications" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
 
