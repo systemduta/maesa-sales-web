@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Company;
+use App\Customer;
 use App\Http\Controllers\Controller;
 use App\NotificationHistory;
 use App\User;
@@ -127,6 +128,12 @@ class TransactionController extends Controller
             $notification_history->from_user = $user->id;
             $notification_history->to_user = $cashier->getKey();
             $notification_history->save();
+
+            // Save Custommer
+            $customers          = new Customer;
+            $customers->name    = $request->customer_name;
+            $customers->address = $request->address;
+            $customers->save();
 
         }
 
