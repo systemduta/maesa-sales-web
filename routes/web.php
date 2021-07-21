@@ -53,7 +53,7 @@ Route::delete('/transactions/{id}', 'TransactionController@destroy')->name('tran
 Route::get('/invoice/{id}', 'TransactionController@invoice')->name('invoice');
 
 Route::post('/update_token','UserController@update_token')->name('update_token');
-Route::put('user/{id}', 'UserController@update')->name('user.update');
+Route::put('update_profile', 'UserController@update')->name('update_profile');
 
 //test
 Route::get('/test', 'TestController@index');

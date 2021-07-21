@@ -115,8 +115,8 @@
             </div>
             <div class="info">
                 <a href="javascript:void(0)" class="d-block" data-toggle="modal" data-target="#edit-profile-modal">{{auth()->user()->name}}</a>
-                <a href="#" class="d-block">{{auth()->user()->company_id ? auth()->user()->company->name :'-'}}</a>
-                <a href="#" class="d-block">{{auth()->user()->devision_id ? auth()->user()->devision->name :'-'}}</a>
+                <a href="javascript:void(0)" class="d-block" data-toggle="modal" data-target="#edit-profile-modal">{{auth()->user()->company_id ? auth()->user()->company->name :'-'}}</a>
+                <a href="javascript:void(0)" class="d-block" data-toggle="modal" data-target="#edit-profile-modal">{{auth()->user()->devision_id ? auth()->user()->devision->name :'-'}}</a>
 {{--                <a href="#" class="d-block">{{auth()->user()->role->display_name}}</a>--}}
             </div>
         </div>
@@ -178,19 +178,20 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form role="form" id="edit_profile_form" method="post" enctype="multipart/form-data" action="{{ route('user.update', ['id'=>1]) }}">
+                    <form role="form" id="edit_profile_form" method="post" enctype="multipart/form-data" action="{{ route('update_profile') }}">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="user_name">Name</label>
-                            <input type="text" class="form-control" id="user_name">
+                            <input type="text" class="form-control" id="user_name" value="{{auth()->user()->name}}" required>
                         </div>
                         <div class="form-group">
                             <label for="user_email">Email</label>
-                            <input type="email" class="form-control" id="user_email">
+                            <input type="email" class="form-control" id="user_email" value="{{auth()->user()->email}}" required>
                         </div>
                         <div class="form-group">
                             <label for="user_password">Password</label>
                             <input type="password" class="form-control" id="user_password">
+                            <span id="user_password" class="text-secondary">Kosongkan jika tidak ingin merubah password</span>
                         </div>
                         <div class="form-group">
                             <label for="user_avatar">Avatar</label>
@@ -200,10 +201,11 @@
                                     <label class="custom-file-label" for="user_avatar">Choose Avatar</label>
                                 </div>
                             </div>
+                            <span id="user_password" class="text-secondary">Kosongkan jika tidak ingin merubah avatar</span>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                     </form>
@@ -226,6 +228,7 @@
 </div>
 
 <script src="{{ asset('firebase_notifications') }}/show_notification.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@1.0.14/dist/browser-image-compression.js"></script>
 <script>
     window.setTimeout(function(){
       $(".alert").fadeTo(500,0).slideUp(500,function(){
@@ -234,34 +237,38 @@
     },3000);
 
     $(document).ready(function(){
-
-        // $("#update_profile").click(function(){
         $("#edit_profile_form").submit(function(event) {
             event.preventDefault();
             const fd = new FormData();
             let user_name = $('#user_name').val();
             let user_email = $('#user_email').val();
             let user_password = $('#user_password').val();
-            let files = $('#user_avatar')[0].files;
-
-            console.log(user_name, user_email, user_password);
+            let avatar = $('#user_avatar')[0].files;
 
             fd.append('_method','PUT');
-            if(files.length > 0 ) fd.append('file',files[0]);
+            if(user_name) fd.append('name',user_name);
+            if(user_email) fd.append('email',user_email);
+            if(user_password) fd.append('password',user_password);
+            if(avatar.length > 0 ) fd.append('avatar',avatar[0]);
 
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             $.ajax({
-                url: {{ route('user.update', ['id'=>1]) }},
+                url: "{{ route('update_profile') }}",
                 type: 'post',
                 data: fd,
                 contentType: false,
                 processData: false,
                 success: function(response){
-                    if(response != 0){
-                        $("#img").attr("src",response);
-                        $(".preview img").show(); // Display image element
-                    }else{
-                        alert('file not uploaded');
-                    }
+                    $(document).Toasts('create', {
+                        class: 'bg-success',
+                        title: 'Success',
+                        body: response
+                    });
+                    window.location.reload();
                 },
             });
         });

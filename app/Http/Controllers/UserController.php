@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -66,9 +68,24 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        dd($request->toArray(), $id);
+        $request->validate([
+            'name'     => 'required|string',
+            'email'           => 'required|string',
+            'password'       => 'string|nullable',
+            'avatar'       => 'file|nullable',
+        ]);
+        $user = User::query()->findOrFail(auth()->user()->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if ($request->password) $user->password = Hash::make($request->password);
+        if ($request->hasFile('avatar')) {
+            $user->avatar = $request->file('avatar')->store('users', 'public');
+        }
+        $user->save();
+
+        return response()->json(['message' => 'Profile updated successfully'], 200);
     }
 
     /**
