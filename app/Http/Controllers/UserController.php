@@ -74,7 +74,7 @@ class UserController extends Controller
             'name'     => 'required|string',
             'email'           => 'required|string',
             'password'       => 'string|nullable',
-            'avatar'       => 'file|nullable',
+            'avatar'       => 'mimes:jpeg,jpg,png,bmp,gif,svg|max:2048|nullable',
         ]);
         $user = User::query()->findOrFail(auth()->user()->id);
         $user->name = $request->name;

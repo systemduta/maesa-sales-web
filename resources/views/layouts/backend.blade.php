@@ -206,7 +206,7 @@
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="user_avatar">
-                                    <label class="custom-file-label" for="user_avatar">Choose Avatar</label>
+                                    <label class="custom-file-label" for="user_avatar" id="user_avatar_label">Choose Avatar</label>
                                 </div>
                             </div>
                             <span id="user_password" class="text-secondary">Kosongkan jika tidak ingin merubah avatar</span>
@@ -236,7 +236,8 @@
 </div>
 
 <script src="{{ asset('firebase_notifications') }}/show_notification.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/browser-image-compression@1.0.14/dist/browser-image-compression.js"></script>
+<script src="{{ asset('AdminLTE') }}/plugins/browser-image-compressions/polyfill.min.js"></script>
+<script src="{{ asset('AdminLTE') }}/plugins/browser-image-compressions/browser-image-compression.js"></script>
 <script>
     window.setTimeout(function(){
       $(".alert").fadeTo(500,0).slideUp(500,function(){
@@ -245,19 +246,34 @@
     },3000);
 
     $(document).ready(function(){
+        var avatar = null;
+
+        $("#user_avatar").on('change', function (event) {
+            var file = event.target.files[0];
+            $("#user_avatar_label").text(file.name);
+            var options = {
+                maxSizeMB: 1,
+                maxWidthOrHeight: 1024
+            }
+            imageCompression(file, options).then(function (output) {
+                avatar = output;
+            })
+        })
+
         $("#edit_profile_form").submit(function(event) {
             event.preventDefault();
             const fd = new FormData();
             let user_name = $('#user_name').val();
             let user_email = $('#user_email').val();
             let user_password = $('#user_password').val();
-            let avatar = $('#user_avatar')[0].files;
+            let ava = avatar;
+            // console.log(ava, (ava.size / 1024 / 1024).toFixed(2) + 'mb');
 
             fd.append('_method','PUT');
             if(user_name) fd.append('name',user_name);
             if(user_email) fd.append('email',user_email);
             if(user_password) fd.append('password',user_password);
-            if(avatar.length > 0 ) fd.append('avatar',avatar[0]);
+            if(ava) fd.append('avatar',ava);
 
             $.ajaxSetup({
                 headers: {
