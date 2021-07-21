@@ -44,7 +44,8 @@ class User extends \TCG\Voyager\Models\User
     protected $appends = [
         'performance',
         'devision_name',
-        'company_logo'
+        'company_logo',
+        'company_name'
     ];
 
     public function company()
@@ -81,6 +82,11 @@ class User extends \TCG\Voyager\Models\User
     public function getCompanyLogoAttribute()
     {
         return $this->company->logo;
+    }
+
+    public function getCompanyNameAttribute()
+    {
+        return $this->company->name;
     }
 
     /**
