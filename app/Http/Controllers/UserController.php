@@ -68,7 +68,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        dd($request->toArray(), $id);
     }
 
     /**

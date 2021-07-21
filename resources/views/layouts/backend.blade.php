@@ -82,7 +82,7 @@
         <a class="nav-link" href="{{ route('logout') }}"
             onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
-            <i class="fas fa-th-large"></i>
+            <i class="fas fa-power-off"></i>
                 Logout
         </a>
 
@@ -101,12 +101,25 @@
     <a href="/home" class="brand-link">
       <img src="{{ asset('AdminLTE') }}/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">Project Intern</span>
+      <span class="brand-text font-weight-light">Sales App</span>
     </a>
     <br>
 
     <!-- Sidebar -->
     <div class="sidebar">
+
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="/storage/{{auth()->user()->avatar}}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="javascript:void(0)" class="d-block" data-toggle="modal" data-target="#edit-profile-modal">{{auth()->user()->name}}</a>
+                <a href="#" class="d-block">{{auth()->user()->company_id ? auth()->user()->company->name :'-'}}</a>
+                <a href="#" class="d-block">{{auth()->user()->devision_id ? auth()->user()->devision->name :'-'}}</a>
+{{--                <a href="#" class="d-block">{{auth()->user()->role->display_name}}</a>--}}
+            </div>
+        </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -155,6 +168,51 @@
       <div class="container-fluid">
          @yield('content')
       </div>
+{{--        modal edit user--}}
+        <div class="modal fade" id="edit-profile-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Profile</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form role="form" id="edit_profile_form" method="post" enctype="multipart/form-data" action="{{ route('user.update', ['id'=>1]) }}">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="user_name">Name</label>
+                            <input type="text" class="form-control" id="user_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="user_email">Email</label>
+                            <input type="email" class="form-control" id="user_email">
+                        </div>
+                        <div class="form-group">
+                            <label for="user_password">Password</label>
+                            <input type="password" class="form-control" id="user_password">
+                        </div>
+                        <div class="form-group">
+                            <label for="user_avatar">Avatar</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="user_avatar">
+                                    <label class="custom-file-label" for="user_avatar">Choose Avatar</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
     </section>
   </div>
   <footer class="main-footer">
@@ -173,7 +231,41 @@
       $(".alert").fadeTo(500,0).slideUp(500,function(){
         $(this).remove();
       });
-    },3000)
+    },3000);
+
+    $(document).ready(function(){
+
+        // $("#update_profile").click(function(){
+        $("#edit_profile_form").submit(function(event) {
+            event.preventDefault();
+            const fd = new FormData();
+            let user_name = $('#user_name').val();
+            let user_email = $('#user_email').val();
+            let user_password = $('#user_password').val();
+            let files = $('#user_avatar')[0].files;
+
+            console.log(user_name, user_email, user_password);
+
+            fd.append('_method','PUT');
+            if(files.length > 0 ) fd.append('file',files[0]);
+
+            $.ajax({
+                url: {{ route('user.update', ['id'=>1]) }},
+                type: 'post',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    if(response != 0){
+                        $("#img").attr("src",response);
+                        $(".preview img").show(); // Display image element
+                    }else{
+                        alert('file not uploaded');
+                    }
+                },
+            });
+        });
+    });
   </script>
   @stack('modals')
 </body>
