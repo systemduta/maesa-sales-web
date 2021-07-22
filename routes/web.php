@@ -55,9 +55,6 @@ Route::get('/invoice/{id}', 'TransactionController@invoice')->name('invoice');
 Route::post('/update_token','UserController@update_token')->name('update_token');
 Route::put('update_profile', 'UserController@update')->name('update_profile');
 
-//test
-Route::get('/test', 'TestController@index');
-
 //customer
 Route::get('/customer', 'CustomerController@index')->name('customers.index');
 Route::get('/customer/create', 'CustomerController@create')->name('customers.create');
