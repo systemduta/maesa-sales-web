@@ -7,9 +7,7 @@
             <div class="field-container">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <input type="email" id="email" name="email" placeholder="Email" required 
-                        oninvalid="this.setCustomValidity('Please enter your email.')"
-                        oninput="this.setCustomValidity('')">
+                    <input type="email" id="email" name="email" placeholder="Email" required>
                     <input type="password" id="password" name="password" class="@error('password') is-invalid @enderror" placeholder="Password" required 
                         oninvalid="this.setCustomValidity('Please enter your password.')"
                         oninput="this.setCustomValidity('')">
