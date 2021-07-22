@@ -27,7 +27,7 @@ class Company extends Model
         $user = $user ? : auth()->user();
         return $query->when($user instanceof User && !$user->hasRole('admin'), function (Builder $query) use($user) {
             return $query->whereHas('users', function (Builder $q) use ($user) {
-                return $q;
+                return $q->where('id', auth()->user()->id);
             });
         });
     }

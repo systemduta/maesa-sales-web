@@ -18,6 +18,23 @@
   <link rel="stylesheet" href="{{ asset('AdminLTE') }}/dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <style>
+        .btn-gold {
+            display:inline-block;
+            text-align:center;
+            background:#E6C02F;
+            border: none;
+            border-radius: 4px;
+            border: 1px solid #808080;
+            color:#FFFFFF;
+            font-family: Poppins;
+            font-weight: bold;
+        }
+
+        .btn-gold:hover{
+            background: #ed9d24;
+        }
+    </style>
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
@@ -25,8 +42,8 @@
             <a href="/login"><b>Reset Password</b></a>
         </div>
         <div class="card">
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+            <div class="card-body login-card-body" style="border-radius: 1rem;">
+                <p class="login-box-msg">Reset your password</p>
                 <form method="POST" action="{{ route('password.update') }}">
                     @csrf
 
@@ -47,7 +64,7 @@
                     </div>
 
                     <div class="input-group mb-3">
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="New Password">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -60,7 +77,7 @@
                         @enderror
                     </div>
                     <div class="input-group mb-3">
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm Password">
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm New Password">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>
@@ -69,7 +86,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                                <button type="submit" class="btn btn-primary btn-block">
+                                <button type="submit" class="btn btn-block btn-gold">
                                     {{ __('Reset Password') }}
                                 </button>
                         </div>
