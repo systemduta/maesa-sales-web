@@ -1,43 +1,18 @@
- <!-- Google Font: Source Sans Pro -->
- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('AdminLTE') }}/plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="{{ asset('AdminLTE') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{ asset('AdminLTE') }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+@extends('layouts.backend')
 
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('AdminLTE') }}/dist/css/adminlte.min.css">
-  <!-- Styles -->
-  <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-  <!-- Bootstrap Color Picker -->
-  <link rel="stylesheet" href="{{ asset('AdminLTE') }}/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
 
-  <!-- jQuery -->
-  <script src="{{ asset('AdminLTE') }}/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="{{ asset('AdminLTE') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- DataTables -->
-  <script src="{{ asset('AdminLTE') }}/plugins/datatables/jquery.dataTables.min.js"></script>
-  <script src="{{ asset('AdminLTE') }}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-  <script src="{{ asset('AdminLTE') }}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-  <script src="{{ asset('AdminLTE') }}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-
-  <!-- AdminLTE App -->
-  <script src="{{ asset('AdminLTE') }}/dist/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="{{ asset('AdminLTE') }}/dist/js/demo.js"></script>
-
-    <!-- Scripts -->
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
-
-  <script src="https://code.highcharts.com/highcharts.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-messaging.js"></script>
-    <script src="{{ asset('firebase_notifications') }}/config.js"></script>
-
+@section('judul1')
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="mb-2 row">
+                <div class="col-sm-6">
+{{--                    <h1 class="m-0">{{ $title }}</h1>--}}
+                </div>
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+@endsection
+@section('content')
 <style type="text/css">
     .img-container{
         text-align: center;
@@ -77,27 +52,21 @@
                                     <th>Date</th>
                                     <th>Content</th>
                                     <th>Invoice</th>
-                                    <th>User</th>
+                                    <th>From</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $no=1; ?>
-                                @for ($i = 1; $i <= 50; $i++)
+                                @foreach ($notification as $key => $notif)
                                     <tr>
-                                        <td class="text-center">{{$i}}</td>
-                                        <td>9/9/9999</td>
-                                        <td>Cek jadi ini isinya body {{$i}}</td>
-                                        <td>OKeh judul {{$i}}</td>
-                                        <td>usernya sapa {{$i}}</td>
-                                    </tr>
-                                @endfor
-                                @foreach ($notification as $notif)
-                                    <tr>
-                                        <td class="text-center">{{ $no++ }}</td>
+                                        <td class="text-center">{{ $key+1 }}</td>
                                         <td>{{ $notif->created_at }}</td>
                                         <td>{{ $notif->body}}</td>
-                                        <td>{{ $notif->title}}</td>
-                                        <td>{{ $notif->from_user}}</td>
+                                        <td>
+                                            <a href="{{route('transactions.detail', ['id'=>$notif->transaction_id])}}">
+                                                {{ $notif->transaction->invoice_number}}
+                                            </a>
+                                        </td>
+                                        <td>{{ $notif->from_user_name->name}}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -110,29 +79,4 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function(){
-        $('.zoom').hover(function() {
-            $(this).addClass('transisi');
-        }, function() {
-            $(this).removeClass('transisi');
-        });
-    });
-
-    $(function () {
-        $("#example1").DataTable({
-        "responsive": true,
-        "autoWidth": false,
-        });
-        $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
-        });
-    });
-</script>
-
+@endsection

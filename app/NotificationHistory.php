@@ -14,4 +14,9 @@ class NotificationHistory extends Model
     {
         return $this->belongsTo(Transaction::class);
     }
+
+    public function from_user_name()
+    {
+        return $this->belongsTo(User::class, 'from_user');
+    }
 }

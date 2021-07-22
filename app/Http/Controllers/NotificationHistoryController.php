@@ -8,10 +8,10 @@ use App\NotificationHistory;
 
 class NotificationHistoryController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('auth:api');
-    // }
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
 
     public function listNotification(Request $request)
     {
@@ -27,7 +27,7 @@ class NotificationHistoryController extends Controller
         });
 
         $notification   = $notification->get();
-        return view('notifications.index', ['notification' => $notification]);
+        return view('notifications.index', ['notification' => $notification, 'title'=>'List Notification']);
     }
 
 }

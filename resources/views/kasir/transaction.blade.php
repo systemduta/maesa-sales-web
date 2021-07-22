@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="mb-2 row">
         <div class="col-sm-6">
-            <h1 class="m-0">{{ $title }}</h1>
+{{--            <h1 class="m-0">{{ $title }}</h1>--}}
         </div>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
