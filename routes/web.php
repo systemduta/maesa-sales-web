@@ -65,3 +65,9 @@ Route::post('/customer/store', 'CustomerController@store')->name('customers.stor
 Route::get('/customer/edit/{id}', 'CustomerController@edit')->name('customers.edit');
 Route::put('/customer/update/{id}', 'CustomerController@update')->name('customers.update');
 Route::get('/customer/destroy/{id}', 'CustomerController@destroy')->name('customers.destroy');
+Route::get('/customer/coba', 'CustomerController@coba');
+
+//notification
+Route::get('/notifications','NotificationHistoryController@listNotification');
+
+

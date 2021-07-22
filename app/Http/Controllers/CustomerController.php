@@ -19,46 +19,43 @@ class CustomerController extends Controller
         return view('customers.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name'      => 'required',
-            'address'   => 'required',
+    public function store(Request $request){
+        $this->validate($request, [
+            'name' =>'required|string',
+            'address' => 'required|string'
         ]);
 
-        Customer::create([
-            'name'      => $request->name,
-            'address'   => $request->address,
-        ]);
+        $customer = new Customer;
+        $customer->name = $request->name;
+        $customer->address = $request->address;
+        $customer->save();
 
-        return redirect('customer')->with('status','Data Berhasil Di Simpan !!');
+        // return redirect()->route('customers.show', [$customer->id]);
+        return redirect()->route('customers.index');
     }
 
-    public function edit($id)
-    {
-
-        $customers = Customer::where('id',$id)->first();
-        return view('customers.edit',compact('customers'));
+    public function edit($id){
+        $customer = Customer::find($id);
+        return view('customers.edit', ['customer' => $customer]);
     }
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name'      => 'required',
-            'address'   => 'required',
+    public function update(Request $request, $id){
+        $this->validate($request, [
+            'name' =>'required|string',
+            'address' => 'required|string'
         ]);
 
-        Customer::findOrFail($id)->update([
-            'name'      => $request->name,
-            'address'   => $request->address,
-        ]);
-        return redirect('customer')->with('status','Data Berhasil Di Update !!');
+        $customer = Customer::find($id);
+        $customer->name = $request->name;
+        $customer->address = $request->address;
+        $customer->save();
+
+        // return redirect()->route('customers.show', [$customer->id]);
+        return redirect()->route('customers.index');
     }
 
-    public function destroy($id)
-    {
-
-        Customer::destroy($id);
-        return redirect('customer')->with('status', 'Data Berhasil Di Delete');
+    public function destroy($id){
+        Customer::find($id)->delete();
+        return redirect()->route('customers.index');
     }
 }

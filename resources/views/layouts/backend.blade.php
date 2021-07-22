@@ -50,6 +50,11 @@
 
 
 </head>
+@php
+$daily_notification_count = \App\NotificationHistory::query()->when(auth()->user(), function($q){
+            return $q->where('to_user',auth()->user()->id);
+        })->whereDate('created_at', \Carbon\Carbon::today())->count();
+@endphp
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper" id="app">
 
@@ -69,12 +74,12 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell mr-3"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
+            <span class="badge badge-warning navbar-badge">{{$daily_notification_count}}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
+          <span class="dropdown-item dropdown-header">{{$daily_notification_count}} Notifications</span>
           <div class="dropdown-divider"></div>
-            <a href="/send-notification" class="dropdown-item dropdown-footer">See All Notifications</a>
+            <a href="/notifications" class="dropdown-item dropdown-footer">See All Notifications</a>
         </div>
       </li>
 
