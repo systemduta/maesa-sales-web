@@ -2,23 +2,31 @@
     <body>
         <div class="floating-box">
             <div class="pic-container">
-                <img class="prof-pic" src="https://bit.ly/fcc-relaxing-cat" alt="A cute orange cat lying on its back.">
+                <img class="pic" src="https://bit.ly/fcc-relaxing-cat" alt="A cute orange cat lying on its back.">
             </div>
             <div class="field-container">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <input type="email" id="email" name="email" placeholder="Email" required 
-                        oninvalid="this.setCustomValidity('Please enter your email.')"
-                        oninput="this.setCustomValidity('')">
-                    <input type="password" id="password" name="password" placeholder="Password" required 
+                    <input type="email" id="email" name="email" placeholder="Email" required>
+                    <input type="password" id="password" name="password" class="@error('password') is-invalid @enderror" placeholder="Password" required 
                         oninvalid="this.setCustomValidity('Please enter your password.')"
                         oninput="this.setCustomValidity('')">
                     <div style="text-align:center;">
                         <input type="submit" value="Sign In">
                     </div>
+                    @if ($errors->has('email'))
+                        <span class="invalid-feedback">
+                            <!-- <p>{{ $errors->first('email') }}</p> -->
+                            <p>Invalid email or password.</p>
+                        </span>
+                    @endif
+                    
                 </form>
+            </div>
+            <div class="forget-pass">
                 <a class="forget-pass" href="{{ route('password.request') }}">Forgot Password?</a>
             </div>
+           
         </div>
     </body>
 </html>
@@ -50,14 +58,15 @@
         justify-content:center;
     }
 
-    .prof-pic{
+    .pic{
         border-radius:50%;
     }
 
     .field-container{
         margin-top: 1rem;
+        margin-bottom: 1rem;
         display: flex;
-        height: 65%;
+        height: 55%;
         width: 100%;
         flex-direction: column;
         align-items: center;
@@ -93,15 +102,25 @@
         background: #ed9d24;
     }
 
+    .invalid-feedback{
+        background:aqua;
+        font-family: Poppins;
+        color:red;
+        font-size: 0.8rem;
+        text-align:center;
+    }
+
     .forget-pass{
-        margin: 1rem 0;
+        margin-bottom: 0.5rem;
         font-family: Poppins;
         font-size:0.7rem;
         font-style: normal;
         color: #808080;
+        text-align: center;
     }
 
     .forget-pass:hover{
         color: #1a49d9;
     }
+
 </style>
