@@ -7,8 +7,8 @@
             <div class="field-container">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <input type="email" id="email" name="email" placeholder="Email" required>
-                    <input type="password" id="password" name="password" class="@error('password') is-invalid @enderror" placeholder="Password" required 
+                    <input type="email" id="email" name="email" placeholder="Email" required value="{{old('email')}}">
+                    <input type="password" id="password" name="password" class="@error('password') is-invalid @enderror" placeholder="Password" required
                         oninvalid="this.setCustomValidity('Please enter your password.')"
                         oninput="this.setCustomValidity('')">
                     <div style="text-align:center;">
@@ -20,13 +20,13 @@
                             <p>Invalid email or password.</p>
                         </span>
                     @endif
-                    
+
                 </form>
             </div>
             <div class="forget-pass">
                 <a class="forget-pass" href="{{ route('password.request') }}">Forgot Password?</a>
             </div>
-           
+
         </div>
     </body>
 </html>
