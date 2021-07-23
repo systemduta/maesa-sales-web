@@ -6,11 +6,14 @@
             </div>
             <div class="field-container">
                 <p>Lupa password? Silahkan masukkan email Anda untuk  menerima link reset password dari kami. </p>
+                @if ($errors->has('email'))
+                    <span class="invalid-feedback">
+                        <p>e-mail is not registered</p>
+                    </span>
+                @endif
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
                     <input type="email" id="email" name="email" placeholder="Email" required>
-                        <!-- oninvalid="this.setCustomValidity('Please enter your email.')"
-                        oninput="this.setCustomValidity('')" -->
                     <div style="text-align:center;">
                         <input type="submit" value="Send Email">
                     </div>
@@ -105,5 +108,11 @@
 
     .login:hover{
         color: #1a49d9;
+    }
+    .invalid-feedback{
+        font-family: Poppins;
+        color:red;
+        font-size: 0.8rem;
+        text-align:center;
     }
 </style>

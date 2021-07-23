@@ -7,6 +7,12 @@
             <div class="field-container">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
+                    @if ($errors->has('email'))
+                        <span class="invalid-feedback">
+                            <!-- <p>{{ $errors->first('email') }}</p> -->
+                                <p>Invalid email or password.</p>
+                        </span>
+                    @endif
                     <input type="email" id="email" name="email" placeholder="Email" required value="{{old('email')}}">
                     <input type="password" id="password" name="password" class="@error('password') is-invalid @enderror" placeholder="Password" required
                         oninvalid="this.setCustomValidity('Please enter your password.')"
@@ -14,13 +20,6 @@
                     <div style="text-align:center;">
                         <input type="submit" value="Sign In">
                     </div>
-                    @if ($errors->has('email'))
-                        <span class="invalid-feedback">
-                            <!-- <p>{{ $errors->first('email') }}</p> -->
-                            <p>Invalid email or password.</p>
-                        </span>
-                    @endif
-
                 </form>
             </div>
             <div class="forget-pass">
@@ -103,7 +102,6 @@
     }
 
     .invalid-feedback{
-        background:aqua;
         font-family: Poppins;
         color:red;
         font-size: 0.8rem;
