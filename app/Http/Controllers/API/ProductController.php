@@ -22,7 +22,7 @@ class ProductController extends Controller
         $featured = $request->filled('featured') && ($request->featured=='yes')?$request->featured:null;
         $search   = $request->filled('search')?$request->search:null;
         $sort     = $request->filled('sort') && ($request->sort=='asc')?$request->sort:null;
-        $product  = Product::query();
+        $product  = Product::query()->byUser();
 
         $product->when($featured, function ($q, $featured) {
             return $q->where('featured', $featured);
