@@ -41,4 +41,9 @@ Route::delete('/transactions/{id}', 'API\TransactionController@destroy');
 //NotificationHistory
 Route::get('/notifications','API\NotificationHistoryController@listNotification');
 
+//privacy policy android
+Route::get('/privacy',function (){
+    return view('privacy');
+});
+
 
