@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Product;
+use App\User;
 
 use Illuminate\Http\Request;
 
@@ -26,7 +27,9 @@ class HomeController extends Controller
     public function index()
     {
         $products = Product::query();
-        $products = $products->orderBy('updated_at', 'desc')->get();
-        return view('home', ['title' => 'Dashboard','products' => $products]);
+        $products = $products->orderBy('created_at', 'desc')->get();
+        $users = User::query();
+        $users = $users->where('role_id',2)->orderBy('created_at', 'desc')->get();
+        return view('home', ['title' => 'Dashboard','products' => $products, 'users' => $users]);
     }
 }

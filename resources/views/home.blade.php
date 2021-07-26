@@ -14,9 +14,9 @@
 @section('content')
 <!-- Main content -->
 <section class="content">
-  <div class="container-fluid yhaa">
+  <div class="container-fluid">
     <!-- Small boxes (Stat box) -->
-    <div class="row row1">
+    <div class="row">
       <div class="col-lg-3 col-6">
         <!-- small box -->
         <div class="small-box bg-info">
@@ -78,12 +78,45 @@
       </div> <!-- ./col -->
     </div> <!-- ./row -->
     <div class ="row">
+      <div class="col-md-6">
+        <!-- USER LIST -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Latest Members</h3>
+
+            <div class="card-tools">
+              <span class="badge badge-danger">8 New Members</span>
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+              </button>
+              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+              </button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body p-0">
+            <ul class="users-list clearfix">
+              @foreach ($users as $key => $user)
+                <li>
+                  <img src="{{ $user->avatar }}" alt="User Image">
+                  <a class="users-list-name" href="#">{{ $user->name }}</a>
+                  <span class="users-list-date">{{ $user->nik }}</span>
+                </li>
+              @endforeach
+            </ul>
+            <!-- /.users-list -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer text-center">
+            <a href="javascript::">View All Users</a>
+          </div>
+          <!-- /.card-footer -->
+        </div> <!--/.card USER LIST-->
+      </div><!-- ./col -->
       <div class="col-md-4">
         <!-- PRODUCT LIST -->
         <div class="card">
             <div class="card-header">
               <h3 class="card-title">Recently Added Products</h3>
-
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                   <i class="fas fa-minus"></i>
@@ -98,7 +131,7 @@
                 @foreach ($products as $key => $product)
                 <li class="item">
                   <div class="product-img">
-                    <img src="dist/img/default-150x150.png" alt="img" class="img-size-50">
+                    <img src= "{{ $product->img }}" alt="Product Image" class="img-size-50">
                   </div>
                   <div class="product-info">
                     <a href="javascript:void(0)" class="product-title"> {{ $product->name }}
@@ -123,17 +156,3 @@
 
 <script src="{{ asset('firebase_notifications') }}/initialization_notification.js"></script>
 @endsection
-
-<!-- <style>
-  .row{
-    background:yellowgreen;
-  }
-  .row1{
-    background:aqua;
-  }
-
-  .yhaa{
-    background:pink;
-  }
-</style> -->
-
