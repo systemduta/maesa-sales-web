@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Product;
 
 use Illuminate\Http\Request;
 
@@ -24,9 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data = [
-            'title' => 'Dashboard'
-        ];
-        return view('home', $data);
+        $products = Product::query();
+        $products = $products->orderBy('updated_at', 'desc')->get();
+        return view('home', ['title' => 'Dashboard','products' => $products]);
     }
 }
