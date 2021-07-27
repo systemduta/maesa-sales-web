@@ -33,7 +33,7 @@ class Devision extends Model
         return $query->when($user instanceof User && !$user->hasRole('admin'), function (Builder $query) use($user) {
             return $query->whereHas('company', function (Builder $q) use ($user) {
                 return $q->whereHas('users', function (Builder $qu) use ($user) {
-                    return $qu;
+                    return $qu->where('id', auth()->user()->id);
                 });
             });
         });

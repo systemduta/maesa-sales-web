@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
@@ -41,6 +42,19 @@ class Transaction extends Model
             $transaction->notification_histories()->each(function($notification_history) {
                 $notification_history->delete();
             });
+        });
+    }
+
+    /**
+     * @param Builder $query
+     * @param User|null $user
+     * @return \Illuminate\Database\Concerns\BuildsQueries|Builder|mixed
+     */
+    public function scopeByUser(Builder $query, User $user = null)
+    {
+        $user = $user ? : auth()->user();
+        return $query->when($user instanceof User && $user->hasRole('user'), function (Builder $query) use($user) {
+            return $query->where($query->qualifyColumn('user_id'), $user->id);
         });
     }
 

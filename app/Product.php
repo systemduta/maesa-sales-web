@@ -16,7 +16,7 @@ class Product extends Model
      * @param User|null $user
      * @return \Illuminate\Database\Concerns\BuildsQueries|Builder|mixed
      */
-    public function scopeByUser(Builder $query, User $user = null)
+    public function scopeByCompany(Builder $query, User $user = null)
     {
         $user = $user ? : auth()->user();
         return $query->when($user instanceof User && !$user->hasRole('admin'), function (Builder $query) use($user) {
