@@ -26,10 +26,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::query();
+        $products = Product::query()->byUser();
         $products = $products->orderBy('created_at', 'desc')->get();
         $users = User::query();
-        $users = $users->where('role_id',2)->orderBy('created_at', 'desc')->get();
+        $users = $users->when(auth()->user()->company_id, function ($query) {
+                return $query->where('company_id', auth()->user()->company_id);
+            })->where('role_id',2)
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('home', ['title' => 'Dashboard','products' => $products, 'users' => $users]);
     }
 }
