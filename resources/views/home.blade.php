@@ -112,7 +112,7 @@
           <!-- /.card-footer -->
         </div> <!--/.card USER LIST-->
       </div><!-- ./col -->
-      <div class="col-md-4">
+      <div class="col-md-6">
         <!-- PRODUCT LIST -->
         <div class="card">
             <div class="card-header">

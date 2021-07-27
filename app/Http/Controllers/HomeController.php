@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $products = Product::query()->byUser();
+        $products = Product::query()->byCompany();
         $products = $products->orderBy('created_at', 'desc')->get();
         $users = User::query();
         $users = $users->when(auth()->user()->company_id, function ($query) {
