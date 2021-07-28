@@ -85,18 +85,52 @@
             <div class="card-body p-0">
               <ul class="products-list product-list-in-card pl-2 pr-2">
                 @foreach ($products as $key => $product)
-                <li class="item">
-                  <div class="product-img">
-                    <img src= "{{ $product->img }}" alt="Product Image" class="img-size-50">
-                  </div>
-                  <div class="product-info">
-                    <a href="javascript:void(0)" class="product-title"> {{ $product->name }}
-                      <span class="badge badge-warning float-right">Rp. {{ $product->price }}</span></a>
-                    <span class="product-description">
-                      {{ $product->description }}
-                    </span>
-                  </div>
-                </li>
+                  <li class="item">
+                    <div class="product-img">
+                      <img src= "{{ $product->img }}" alt="Product Image" class="img-size-50">
+                    </div>
+                    <div class="product-info">
+                      <a href="javascript:void(0)" class="product-title" data-toggle="modal" data-target="#product-modal"> {{ $product->name }}
+                        <span class="badge badge-warning float-right">Rp. {{ $product->price }}</span></a>
+                      <span class="product-description">
+                        {{ $product->description }}
+                      </span>
+                    </div>
+                  </li>
+
+                  <!-- POP UP PRODUCT -->
+                  <div class="modal fade" id="product-modal">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">{{ $product->name }}</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group row">
+                            <label for="product_desc" class="col-sm-2 col-form-label">Description</label>
+                            <div class="col-sm-10">
+                              <input type="text" readonly class="form-control-plaintext text-wrap" id="product_desc" value="{{$product->description}}">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="product_price" class="col-sm-2 col-form-label">Price</label>
+                            <div class="col-sm-10">
+                              <input type="text" readonly class="form-control-plaintext" id="product_price" value="Rp. {{$product->price}}">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="product_stok" class="col-sm-2 col-form-label">Stock</label>
+                            <div class="col-sm-10">
+                              <input type="text" readonly class="form-control-plaintext" id="product_stok" value="{{$product->stok}}">
+                            </div>
+                          </div>
+                        </div>
+                      </div> <!-- /.modal-content -->
+                    </div> <!-- /.modal-dialog -->
+                  </div> <!-- /.modal POP UP PRODUCT -->
                 @endforeach
                 <!-- /.item -->
               </ul>
@@ -112,3 +146,4 @@
 
 <script src="{{ asset('firebase_notifications') }}/initialization_notification.js"></script>
 @endsection
+
