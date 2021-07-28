@@ -12,6 +12,8 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\TransactionDetail;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use TCG\Voyager\Models\Role;
 
 
@@ -60,10 +62,20 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'customer_name'     => 'required|string',
-            'address'           => 'required',
-            'total_price'       => 'required',
+            'customer_name' => 'required|string',
+            'address'       => 'required|string',
+            'total_price'   => 'required|numeric',
+            'products'      => 'required|array',
         ]);
+
+        try {
+            DB::beginTransaction();
+
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new HttpException(500, $exception->getMessage(), $exception);
+        }
 
         $user = auth()->user();
         $company_code = $user->company_id ? $user->company->code : 'MH';
@@ -97,6 +109,12 @@ class TransactionController extends Controller
 
         TransactionDetail::insert($new_products);
 
+        // Save Custommer
+        $customers          = new Customer;
+        $customers->name    = $request->customer_name;
+        $customers->address = $request->address;
+        $customers->save();
+
         $cashier = User::query()->where('company_id', '=', ($user->company_id ?? 1))
             ->whereHas('role', function ($q) {
                 return $q->where('name', 'cashier');
@@ -128,13 +146,6 @@ class TransactionController extends Controller
             $notification_history->from_user = $user->id;
             $notification_history->to_user = $cashier->getKey();
             $notification_history->save();
-
-            // Save Custommer
-            $customers          = new Customer;
-            $customers->name    = $request->customer_name;
-            $customers->address = $request->address;
-            $customers->save();
-
         }
 
         return response()->json(['message' => 'Transaction data added successfully']);
