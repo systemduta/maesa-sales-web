@@ -2,19 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Company;
 use App\Customer;
 use App\Http\Controllers\Controller;
 use App\NotificationHistory;
 use App\User;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use App\Transaction;
 use App\TransactionDetail;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use TCG\Voyager\Models\Role;
 
 
 class TransactionController extends Controller
@@ -30,10 +26,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $user = auth()->user();
-        $company_id = $user->company_id;
         $order_by_latest = ($request->filled('sort') && $request->sort == 'desc') ? 'desc' : null;
-
         $transaction  = Transaction::query()
             ->byUser()
             ->with(['transaction_details'])->when($order_by_latest, function ($query, $order_by_latest){
@@ -71,81 +64,78 @@ class TransactionController extends Controller
         try {
             DB::beginTransaction();
 
+            $user = auth()->user();
+            $company_code = $user->company_id ? $user->company->code : 'MH';
+            $latest_trx = Transaction::query()
+                ->where('company_id', $user->company_id ?? 1)
+                ->latest()->first();
+            $numb = str_pad(($latest_trx ? ($latest_trx->getKey() + 1) : 1), 4, '0', STR_PAD_LEFT);
+            $invoice_number = '#'.$company_code.$numb;
+
+            $transaction = Transaction::create([
+                'user_id'           => $user->id ?? 1,
+                'company_id'        => $user->company_id ?? 1,
+                'invoice_number'    => $invoice_number,
+                'customer_name'     => $request->customer_name,
+                'address'           => $request->address,
+                'total_price'       => $request->total_price,
+                'noted'             => $request->noted,
+                'status'            => "order"
+            ]);
+
+            $new_products = [];
+            foreach ($request->products as $product) {
+                array_push($new_products,[
+                    'transaction_id' => $transaction->getKey(),
+                    'product_id'     => $product['product_id'],
+                    'amount'         => $product['amount'],
+                    'price'          => $product['price'],
+                ]);
+            }
+            TransactionDetail::insert($new_products);
+
+            $customers          = new Customer;
+            $customers->user_id = $user->id;
+            $customers->name    = $request->customer_name;
+            $customers->address = $request->address;
+            $customers->save();
+
+            $cashier = User::query()->where('company_id', '=', ($user->company_id ?? 1))
+                ->whereHas('role', function ($q) {
+                    return $q->where('name', 'cashier');
+                })->first();
+
+            if ($cashier) {
+                $recipients = [$cashier->device_token];
+                $title ='Hai, ada transaksi baru ini!';
+                $body='Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number;
+
+                $res = fcm()->to($recipients)
+                    ->timeToLive(0)
+                    ->priority('normal')
+                    ->data([
+                        'id' => $transaction->getKey(),
+                        'title' => $title,
+                        'body' => $body,
+                    ])
+                    ->notification([
+                        'title' => $title,
+                        'body' => $body,
+                    ])->send();
+
+                $notification_history = new NotificationHistory;
+                $notification_history->transaction_id = $transaction->getKey();
+                $notification_history->title = $title;
+                $notification_history->body = $body;
+                $notification_history->from_user = $user->id;
+                $notification_history->to_user = $cashier->getKey();
+                $notification_history->save();
+            }
+
             DB::commit();
         } catch (Exception $exception) {
             DB::rollBack();
             throw new HttpException(500, $exception->getMessage(), $exception);
-        }
-
-        $user = auth()->user();
-        $company_code = $user->company_id ? $user->company->code : 'MH';
-        $latest_trx = Transaction::query()
-            ->where('company_id', $user->company_id ?? 1)
-            ->latest()->first();
-        $numb = str_pad(($latest_trx ? ($latest_trx->getKey() + 1) : 1), 4, '0', STR_PAD_LEFT);
-        $invoice_number = '#'.$company_code.$numb;
-
-
-        $transaction = Transaction::create([
-            'user_id'           => $user->id ?? 1,
-            'company_id'        => $user->company_id ?? 1,
-            'invoice_number'    => $invoice_number,
-            'customer_name'     => $request->customer_name,
-            'address'           => $request->address,
-            'total_price'       => $request->total_price,
-            'noted'             => $request->noted,
-            'status'            => "order"
-        ]);
-
-        $new_products = [];
-        foreach ($request->products as $product) {
-            array_push($new_products,[
-                'transaction_id' => $transaction->getKey(),
-                'product_id'     => $product['product_id'],
-                'amount'         => $product['amount'],
-                'price'          => $product['price'],
-            ]);
-        }
-
-        TransactionDetail::insert($new_products);
-
-        // Save Custommer
-        $customers          = new Customer;
-        $customers->name    = $request->customer_name;
-        $customers->address = $request->address;
-        $customers->save();
-
-        $cashier = User::query()->where('company_id', '=', ($user->company_id ?? 1))
-            ->whereHas('role', function ($q) {
-                return $q->where('name', 'cashier');
-            })->first();
-
-        if ($cashier) {
-            $recipients = [$cashier->device_token];
-            $title ='Hai, ada transaksi baru ini!';
-            $body='Sales atas nama '.$user->name.' telah melakukan transaksi dengan nomor '.$invoice_number;
-
-            $res = fcm()->to($recipients)
-                ->timeToLive(0)
-                ->priority('normal')
-                ->data([
-                    'id' => $transaction->getKey(),
-                    'title' => $title,
-                    'body' => $body,
-                ])
-                ->notification([
-                    'title' => $title,
-                    'body' => $body,
-                ])->send();
-
-//        save history notification
-            $notification_history = new NotificationHistory;
-            $notification_history->transaction_id = $transaction->getKey();
-            $notification_history->title = $title;
-            $notification_history->body = $body;
-            $notification_history->from_user = $user->id;
-            $notification_history->to_user = $cashier->getKey();
-            $notification_history->save();
         }
 
         return response()->json(['message' => 'Transaction data added successfully']);
