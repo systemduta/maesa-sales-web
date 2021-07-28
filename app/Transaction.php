@@ -58,6 +58,14 @@ class Transaction extends Model
         });
     }
 
+    public function scopeByCompany(Builder $query, User $user = null)
+    {
+        $user = $user ? : auth()->user();
+        return $query->when($user instanceof User && !$user->hasRole('admin'), function (Builder $query) use($user) {
+            return $query->where($query->qualifyColumn('company_id'), $user->company_id);
+        });
+    }
+
     public function getInvoiceAttribute()
     {
         return route('invoice', ['id'=> $this->getKey()]);

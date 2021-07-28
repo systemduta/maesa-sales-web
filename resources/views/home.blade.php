@@ -19,59 +19,14 @@
     <div class="row">
       <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-info">
+        <div class="small-box bg-info"> <!-- bg-success/bg-warning/bg-danger -->
           <div class="inner">
-            <h3>150</h3>
+            <h3>{{$transactions->count()}}</h3>
 
-            <p>New Orders</p>
+            <p>Number of Transactions</p>
           </div>
           <div class="icon">
             <i class="ion ion-bag"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-success">
-          <div class="inner">
-            <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-            <p>Bounce Rate</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-stats-bars"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-warning">
-          <div class="inner">
-            <h3>44</h3>
-
-            <p>User Registrations</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-person-add"></i>
-          </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-      </div>
-      <!-- ./col -->
-      <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box bg-danger">
-          <div class="inner">
-            <h3>65</h3>
-
-            <p>Unique Visitors</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-pie-graph"></i>
           </div>
           <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
@@ -82,10 +37,10 @@
         <!-- USER LIST -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Latest Members</h3>
+            <h3 class="card-title">Members</h3>
 
             <div class="card-tools">
-              <span class="badge badge-danger">{{$users->count()}} Total Members</span>
+              <span class="badge badge-secondary">{{$users->count()}} Total Members</span>
               <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
               </button>
               <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
@@ -106,9 +61,9 @@
             <!-- /.users-list -->
           </div>
           <!-- /.card-body -->
-          <div class="card-footer text-center">
+          <!-- <div class="card-footer text-center">
             <a href="javascript::">View All Users</a>
-          </div>
+          </div> -->
           <!-- /.card-footer -->
         </div> <!--/.card USER LIST-->
       </div><!-- ./col -->
@@ -116,8 +71,9 @@
         <!-- PRODUCT LIST -->
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Recently Added Products</h3>
+              <h3 class="card-title">Products</h3>
               <div class="card-tools">
+                <span class="badge badge-secondary">{{$products->count()}} Total Products</span>
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                   <i class="fas fa-minus"></i>
                 </button>
@@ -145,9 +101,9 @@
                 <!-- /.item -->
               </ul>
             </div><!-- /.card-body -->
-            <div class="card-footer text-center">
+            <!-- <div class="card-footer text-center">
               <a href="javascript:void(0)" class="uppercase">View All Products</a>
-            </div> <!-- /.card-footer -->
+            </div> /.card-footer -->
         </div> <!-- /.card PRODUCT LIST-->
       </div> <!-- ./col -->
     </div> <!-- ./row -->

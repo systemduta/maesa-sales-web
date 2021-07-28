@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Product;
 use App\User;
+use App\Transaction;
 
 use Illuminate\Http\Request;
 
@@ -26,6 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $transactions = Transaction::query()->byCompany();
         $products = Product::query()->byCompany();
         $products = $products->orderBy('created_at', 'desc')->get();
         $users = User::query();
@@ -34,6 +36,9 @@ class HomeController extends Controller
             })->where('role_id',2)
             ->orderBy('created_at', 'desc')
             ->get();
-        return view('home', ['title' => 'Dashboard','products' => $products, 'users' => $users]);
+        return view('home', ['title' => 'Dashboard',
+                            'transactions' => $transactions,
+                            'products' => $products, 
+                            'users' => $users]);
     }
 }
