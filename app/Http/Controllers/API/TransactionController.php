@@ -57,7 +57,7 @@ class TransactionController extends Controller
         $request->validate([
             'customer_name' => 'required|string',
             'address'       => 'required|string',
-            'total_price'   => 'required|numeric',
+            'total_price'   => 'required|string',
             'products'      => 'required|array',
         ]);
 
