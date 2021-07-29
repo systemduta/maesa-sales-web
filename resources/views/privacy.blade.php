@@ -6,6 +6,11 @@
     <title>Privacy Policy</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
           integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <style>
+        p {
+            text-align: justify;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -16,14 +21,14 @@
                 <p>
                     Selamat datang di Aplikasi Sales Apps. Aplikasi ini dijalankan oleh Maesa Group Holding Company
                     (selanjutnya disebut sebagai "Maesa", "kami"). Kami berkomitmen untuk melindungi dan menjaga
-                    kerahasiaan dari informasi pribadi dari pengguna Sales Apps (selanjutnya disebut sebagai "SalesApps")
+                    kerahasiaan dari informasi pribadi dari pengguna Sales Apps (selanjutnya disebut sebagai "aplikasi")
                     serta menjunjung tinggi regulasi dan hukum privasi yang ada. Kebijakan privasi ini dibuat untuk
                     menginformasikan kepada pengguna apa saja data yang kami kumpulkan, kapan data tersebut kami
                     kumpulkan, serta untuk apa data tersebut kami kumpulkan. Kebijakan privasi yang tertulis pada
-                    dokumen ini berlaku untuk SalesApps.
+                    dokumen ini berlaku untuk aplikasi.
                 </p>
                 <p>
-                    Ketika pengguna mendaftar pada SalesApps ini, maka pengguna telah memahami dan bersedia atas
+                    Ketika pengguna mendaftar pada aplikasi ini, maka pengguna telah memahami dan bersedia atas
                     pengumpulan data yang tertera pada dokumen ini untuk selanjutnya dilakukan pemrosesan dan pengolahan
                     oleh Maesa.
                 </p>
@@ -36,65 +41,161 @@
                 <h4 class="mb-4"><b>Pengumpulan data pribadi pengguna</b></h4>
                 <p>
                     Pengumpulan data dibawah ini oleh Maesa digunakan untuk memenuhi fungsionalitas yang diperlukan oleh
-                    situs dan aplikasi. Beberapa data yang kami kumpulkan adalah sebagai berikut:
+                    aplikasi. Beberapa data yang kami kumpulkan adalah sebagai berikut:
                 </p>
                 <ul style="list-style-type: disclosure-closed;margin-left: 15px">
-                    <li>To facilitate our Service;</li>
-                    <li>To provide the Service on our behalf;</li>
-                    <li>To perform Service-related services; or</li>
-                    <li>To assist us in analyzing how our Service is used.</li>
+                    <li>Nama</li>
+                    <li>Alamat Email</li>
+                    <li>Foto Profil</li>
+                    <li>Role/Posisi</li>
+                    <li>Perusahaan Bekerja</li>
+                    <li>NIK</li>
+                    <li>Tanggal Lahir</li>
+                    <li>Nomor Telepon</li>
+                    <li>Jenis Kelamin</li>
                 </ul>
                 <p>
-                    Pengumpulan data secara otomatis juga dilakukan oleh situs agar pengguna mendapatkan pengalaman yang
-                    baik saat menggunakan situs. Data yang dikumpulkan pada proses ini adalah:
+                    Pengumpulan data secara otomatis juga dilakukan oleh aplikasi agar pengguna mendapatkan pengalaman yang
+                    baik saat menggunakan aplikasi. Data yang dikumpulkan pada proses ini adalah:
                 </p>
                 <ul style="list-style-type: disclosure-closed;margin-left: 15px">
-                    <li>To facilitate our Service;</li>
-                    <li>To provide the Service on our behalf;</li>
-                    <li>To perform Service-related services; or</li>
-                    <li>To assist us in analyzing how our Service is used.</li>
+                    <li>Informasi Perangkat</li>
+                    <li>Alamat IP</li>
+                    <li>Cookies</li>
                 </ul>
             </div>
             <div class="mb-6">
-                <h4 class="mb-4"><b>Log Data</b></h4>
-                <p>We want to inform you that whenever you use our Service, in a case of an error in the app we collect data and information (through third party products) on your phone called Log Data. This Log Data may include information such as your device Internet Protocol ("IP") address, device name, operating system version, the configuration of the app when utilizing our Service, the time and date of your use of the Service, and other statistics.</p>
+                <h4 class="mb-4"><b>Waktu perolehan dan pengumpulan data pribadi pengguna</b></h4>
+                <p>Data pribadi pengguna akan diperoleh dan dikumpulkan oleh aplikasi pada saat:</p>
+                <ul style="list-style-type: disclosure-closed;margin-left: 15px">
+                    <li>Pengguna melakukan pendaftaran</li>
+                    <li>Pengguna mengisi formulir yang tertera pada aplikasi</li>
+                    <li>Pengguna mengisi kuesioner yang disediakan oleh aplikasi</li>
+                </ul>
+            </div>
+            <div class="mb-6">
+                <h4 class="mb-4"><b>Pemakaian data pribadi pengguna oleh Maesa</b></h4>
+                <p>
+                    Data pribadi pengguna yang kami kumpulkan melalui aplikasi didapatkan atas dasar kesukarelaan dan
+                    tanpa paksaan. Ketika pengguna mendaftar pada aplikasi, maka pengguna secara sukarela dan tanpa paksaan
+                    memberikan izin kepada kami untuk mengumpulkan data-data yang telah tertera diatas. Maesa secara
+                    terbuka memberikan informasi kepada pengguna terkait pemakaian data pribadi sesuai pada daftar
+                    berikut:
+                </p>
+                <ul style="list-style-type: disclosure-closed;margin-left: 15px">
+                    <li>Untuk mengenali pengguna</li>
+                    <li>Untuk pembuatan akun pengguna</li>
+                    <li>Agar pengguna dapat selalu terhubung dengan Maesa</li>
+                    <li>Agar Maesa dapat melakukan kontak dengan pengguna</li>
+                    <li>Untuk memberikan layanan dukungan kepada pengguna</li>
+                </ul>
             </div>
             <div class="mb-6">
                 <h4 class="mb-4"><b>Cookies</b></h4>
-                <p>Cookies are files with a small amount of data that are commonly used as anonymous unique identifiers. These are sent to your browser from the websites that you visit and are stored on your device's internal memory.</p>
-                <p>This Service does not use these "cookies" explicitly. However, the app may use third party code and libraries that use "cookies" to collect information and improve their services. You have the option to either accept or refuse these cookies and know when a cookie is being sent to your device. If you choose to refuse our cookies, you may not be able to use some portions of this Service.</p>
+                <p>
+                    Cookies merupakan sebuah file kecil yang berisi informasi-informasi yang berkaitan dengan pengguna.
+                    Penggunaan cookies oleh aplikasi memiliki banyak fungsi. Beberapa diantaranya adalah untuk meningkatkan
+                    performa dari aplikasi, menyimpan preferensi pengguna, serta meningkatkan pengalaman pemakaian aplikasi
+                    oleh pengguna secara keseluruhan.
+                </p>
+                <p>
+                    Maesa menggunakan cookies pada aplikasi untuk memastikan bahwa pengguna mendapatkan pengalaman yang
+                    maksimal saat menggunakan aplikasi. Untuk proses penghapusan cookies, pengguna dapat mengacu pada
+                    tutorial/cara yang telah banyak tersebar di internet.
+                </p>
             </div>
             <div class="mb-6">
-                <h4 class="mb-4"><b>Service Providers</b></h4>
-                <p>We may employ third-party companies and individuals due to the following reasons:</p>
+                <h4 class="mb-4"><b>Informasi terkait anak di bawah umur</b></h4>
+                <p>
+                    Aplikasi yang dijalankan oleh Maesa tidak ditujukan untuk dipergunakan oleh anak di bawah umur.
+                    Maesa tidak mengumpulkan ataupun meminta data atau informasi yang didapatkan dari pihak tersebut.
+                    Kami akan segera menghapus sebuah data atau informasi ketika didapati bahwa data tersebut merupakan
+                    data yang diperoleh dari anak di bawah umur. Untuk melaporkan data yang dicurigai memiliki
+                    keterkaitan dengan anak di bawah umur, anda dapat menghubungi kami pada kontak yang telah tertera
+                    di atas.
+                </p>
+            </div>
+            <div class="mb-6">
+                <h4 class="mb-4"><b>Pengumpulan informasi oleh pihak ketiga</b></h4>
+                <p>
+                    Aplikasi yang kami jalankan menggunakan layanan pihak ketiga dari Google bernama Google Analytics.
+                    Google Analytics akan mengumpulkan data atau informasi dari pengguna berupa Cookies dan data
+                    perangkat (seperti alamat IP) serta beberapa informasi mengenai interaksi anda dengan aplikasi.
+                    Data yang dikumpulkan oleh Google akan disimpan dan diolah di server Google yang bertempat di
+                    Amerika Serikat. Google mungkin saja membagikan data tersebut kepada pihak ketiga lainnya sesuai
+                    dengan yang tercantum pada kebijakan privasi Google Analytics.
+                </p>
+            </div>
+            <div class="mb-6">
+                <h2 class="mb-4"><b>Informasi sensitif</b></h2>
+                <p>
+                    Maesa tidak mengumpulkan data atau informasi sensitif dari pengguna. Kami tidak meminta pengguna
+                    untuk mengisi informasi sensitif pada aplikasi yang kami jalankan. Dan sebaliknya, pengguna dimohon
+                    untuk tidak memberikan atau mengisi informasi apapun yang termasuk dalam golongan ini.
+                    Beberapa informasi tersebut antara lain adalah pandangan politik, SARA, orientasi seksual,
+                    data berkaitan dengan riwayat kesehatan, dan lain lain.
+                </p>
+            </div>
+            <div class="mb-6">
+                <h4 class="mb-4"><b>Penyimpanan data pribadi pengguna</b></h4>
+                <p>
+                    Maesa akan terus menyimpan data dari pengguna selama pengguna tersebut masih terdaftar pada aplikasi
+                    yang kami jalankan. Kami mungkin menyimpan data tersebut lebih lama dari yang diatur dalam kebijakan
+                    ini ketika terdapat regulasi atau hukum yang mengharuskannya. Jika anda ingin mengajukan permohonan
+                    penghapusan data, anda dapat menghubungi kami melalui kontak yang sudah tersedia untuk pemrosesan
+                    lebih lanjut.
+                </p>
+            </div>
+            <div class="mb-6">
+                <h4 class="mb-4"><b>Keamanan data</b></h4>
+                <p>
+                    Kami akan terus melakukan upaya semaksimal mungkin untuk melindungi data pribadi pengguna dari
+                    kebocoran data. Namun kami tidak bisa menjamin perlindungan secara mutlak terkait dengan data
+                    pribadi anda. Oleh karena itu, kami memohon kepada anda untuk tidak memberikan informasi sensitif
+                    terkait dengan diri anda, serta informasi lain yang memiliki potensi kerusakan terhadap diri anda.
+                </p>
+            </div>
+            <div class="mb-6">
+                <h4 class="mb-4"><b>Hak pengguna terhadap data</b></h4>
+                <p>
+                    Maesa memiliki komitmen yang tinggi mengenai proteksi dan hak dari pengguna berkaitan dengan data
+                    pribadi. Kami percaya bahwa keamanan dan transparansi data dari pengguna merupakan salah satu dari
+                    layanan dengan prioritas yang tinggi yang harus kami berikan kepada pengguna untuk memastikan
+                    kepercayaan pengguna kepada kami. Maka dari itu, Maesa memberikan hak kepada pengguna untuk:
+                </p>
                 <ul style="list-style-type: disclosure-closed;margin-left: 15px">
-                    <li>To facilitate our Service;</li>
-                    <li>To provide the Service on our behalf;</li>
-                    <li>To perform Service-related services; or</li>
-                    <li>To assist us in analyzing how our Service is used.</li>
+                    <li>
+                        Mengakses data pribadi pengguna. Pengguna dapat mengakses data pribadi mereka masing-masing
+                        dengan menghubungi kami pada kontak yang tersedia.
+                    </li>
+                    <li>
+                        Melakukan koreksi kesalahan pada data pribadi pengguna. Jika terdapat kesalahan data pengguna
+                        yang disebabkan oleh faktor internal maupun eksternal, maka pengguna berhak untuk melakukan
+                        koreksi atau pembenaran atas data tersebut. Pengguna dapat menghubungi kami pada kontak yang
+                        sudah tersedia.
+                    </li>
+                    <li>
+                        Mengajukan keluhan atau komplain. Ketika anda percaya bahwa terdapat kejanggalan serta hal yang
+                        tidak tepat dan tidak sesuai dengan hukum yang berlaku, maka anda memiliki hak untuk mengajukan
+                        komplain pada pihak berwenang atas dugaan pelanggaran yang dilakukan. Namun, kami berharap agar
+                        anda menghubungi kami terlebih dahulu untuk mencari jalan keluar dari permasalahan tersebut
+                        secara damai tanpa harus mengambil jalur hukum.
+                    </li>
+                    <li>
+                        Menghapus data pribadi berkaitan dengan pengguna. Jika anda merasa bahwa data tersebut tidak
+                        lagi diperlukan untuk pengolahan data sesuai dengan kebijakan yang tertera disini, ataupun
+                        terdapat data sensitif yang berpotensi membahayakan pengguna, maka anda dapat mengajukan
+                        penghapusan data dengan menghubungi kontak kami yang telah tersedia.
+                    </li>
                 </ul>
-                <p>We want to inform users of this Service that these third parties have access to your Personal Information. The reason is to perform the tasks assigned to them on our behalf. However, they are obligated not to disclose or use the information for any other purpose.</p>
             </div>
             <div class="mb-6">
-                <h4 class="mb-4"><b>Security</b></h4>
-                <p>We value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and we cannot guarantee its absolute security.</p>
-            </div>
-            <div class="mb-6">
-                <h2 class="mb-4"><b>Links to Other Sites</b></h2>
-                <p>This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by us. Therefore, we strongly advise you to review the Privacy Policy of these websites. We have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.</p>
-            </div>
-            <div class="mb-6">
-                <h4 class="mb-4"><b>Children's Privacy</b></h4>
-                <p>These Services do not address anyone under the age of 13. We do not knowingly collect personally identifiable information from children under 13. In the case we discover that a child under 13 has provided us with personal information, we immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact us so that we will be able to do necessary actions.</p>
-            </div>
-            <div class="mb-6">
-                <h4 class="mb-4"><b>Changes to This Privacy Policy</b></h4>
-                <p>We may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
-                <p>This policy is effective as of January, 01 2021</p>
-            </div>
-            <div class="mb-6">
-                <h4 class="mb-4"><b>Contact Us</b></h4>
-                <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at info@maesagroup.com.</p>
+                <h4 class="mb-4"><b>Informasi lebih lanjut</b></h4>
+                <p>
+                    Jika anda memiliki pertanyaan seputar pengumpulan dan pemakaian data, ataupun pertanyaan lain yang
+                    berkaitan dengan kebijakan privasi ini, anda dapat menghubungi kami pada alamat
+                    privacy@maesagroup.co.id untuk keterangan lebih lanjut.
+                </p>
             </div>
         </div>
     </div>
