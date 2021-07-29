@@ -37,14 +37,10 @@
         <!-- USER LIST -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Members</h3>
+            <h3 class="card-title">All Salespersons</h3>
 
             <div class="card-tools">
               <span class="badge badge-secondary">{{$users->count()}} Total Members</span>
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
-              </button>
             </div>
           </div>
           <!-- /.card-header -->
@@ -53,9 +49,35 @@
               @foreach ($users as $key => $user)
                 <li>
                   <img src="{{ $user->avatar }}" alt="User Image">
-                  <a class="users-list-name" href="#">{{ $user->name }}</a>
+                  <a class="users-list-name" href="javascript:void(0)" data-toggle="modal" data-target="#user-modal-{{$key}}">{{ $user->name }}</a>
                   <span class="users-list-date">{{ $user->nik }}</span>
                 </li>
+                <!-- POP UP USER -->
+                <div class="modal fade" id="user-modal-{{$key}}">
+                    <div class="modal-dialog" style="width:25rem;">
+                      <div class="modal-content">
+                        <div class="modal-header" style="height:3.5rem; padding-left:1rem;">
+                          <h4 class="modal-title">Profile</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body" style="padding-left:2rem; padding-right:2rem;">
+                          <img src="{{ $user->avatar }}" class="rounded-circle mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
+                          <div style="height: 2rem;"></div>
+                          <p class="font-weight-bold">Name</p>
+                          <p>{{$user->name}}</p>
+                          <hr size="100%" width="100%">
+                          <p class="font-weight-bold">Email</p>
+                          <p>{{$user->email}}</p>
+                          <hr size="100%" width="100%">
+                          <p class="font-weight-bold">NIK</p>
+                          <p>{{$user->nik}}</p>
+                        </div>
+                      </div> <!-- /.modal-content -->
+                    </div> <!-- /.modal-dialog -->
+                  </div> <!-- /.modal POP UP USER -->
+                
               @endforeach
             </ul>
             <!-- /.users-list -->
@@ -71,32 +93,57 @@
         <!-- PRODUCT LIST -->
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Products</h3>
+              <h3 class="card-title">All Products</h3>
               <div class="card-tools">
                 <span class="badge badge-secondary">{{$products->count()}} Total Products</span>
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
               </div>
             </div> <!-- /.card-header -->
             <div class="card-body p-0">
               <ul class="products-list product-list-in-card pl-2 pr-2">
                 @foreach ($products as $key => $product)
-                <li class="item">
-                  <div class="product-img">
-                    <img src= "{{ $product->img }}" alt="Product Image" class="img-size-50">
-                  </div>
-                  <div class="product-info">
-                    <a href="javascript:void(0)" class="product-title"> {{ $product->name }}
-                      <span class="badge badge-warning float-right">Rp. {{ $product->price }}</span></a>
-                    <span class="product-description">
-                      {{ $product->description }}
-                    </span>
-                  </div>
-                </li>
+                  <li class="item">
+                    <div class="product-img">
+                      <img src= "{{ $product->img }}" alt="Product Image" class="img-size-50">
+                    </div>
+                    <div class="product-info">
+                      <a href="javascript:void(0)" class="product-title" data-toggle="modal" data-target="#product-modal-{{$key}}"> {{ $product->name }}
+                        <span class="badge badge-warning float-right">Rp. {{ $product->price }}</span></a>
+                      <span class="product-description">
+                        {{ $product->description }}
+                      </span>
+                    </div>
+                  </li>
+
+                  <!-- POP UP PRODUCT -->
+                  <div class="modal fade" id="product-modal-{{$key}}">
+                    <div class="modal-dialog" style="width:27rem;">
+                      <div class="modal-content" style="padding-left:1rem; padding-right:1rem;">
+                        <div class="modal-header" style="height:3.5rem;">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                        <div class="modal-body">
+                          <div class="row"> 
+                            <img src="{{ $product->img }}" class="rounded mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
+                          </div>
+                          <div style="height: 2rem;"></div>
+                          <div class="form-group row">
+                            <h5 class="col-sm-6 font-weight-bold">{{$product->name}}</h5>
+                            <h5 class="col-sm-6 font-weight-bold text-right">Rp. {{$product->price}}</h5>
+                          </div>
+                          <div class="form-group row">
+                            <h6 class="col-sm-6 font-weight-bold">Stock: {{$product->stok}}</h6>
+                          </div>
+                          <div class="form-group row">
+                            <div class="col">
+                              <p style="text-align: justify;"> {{$product->description}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div> <!-- /.modal-content -->
+                    </div> <!-- /.modal-dialog -->
+                  </div> <!-- /.modal POP UP PRODUCT -->
                 @endforeach
                 <!-- /.item -->
               </ul>
@@ -112,3 +159,4 @@
 
 <script src="{{ asset('firebase_notifications') }}/initialization_notification.js"></script>
 @endsection
+
