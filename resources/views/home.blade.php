@@ -49,9 +49,35 @@
               @foreach ($users as $key => $user)
                 <li>
                   <img src="{{ $user->avatar }}" alt="User Image">
-                  <a class="users-list-name" href="#">{{ $user->name }}</a>
+                  <a class="users-list-name" href="javascript:void(0)" data-toggle="modal" data-target="#user-modal-{{$key}}">{{ $user->name }}</a>
                   <span class="users-list-date">{{ $user->nik }}</span>
                 </li>
+                <!-- POP UP USER -->
+                <div class="modal fade" id="user-modal-{{$key}}">
+                    <div class="modal-dialog" style="width:25rem;">
+                      <div class="modal-content">
+                        <div class="modal-header" style="height:3.5rem; padding-left:1rem;">
+                          <h4 class="modal-title">Profile</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body" style="padding-left:2rem; padding-right:2rem;">
+                          <img src="{{ $user->avatar }}" class="rounded-circle mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
+                          <div style="height: 2rem;"></div>
+                          <p class="font-weight-bold">Name</p>
+                          <p>{{$user->name}}</p>
+                          <hr size="100%" width="100%">
+                          <p class="font-weight-bold">Email</p>
+                          <p>{{$user->email}}</p>
+                          <hr size="100%" width="100%">
+                          <p class="font-weight-bold">NIK</p>
+                          <p>{{$user->nik}}</p>
+                        </div>
+                      </div> <!-- /.modal-content -->
+                    </div> <!-- /.modal-dialog -->
+                  </div> <!-- /.modal POP UP USER -->
+                
               @endforeach
             </ul>
             <!-- /.users-list -->
@@ -91,15 +117,16 @@
                   <!-- POP UP PRODUCT -->
                   <div class="modal fade" id="product-modal-{{$key}}">
                     <div class="modal-dialog" style="width:27rem;">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <!-- <h4 class="modal-title">{{ $product->name }}</h4> -->
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
+                      <div class="modal-content" style="padding-left:1rem; padding-right:1rem;">
+                        <div class="modal-header" style="height:3.5rem;">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
                         <div class="modal-body">
-                          <img src="{{ $product->img }}" class="rounded mx-auto d-block" style="height: 13rem; width:13rem;" alt="Product Image">
+                          <div class="row"> 
+                            <img src="{{ $product->img }}" class="rounded mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
+                          </div>
                           <div style="height: 2rem;"></div>
                           <div class="form-group row">
                             <h5 class="col-sm-6 font-weight-bold">{{$product->name}}</h5>
