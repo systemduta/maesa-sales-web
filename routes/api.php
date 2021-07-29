@@ -48,11 +48,5 @@ Route::get('/privacy',function (){
 Route::get('/performance',function (){
     return view('web_views/performance');
 });
-Route::get('/guk',function (){
-    return view('web_views/guk');
-});
-Route::get('/gukguk',function (){
-    return view('web_views/gukguk');
-});
 
 

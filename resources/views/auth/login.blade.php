@@ -2,7 +2,7 @@
     <body>
         <div class="floating-box">
             <div class="pic-container">
-                <img class="pic" src="https://bit.ly/fcc-relaxing-cat" alt="A cute orange cat lying on its back.">
+                <img class="pic" src="{{ asset('logo') }}/SalesApp.png" alt="sales-apps-logo">
             </div>
             <div class="field-container">
                 <form method="POST" action="{{ route('login') }}">
