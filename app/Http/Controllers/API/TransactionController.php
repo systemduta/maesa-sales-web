@@ -87,7 +87,7 @@ class TransactionController extends Controller
             foreach ($request->products as $product) {
                 array_push($new_products,[
                     'transaction_id' => $transaction->getKey(),
-                    'product_id'     => $product['product_id'],
+                    'product_id'     => $product['id'],
                     'amount'         => $product['amount'],
                     'price'          => $product['price'],
                 ]);
