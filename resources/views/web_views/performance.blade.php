@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Performance</title>
-    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+{{--    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>--}}
+    <script src="{{ asset('AdminLTE') }}/plugins/zingchart/zingchart.min.js"></script>
     <style>
         html,
         body {
@@ -107,7 +108,7 @@
         series: [{
             values: [achieved > (step*4) ? step*4 : achieved], // starting value
             backgroundColor: 'black',
-            indicator: [10, 10, 10, 10, 0.75],
+            indicator: [10, 10, 10, 10, 0.7],
             animation: {
                 effect: 2,
                 method: 1,
