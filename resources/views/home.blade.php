@@ -37,7 +37,7 @@
         <!-- USER LIST -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">All Sales</h3>
+            <h3 class="card-title">All Salespersons</h3>
 
             <div class="card-tools">
               <span class="badge badge-secondary">{{$users->count()}} Total Members</span>
@@ -80,7 +80,7 @@
                       <img src= "{{ $product->img }}" alt="Product Image" class="img-size-50">
                     </div>
                     <div class="product-info">
-                      <a href="javascript:void(0)" class="product-title" data-toggle="modal" data-target="#product-modal"> {{ $product->name }}
+                      <a href="javascript:void(0)" class="product-title" data-toggle="modal" data-target="#product-modal-{{$key}}"> {{ $product->name }}
                         <span class="badge badge-warning float-right">Rp. {{ $product->price }}</span></a>
                       <span class="product-description">
                         {{ $product->description }}
@@ -89,33 +89,28 @@
                   </li>
 
                   <!-- POP UP PRODUCT -->
-                  <div class="modal fade" id="product-modal">
-                    <div class="modal-dialog">
+                  <div class="modal fade" id="product-modal-{{$key}}">
+                    <div class="modal-dialog" style="width:27rem;">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h4 class="modal-title">{{ $product->name }}</h4>
+                          <!-- <h4 class="modal-title">{{ $product->name }}</h4> -->
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
                         <div class="modal-body">
                           <img src="{{ $product->img }}" class="rounded mx-auto d-block" style="height: 13rem; width:13rem;" alt="Product Image">
+                          <div style="height: 2rem;"></div>
                           <div class="form-group row">
-                            <label for="product_desc" class="col-sm-3 col-form-label">Description</label>
-                            <div class="col-sm-10">
-                              <input type="text" readonly class="form-control-plaintext text-wrap" id="product_desc" value="{{$product->description}}">
-                            </div>
+                            <h5 class="col-sm-6 font-weight-bold">{{$product->name}}</h5>
+                            <h5 class="col-sm-6 font-weight-bold text-right">Rp. {{$product->price}}</h5>
                           </div>
                           <div class="form-group row">
-                            <label for="product_price" class="col-sm-2 col-form-label">Price</label>
-                            <div class="col-sm-10">
-                              <input type="text" readonly class="form-control-plaintext" id="product_price" value="Rp. {{$product->price}}">
-                            </div>
+                            <h6 class="col-sm-6 font-weight-bold">Stock: {{$product->stok}}</h6>
                           </div>
                           <div class="form-group row">
-                            <label for="product_stok" class="col-sm-2 col-form-label">Stock</label>
-                            <div class="col-sm-10">
-                              <input type="text" readonly class="form-control-plaintext" id="product_stok" value="{{$product->stok}}">
+                            <div class="col">
+                              <p style="text-align: justify;"> {{$product->description}}</p>
                             </div>
                           </div>
                         </div>
