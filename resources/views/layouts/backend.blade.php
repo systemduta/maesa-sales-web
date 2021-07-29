@@ -234,7 +234,8 @@ $daily_notification_count = \App\NotificationHistory::query()->when(auth()->user
 
 <script src="{{ asset('firebase_notifications') }}/show_notification.js"></script>
 <script src="{{ asset('AdminLTE') }}/plugins/browser-image-compressions/polyfill.min.js"></script>
-<script src="{{ asset('AdminLTE') }}/plugins/browser-image-compressions/browser-image-compression.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@1.0.14/dist/browser-image-compression.min.js"></script>
+{{--<script src="{{ asset('AdminLTE') }}/plugins/browser-image-compressions/browser-image-compression.js"></script>--}}
 <script>
     window.setTimeout(function(){
       $(".alert").fadeTo(500,0).slideUp(500,function(){
