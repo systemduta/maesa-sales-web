@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionDetail extends Model
 {
-    protected $appends = ['product_name'];
+    protected $appends = ['product_name', 'img'];
 
     protected $fillable = [
         'transaction_id', 'product_id', 'price', 'amount'
@@ -34,5 +34,10 @@ class TransactionDetail extends Model
     public function getProductNameAttribute()
     {
         return $this->product->name;
+    }
+
+    public function getImgAttribute()
+    {
+        return $this->product->img;
     }
 }
