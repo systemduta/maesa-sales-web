@@ -37,14 +37,10 @@
         <!-- USER LIST -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Members</h3>
+            <h3 class="card-title">All Sales</h3>
 
             <div class="card-tools">
               <span class="badge badge-secondary">{{$users->count()}} Total Members</span>
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
-              </button>
             </div>
           </div>
           <!-- /.card-header -->
@@ -71,15 +67,9 @@
         <!-- PRODUCT LIST -->
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Products</h3>
+              <h3 class="card-title">All Products</h3>
               <div class="card-tools">
                 <span class="badge badge-secondary">{{$products->count()}} Total Products</span>
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
               </div>
             </div> <!-- /.card-header -->
             <div class="card-body p-0">
