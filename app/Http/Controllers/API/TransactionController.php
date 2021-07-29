@@ -176,7 +176,7 @@ class TransactionController extends Controller
     {
 
         $request->validate([
-            'bukti' => 'required|image|max:2000',
+            'bukti' => 'required|image',
         ]);
 
         $bukti = Transaction::where('id',$id)->first();

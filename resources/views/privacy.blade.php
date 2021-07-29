@@ -4,23 +4,56 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Privacy Policy</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
     <div class="row" style="margin-top: 25px;">
         <div class="col-sm">
             <div class="mb-6">
-                <!--        <h2 class="mb-4 text-center"><b>Privacy Policy</b></h2>-->
-                <p>Maesa Group built the Maesa Grow app as a Free app. This SERVICE is provided by Maesa Group at no cost and is intended for use as is.</p>
-                <p>This page is used to inform visitors regarding our policies with the collection, use, and disclosure of Personal Information if anyone decided to use our Service.</p>
-                <p>If you choose to use our Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that we collect is used for providing and improving the Service. We will not use or share your information with anyone except as described in this Privacy Policy.</p>
-                <p>The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which is accessible at Maesa Grow App unless otherwise defined in this Privacy Policy.</p>
+                <h2 class="mb-4 text-center"><b>Kebijakan Privasi</b></h2>
+                <p>
+                    Selamat datang di Aplikasi Sales Apps. Aplikasi ini dijalankan oleh Maesa Group Holding Company
+                    (selanjutnya disebut sebagai "Maesa", "kami"). Kami berkomitmen untuk melindungi dan menjaga
+                    kerahasiaan dari informasi pribadi dari pengguna Sales Apps (selanjutnya disebut sebagai "SalesApps")
+                    serta menjunjung tinggi regulasi dan hukum privasi yang ada. Kebijakan privasi ini dibuat untuk
+                    menginformasikan kepada pengguna apa saja data yang kami kumpulkan, kapan data tersebut kami
+                    kumpulkan, serta untuk apa data tersebut kami kumpulkan. Kebijakan privasi yang tertulis pada
+                    dokumen ini berlaku untuk SalesApps.
+                </p>
+                <p>
+                    Ketika pengguna mendaftar pada SalesApps ini, maka pengguna telah memahami dan bersedia atas
+                    pengumpulan data yang tertera pada dokumen ini untuk selanjutnya dilakukan pemrosesan dan pengolahan
+                    oleh Maesa.
+                </p>
+                <p>
+                    Untuk pertanyaan seputar kebijakan privasi ataupun pemrosesan data pribadi, pengguna dapat melakukan
+                    kontak dengan kami pada privacy@maesagroup.co.id
+                </p>
             </div>
             <div class="mb-6">
-                <h4 class="mb-4"><b>Information Collection and Use</b></h4>
-                <p>For a better experience, while using our Service, we may require you to provide us with certain personally identifiable information, including but not limited to Maesa Group. The information that we request will be retained by us and used as described in this privacy policy.</p>
-                <p>The app does use third party services that may collect information used to identify you.</p>
+                <h4 class="mb-4"><b>Pengumpulan data pribadi pengguna</b></h4>
+                <p>
+                    Pengumpulan data dibawah ini oleh Maesa digunakan untuk memenuhi fungsionalitas yang diperlukan oleh
+                    situs dan aplikasi. Beberapa data yang kami kumpulkan adalah sebagai berikut:
+                </p>
+                <ul style="list-style-type: disclosure-closed;margin-left: 15px">
+                    <li>To facilitate our Service;</li>
+                    <li>To provide the Service on our behalf;</li>
+                    <li>To perform Service-related services; or</li>
+                    <li>To assist us in analyzing how our Service is used.</li>
+                </ul>
+                <p>
+                    Pengumpulan data secara otomatis juga dilakukan oleh situs agar pengguna mendapatkan pengalaman yang
+                    baik saat menggunakan situs. Data yang dikumpulkan pada proses ini adalah:
+                </p>
+                <ul style="list-style-type: disclosure-closed;margin-left: 15px">
+                    <li>To facilitate our Service;</li>
+                    <li>To provide the Service on our behalf;</li>
+                    <li>To perform Service-related services; or</li>
+                    <li>To assist us in analyzing how our Service is used.</li>
+                </ul>
             </div>
             <div class="mb-6">
                 <h4 class="mb-4"><b>Log Data</b></h4>
