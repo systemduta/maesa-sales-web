@@ -107,7 +107,7 @@
                     </div>
                     <div class="product-info">
                       <a href="javascript:void(0)" class="product-title" data-toggle="modal" data-target="#product-modal-{{$key}}"> {{ $product->name }}
-                        <span class="badge badge-warning float-right">Rp. {{ $product->price }}</span></a>
+                        <span class="badge badge-warning float-right">Rp. {{ number_format($product->price) }}</span></a>
                       <span class="product-description">
                         {{ $product->description }}
                       </span>
@@ -130,7 +130,7 @@
                           <div style="height: 2rem;"></div>
                           <div class="form-group row">
                             <h5 class="col-sm-6 font-weight-bold">{{$product->name}}</h5>
-                            <h5 class="col-sm-6 font-weight-bold text-right">Rp. {{$product->price}}</h5>
+                            <h5 class="col-sm-6 font-weight-bold text-right">Rp. {{number_format($product->price)}}</h5>
                           </div>
                           <div class="form-group row">
                             <h6 class="col-sm-6 font-weight-bold">Stock: {{$product->stok}}</h6>
