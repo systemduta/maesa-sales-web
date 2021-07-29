@@ -99,8 +99,9 @@
                           </button>
                         </div>
                         <div class="modal-body">
+                          <img src="{{ $product->img }}" class="rounded mx-auto d-block" style="height: 13rem; width:13rem;" alt="Product Image">
                           <div class="form-group row">
-                            <label for="product_desc" class="col-sm-2 col-form-label">Description</label>
+                            <label for="product_desc" class="col-sm-3 col-form-label">Description</label>
                             <div class="col-sm-10">
                               <input type="text" readonly class="form-control-plaintext text-wrap" id="product_desc" value="{{$product->description}}">
                             </div>
