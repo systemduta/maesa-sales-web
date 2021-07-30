@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-info"> <!-- bg-success/bg-warning/bg-danger -->
+        <div class="small-box bg-info"> 
           <div class="inner">
             <h3>{{$transactions->count()}}</h3>
 
@@ -54,7 +54,7 @@
                 </li>
                 <!-- POP UP USER -->
                 <div class="modal fade" id="user-modal-{{$key}}">
-                    <div class="modal-dialog" style="width:25rem;">
+                    <div class="modal-dialog" style="width:28rem;">
                       <div class="modal-content">
                         <div class="modal-header" style="height:3.5rem; padding-left:1rem;">
                           <h4 class="modal-title">Profile</h4>
@@ -68,21 +68,21 @@
                           <p class="font-weight-bold">Name</p>
                           <p>{{$user->name}}</p>
                           <hr size="100%" width="100%">
+                          <p class="font-weight-bold">NIK</p>
+                          <p>{{$user->nik}}</p>
+                          <hr size="100%" width="100%">
                           <p class="font-weight-bold">Email</p>
                           <p>{{$user->email}}</p>
                           <hr size="100%" width="100%">
-                          <p class="font-weight-bold">NIK</p>
-                          <p>{{$user->nik}}</p>
+                          <p class="font-weight-bold">Company</p>
+                          <p>{{$user->company->name}}</p>
                         </div>
                       </div> <!-- /.modal-content -->
                     </div> <!-- /.modal-dialog -->
                   </div> <!-- /.modal POP UP USER -->
-
               @endforeach
-            </ul>
-            <!-- /.users-list -->
-          </div>
-          <!-- /.card-body -->
+            </ul><!-- /.users-list -->
+          </div><!-- /.card-body -->
           <!-- <div class="card-footer text-center">
             <a href="javascript::">View All Users</a>
           </div> -->
@@ -132,9 +132,17 @@
                             <h5 class="col-sm-6 font-weight-bold">{{$product->name}}</h5>
                             <h5 class="col-sm-6 font-weight-bold text-right">Rp. {{number_format($product->price)}}</h5>
                           </div>
+                          <hr size="100%" width="100%">
                           <div class="form-group row">
-                            <h6 class="col-sm-6 font-weight-bold">Stock: {{$product->stok}}</h6>
+                            <h6 class="col-sm-3 font-weight-bold">Stock</h6>
+                            <h6 class="col"> {{$product->stok}} </h6>
                           </div>
+                          <hr size="100%" width="100%">
+                          <div class="form-group row">
+                            <h6 class="col-sm-3 font-weight-bold">Company</h6>
+                            <h6 class="col"> {{$product->company->name}} </h6>
+                          </div>
+                          <hr size="100%" width="100%">
                           <div class="form-group row">
                             <div class="col">
                               <p style="text-align: justify;"> {{$product->description}}</p>
