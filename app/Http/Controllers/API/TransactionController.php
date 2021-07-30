@@ -57,7 +57,7 @@ class TransactionController extends Controller
         $request->validate([
             'customer_name' => 'required|string',
             'address'       => 'required|string',
-            'total_price'   => 'required|numeric',
+            'total_price'   => 'required|string',
             'products'      => 'required|array',
         ]);
 
@@ -87,7 +87,7 @@ class TransactionController extends Controller
             foreach ($request->products as $product) {
                 array_push($new_products,[
                     'transaction_id' => $transaction->getKey(),
-                    'product_id'     => $product['product_id'],
+                    'product_id'     => $product['id'],
                     'amount'         => $product['amount'],
                     'price'          => $product['price'],
                 ]);
@@ -176,7 +176,7 @@ class TransactionController extends Controller
     {
 
         $request->validate([
-            'bukti' => 'required|image|max:2000',
+            'bukti' => 'required|image',
         ]);
 
         $bukti = Transaction::where('id',$id)->first();

@@ -2,7 +2,7 @@
     <body>
         <div class="floating-box">
             <div class="pic-container">
-                <img class="prof-pic" src="https://bit.ly/fcc-relaxing-cat" alt="A cute orange cat lying on its back.">
+                <img class="pic" src="{{ asset('logo') }}/SalesApp.png" alt="sales-apps-logo">
             </div>
             <div class="field-container">
                 <p>Lupa password? Silahkan masukkan email Anda untuk  menerima link reset password dari kami. </p>

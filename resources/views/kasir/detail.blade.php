@@ -81,7 +81,7 @@ $(document).ready(function(){
                                     </tr>
                                     <tr>
                                         <td>Total Price</td>
-                                        <td>{{$transaction->total_price}}</td>
+                                        <td>{{number_format($transaction->total_price)}}</td>
                                     </tr>
 {{--                                    <tr>--}}
 {{--                                        <td>Discount</td>--}}
@@ -135,9 +135,9 @@ $(document).ready(function(){
                                 <tr>
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $td->product->name }}</td>
-                                    <td>{{ $td->price }}</td>
+                                    <td>{{ number_format($td->price) }}</td>
                                     <td>{{ $td->amount }}</td>
-                                    <td>{{ $td->price * $td->amount }}</td>
+                                    <td>{{ number_format($td->price * $td->amount) }}</td>
                                 </tr>
                                 @endforeach
                                 </tbody>
