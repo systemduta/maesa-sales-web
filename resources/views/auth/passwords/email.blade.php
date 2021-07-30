@@ -6,18 +6,21 @@
             </div>
             <div class="field-container">
                 <p>Lupa password? Silahkan masukkan email Anda untuk  menerima link reset password dari kami. </p>
-                @if ($errors->has('email'))
-                    <span class="invalid-feedback">
-                        <p>e-mail is not registered</p>
-                    </span>
-                @endif
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
+                    @if ($errors->has('email')) 
+                        <span>
+                            <p class="invalid-feedback">Email is not registered.</p>
+                        </span>
+                    @endif
+                    
                     <input type="email" id="email" name="email" placeholder="Email" required>
                     <div style="text-align:center;">
                         <input type="submit" value="Send Email">
                     </div>
-                </form>
+                </form> 
+            </div>
+            <div>
                 <a class="login" href="{{url('/login')}}">Login</a>
             </div>
         </div>
@@ -114,5 +117,6 @@
         color:red;
         font-size: 0.8rem;
         text-align:center;
+        margin-top: 0;
     }
 </style>
