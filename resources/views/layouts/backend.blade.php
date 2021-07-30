@@ -197,7 +197,13 @@ $daily_notification_count = \App\NotificationHistory::query()->when(auth()->user
                         <div class="form-group">
                             <label for="user_password">Password</label>
                             <input type="password" class="form-control" id="user_password">
-                            <span id="user_password" class="text-secondary">Kosongkan jika tidak ingin merubah password</span>
+                            <span class="text-secondary">Kosongkan jika tidak ingin merubah password</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="user_password">Password Confirmation</label>
+                            <input type="password" class="form-control" id="user_password_confirmation">
+                            <span id="tag_password_confirmation" class="text-secondary">Kosongkan jika tidak ingin merubah password</span>
+                            <span id="password_not_match" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label for="user_avatar">Avatar</label>
@@ -265,6 +271,11 @@ $daily_notification_count = \App\NotificationHistory::query()->when(auth()->user
             let user_name = $('#user_name').val();
             let user_email = $('#user_email').val();
             let user_password = $('#user_password').val();
+            let user_password_confirmation = $('#user_password_confirmation').val();
+            if (user_password !== user_password_confirmation) {
+                $('#tag_password_confirmation').hide();
+                return $('#password_not_match').text("Konfirmasi kata sandi tidak sama");
+            }
             let ava = avatar;
             // console.log(ava, (ava.size / 1024 / 1024).toFixed(2) + 'mb');
 
