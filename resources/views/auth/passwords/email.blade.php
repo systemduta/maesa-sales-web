@@ -6,6 +6,8 @@
     <title>Sales App | Forgot your password</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="{{ asset('AdminLTE') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('AdminLTE') }}/dist/css/adminlte.min.css">
 </head>
     <body>
         <div class="floating-box">
@@ -14,6 +16,11 @@
             </div>
             <div class="field-container">
                 <p>Lupa password? Silahkan masukkan email Anda untuk  menerima link reset password dari kami. </p>
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 @if ($errors->has('email'))
                     <span class="invalid-feedback">
                         <p>e-mail is not registered</p>
@@ -43,8 +50,8 @@
 
     .floating-box{
         display: flex;
-        width: 20rem;
-        height: 20rem;
+        width: 25rem;
+        height: 30rem;
         background: #FFFFFF;
         border-radius: 1rem;
         align-self: center;
