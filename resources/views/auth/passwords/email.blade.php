@@ -1,4 +1,12 @@
 <html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('logo') }}/SalesApp.png">
+    <title>Sales App | Forgot your password</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+</head>
     <body>
         <div class="floating-box">
             <div class="pic-container">

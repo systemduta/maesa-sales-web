@@ -5,12 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Performance</title>
-    <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>
-    <script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script>
-    <script src="https://unpkg.com/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.js"></script>
+    <script src="{{ asset('AdminLTE') }}/plugins/chart.js/Chart.bundle.js"></script>
+    <script src="{{ asset('AdminLTE') }}/plugins/chart.js/chartjs-gauge.js"></script>
+    <script src="{{ asset('AdminLTE') }}/plugins/chart.js/chartjs-plugin-datalabels.js"></script>
+{{--    <script src="https://unpkg.com/chart.js@2.8.0/dist/Chart.bundle.js"></script>--}}
+{{--    <script src="https://unpkg.com/chartjs-gauge@0.3.0/dist/chartjs-gauge.js"></script>--}}
+{{--    <script src="https://unpkg.com/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.js"></script>--}}
 </head>
 
-<body>
+<body style="overflow: hidden">
 <div id="canvas-holder" style="width:100%">
     <canvas id="chart"></canvas>
 </div>
