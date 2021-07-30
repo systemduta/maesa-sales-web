@@ -176,7 +176,7 @@ class TransactionController extends Controller
     {
 
         $request->validate([
-            'bukti' => 'required|image',
+            'bukti' => 'required|mimes:jpeg,jpg,png,bmp,gif,svg',
         ]);
 
         $bukti = Transaction::where('id',$id)->first();

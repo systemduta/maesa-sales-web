@@ -75,7 +75,7 @@
                                             @if($item->bukti)
                                                 <img src="{{ asset('bukti').'/'.$item->bukti }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px">
                                             @else
-                                                <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" width="100px"/>
+                                                <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px"/>
                                             @endif
                                         </td>
                                             @if($item->status =='cancel')
