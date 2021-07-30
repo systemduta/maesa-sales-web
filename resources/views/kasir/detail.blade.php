@@ -50,7 +50,7 @@ $(document).ready(function(){
                 <!-- /.card-header -->
 
                 <div class="card-header">
-                    <h2 class="card-title">Invoice Number : {{$transaction->invoice_number}}</h2>
+                    <h2 class="card-title">Invoice Number: {{$transaction->invoice_number}}</h2>
                     <div class="card-tools">
                         <a href="/transactions" type="button" class="btn btn-secondary btn-sm btn-flat">
                             <i class="fa fa-undo"></i>Back
@@ -64,7 +64,11 @@ $(document).ready(function(){
                             <table class="table table-bordered table-striped">
                                 <tbody>
                                     <tr>
-                                        <td style="width: 25%;">Name Sales</td>
+                                        <td>Date</td>
+                                        <td>{{$transaction->created_at->format('d/m/Y')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 25%;">Salesperson</td>
                                         <td>{{$transaction->user->name}}</td>
                                     </tr>
                                     <tr>
@@ -72,7 +76,7 @@ $(document).ready(function(){
                                         <td>{{$transaction->company->name}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Name Customer</td>
+                                        <td>Customer</td>
                                         <td>{{$transaction->customer_name}}</td>
                                     </tr>
                                     <tr>
@@ -81,7 +85,7 @@ $(document).ready(function(){
                                     </tr>
                                     <tr>
                                         <td>Total Price</td>
-                                        <td>{{number_format($transaction->total_price)}}</td>
+                                        <td>Rp. {{number_format($transaction->total_price)}}</td>
                                     </tr>
 {{--                                    <tr>--}}
 {{--                                        <td>Discount</td>--}}
@@ -92,7 +96,7 @@ $(document).ready(function(){
 {{--                                        <td>{{$transaction->voucher}}</td>--}}
 {{--                                    </tr>--}}
                                     <tr>
-                                        <td>Noted</td>
+                                        <td>Note</td>
                                         <td>{{$transaction->noted}}</td>
                                     </tr>
                                     <tr>
@@ -112,9 +116,9 @@ $(document).ready(function(){
                             <label>Bukti Pembayaran</label>
                             <div class="img-container">
                                 @if($transaction->bukti)
-                                    <img src="{{ asset('bukti').'/'.$transaction->bukti}}">
+                                    <img src="{{ asset('bukti').'/'.$transaction->bukti}}" style="max-width:90%; height: auto">
                                 @else
-                                    <p class="text-danger">Belum Ada Bukti Pembayaran</p>
+                                    <p class="text-danger">Belum ada bukti pembayaran.</p>
                                 @endif
                             </div>
                         </div>
@@ -135,9 +139,9 @@ $(document).ready(function(){
                                 <tr>
                                     <td>{{ $key+1 }}</td>
                                     <td>{{ $td->product->name }}</td>
-                                    <td>{{ number_format($td->price) }}</td>
+                                    <td>Rp. {{ number_format($td->price) }}</td>
                                     <td>{{ $td->amount }}</td>
-                                    <td>{{ number_format($td->price * $td->amount) }}</td>
+                                    <td>Rp. {{ number_format($td->price * $td->amount) }}</td>
                                 </tr>
                                 @endforeach
                                 </tbody>

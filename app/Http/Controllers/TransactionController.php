@@ -57,7 +57,7 @@ class TransactionController extends Controller
     public function show($id)
     {
         $data = [
-            'title' => 'Detail Data Pemesanan'
+            'title' => 'Detail Transaksi'
         ];
 
         $transaction = Transaction::query()->with(['transaction_details'])->findOrFail($id);

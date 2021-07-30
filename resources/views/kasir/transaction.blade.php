@@ -55,6 +55,7 @@
                             <thead>
                                 <tr>
                                     <th width="30px" class="text-center">No</th>
+                                    <th>Date</th>
                                     <th>Invoice Number</th>
                                     <th>Sales</th>
                                     <th>Price</th>
@@ -68,6 +69,7 @@
                                 @foreach ($transaction as $item)
                                     <tr>
                                         <td class="text-center">{{ $no++ }}</td>
+                                        <td>{{ $item->created_at->format('d/m/Y') }}</td>
                                         <td>{{ $item->invoice_number }}</td>
                                         <td>{{ $item->user->name }}</td>
                                         <td>Rp. {{ number_format($item->total_price) }}</td>
@@ -112,7 +114,7 @@
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
-                            <h3>Price : Rp.{{ number_format($item->total_price)}} </h3>
+                            <h3>Price: Rp.{{ number_format($item->total_price)}} </h3>
                             <div class="img-container">
                                 @if($item->bukti)
                                     <img src="{{ asset('bukti') }}/{{ $item->bukti }}" class="zoom" style="width:70%; height:auto;">
