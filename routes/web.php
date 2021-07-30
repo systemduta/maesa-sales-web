@@ -66,5 +66,3 @@ Route::get('/customer/coba', 'CustomerController@coba');
 
 //notification
 Route::get('/notifications','NotificationHistoryController@listNotification');
-
-

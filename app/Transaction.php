@@ -11,16 +11,16 @@ class Transaction extends Model
         'user_id', 'company_id', 'invoice_number', 'customer_name', 'address', 'total_price', 'discount', 'voucher', 'noted', 'status', 'bukti',
     ];
 
-    protected $appends = ['invoice'];
+    protected $appends = ['invoice','payment'];
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 
     public function company()
     {
-        return $this->belongsTo('App\Company');
+        return $this->belongsTo(Company::class);
     }
 
     public function transaction_details()
@@ -70,4 +70,11 @@ class Transaction extends Model
     {
         return route('invoice', ['id'=> $this->getKey()]);
     }
+
+    public function getPaymentAttribute()
+    {
+        return $this->company->payment;
+    }
+
+//    tetsing git git
 }

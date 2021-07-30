@@ -65,9 +65,9 @@ class User extends \TCG\Voyager\Models\User
 
     public function getPerformanceAttribute()
     {
-        $acheived = $this->transaction->count();
+        $achieved = $this->transaction->count();
         return collect([
-            'acheived'      => $acheived,
+            'achieved'      => $achieved,
             'target_low'    => Voyager::setting('target_low', 3),
             'target_middle' => Voyager::setting('target_middle', 5),
             'target_hight'  => Voyager::setting('target_hight', 10),

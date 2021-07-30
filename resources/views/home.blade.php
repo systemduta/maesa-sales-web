@@ -48,7 +48,7 @@
             <ul class="users-list clearfix">
               @foreach ($users as $key => $user)
                 <li>
-                  <img src="{{ $user->avatar }}" alt="User Image">
+                  <img src="/storage/{{ $user->avatar }}" alt="User Image">
                   <a class="users-list-name" href="javascript:void(0)" data-toggle="modal" data-target="#user-modal-{{$key}}">{{ $user->name }}</a>
                   <span class="users-list-date">{{ $user->nik }}</span>
                 </li>
@@ -63,7 +63,7 @@
                           </button>
                         </div>
                         <div class="modal-body" style="padding-left:2rem; padding-right:2rem;">
-                          <img src="{{ $user->avatar }}" class="rounded-circle mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
+                          <img src="/storage/{{ $user->avatar }}" class="rounded-circle mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
                           <div style="height: 2rem;"></div>
                           <p class="font-weight-bold">Name</p>
                           <p>{{$user->name}}</p>
@@ -77,7 +77,7 @@
                       </div> <!-- /.modal-content -->
                     </div> <!-- /.modal-dialog -->
                   </div> <!-- /.modal POP UP USER -->
-                
+
               @endforeach
             </ul>
             <!-- /.users-list -->
@@ -103,11 +103,11 @@
                 @foreach ($products as $key => $product)
                   <li class="item">
                     <div class="product-img">
-                      <img src= "{{ $product->img }}" alt="Product Image" class="img-size-50">
+                      <img src= "/storage/{{ $product->img }}" alt="Product Image" class="img-size-50">
                     </div>
                     <div class="product-info">
                       <a href="javascript:void(0)" class="product-title" data-toggle="modal" data-target="#product-modal-{{$key}}"> {{ $product->name }}
-                        <span class="badge badge-warning float-right">Rp. {{ $product->price }}</span></a>
+                        <span class="badge badge-warning float-right">Rp. {{ number_format($product->price) }}</span></a>
                       <span class="product-description">
                         {{ $product->description }}
                       </span>
@@ -124,13 +124,13 @@
                             </button>
                           </div>
                         <div class="modal-body">
-                          <div class="row"> 
-                            <img src="{{ $product->img }}" class="rounded mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
+                          <div class="row">
+                            <img src="/storage/{{ $product->img }}" class="rounded mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
                           </div>
                           <div style="height: 2rem;"></div>
                           <div class="form-group row">
                             <h5 class="col-sm-6 font-weight-bold">{{$product->name}}</h5>
-                            <h5 class="col-sm-6 font-weight-bold text-right">Rp. {{$product->price}}</h5>
+                            <h5 class="col-sm-6 font-weight-bold text-right">Rp. {{number_format($product->price)}}</h5>
                           </div>
                           <div class="form-group row">
                             <h6 class="col-sm-6 font-weight-bold">Stock: {{$product->stok}}</h6>
