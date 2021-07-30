@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-lg-3 col-6">
         <!-- small box -->
-        <div class="small-box bg-info"> <!-- bg-success/bg-warning/bg-danger -->
+        <div class="small-box bg-info"> 
           <div class="inner">
             <h3>{{$transactions->count()}}</h3>
 
@@ -28,7 +28,7 @@
           <div class="icon">
             <i class="ion ion-bag"></i>
           </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="/transactions" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div> <!-- ./col -->
     </div> <!-- ./row -->
@@ -37,14 +37,10 @@
         <!-- USER LIST -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Members</h3>
+            <h3 class="card-title">All Salespersons</h3>
 
             <div class="card-tools">
               <span class="badge badge-secondary">{{$users->count()}} Total Members</span>
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
-              </button>
             </div>
           </div>
           <!-- /.card-header -->
@@ -52,15 +48,41 @@
             <ul class="users-list clearfix">
               @foreach ($users as $key => $user)
                 <li>
-                  <img src="{{ $user->avatar }}" alt="User Image">
-                  <a class="users-list-name" href="#">{{ $user->name }}</a>
+                  <img src="/storage/{{ $user->avatar }}" alt="User Image">
+                  <a class="users-list-name" href="javascript:void(0)" data-toggle="modal" data-target="#user-modal-{{$key}}">{{ $user->name }}</a>
                   <span class="users-list-date">{{ $user->nik }}</span>
                 </li>
+                <!-- POP UP USER -->
+                <div class="modal fade" id="user-modal-{{$key}}">
+                    <div class="modal-dialog" style="width:28rem;">
+                      <div class="modal-content">
+                        <div class="modal-header" style="height:3.5rem; padding-left:1rem;">
+                          <h4 class="modal-title">Profile</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body" style="padding-left:2rem; padding-right:2rem;">
+                          <img src="/storage/{{ $user->avatar }}" class="rounded-circle mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
+                          <div style="height: 2rem;"></div>
+                          <p class="font-weight-bold">Name</p>
+                          <p>{{$user->name}}</p>
+                          <hr size="100%" width="100%">
+                          <p class="font-weight-bold">NIK</p>
+                          <p>{{$user->nik}}</p>
+                          <hr size="100%" width="100%">
+                          <p class="font-weight-bold">Email</p>
+                          <p>{{$user->email}}</p>
+                          <hr size="100%" width="100%">
+                          <p class="font-weight-bold">Company</p>
+                          <p>{{$user->company->name}}</p>
+                        </div>
+                      </div> <!-- /.modal-content -->
+                    </div> <!-- /.modal-dialog -->
+                  </div> <!-- /.modal POP UP USER -->
               @endforeach
-            </ul>
-            <!-- /.users-list -->
-          </div>
-          <!-- /.card-body -->
+            </ul><!-- /.users-list -->
+          </div><!-- /.card-body -->
           <!-- <div class="card-footer text-center">
             <a href="javascript::">View All Users</a>
           </div> -->
@@ -71,15 +93,9 @@
         <!-- PRODUCT LIST -->
         <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Products</h3>
+              <h3 class="card-title">All Products</h3>
               <div class="card-tools">
                 <span class="badge badge-secondary">{{$products->count()}} Total Products</span>
-                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                  <i class="fas fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                  <i class="fas fa-times"></i>
-                </button>
               </div>
             </div> <!-- /.card-header -->
             <div class="card-body p-0">
@@ -87,11 +103,11 @@
                 @foreach ($products as $key => $product)
                   <li class="item">
                     <div class="product-img">
-                      <img src= "{{ $product->img }}" alt="Product Image" class="img-size-50">
+                      <img src= "/storage/{{ $product->img }}" alt="Product Image" class="img-size-50">
                     </div>
                     <div class="product-info">
-                      <a href="javascript:void(0)" class="product-title" data-toggle="modal" data-target="#product-modal"> {{ $product->name }}
-                        <span class="badge badge-warning float-right">Rp. {{ $product->price }}</span></a>
+                      <a href="javascript:void(0)" class="product-title" data-toggle="modal" data-target="#product-modal-{{$key}}"> {{ $product->name }}
+                        <span class="badge badge-warning float-right">Rp. {{ number_format($product->price) }}</span></a>
                       <span class="product-description">
                         {{ $product->description }}
                       </span>
@@ -99,32 +115,37 @@
                   </li>
 
                   <!-- POP UP PRODUCT -->
-                  <div class="modal fade" id="product-modal">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title">{{ $product->name }}</h4>
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
+                  <div class="modal fade" id="product-modal-{{$key}}">
+                    <div class="modal-dialog" style="width:27rem;">
+                      <div class="modal-content" style="padding-left:1rem; padding-right:1rem;">
+                        <div class="modal-header" style="height:3.5rem;">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
                         <div class="modal-body">
-                          <div class="form-group row">
-                            <label for="product_desc" class="col-sm-2 col-form-label">Description</label>
-                            <div class="col-sm-10">
-                              <input type="text" readonly class="form-control-plaintext text-wrap" id="product_desc" value="{{$product->description}}">
-                            </div>
+                          <div class="row">
+                            <img src="/storage/{{ $product->img }}" class="rounded mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
                           </div>
+                          <div style="height: 2rem;"></div>
                           <div class="form-group row">
-                            <label for="product_price" class="col-sm-2 col-form-label">Price</label>
-                            <div class="col-sm-10">
-                              <input type="text" readonly class="form-control-plaintext" id="product_price" value="Rp. {{$product->price}}">
-                            </div>
+                            <h5 class="col-sm-6 font-weight-bold">{{$product->name}}</h5>
+                            <h5 class="col-sm-6 font-weight-bold text-right">Rp. {{number_format($product->price)}}</h5>
                           </div>
+                          <hr size="100%" width="100%">
                           <div class="form-group row">
-                            <label for="product_stok" class="col-sm-2 col-form-label">Stock</label>
-                            <div class="col-sm-10">
-                              <input type="text" readonly class="form-control-plaintext" id="product_stok" value="{{$product->stok}}">
+                            <h6 class="col-sm-3 font-weight-bold">Stock</h6>
+                            <h6 class="col"> {{$product->stok}} </h6>
+                          </div>
+                          <hr size="100%" width="100%">
+                          <div class="form-group row">
+                            <h6 class="col-sm-3 font-weight-bold">Company</h6>
+                            <h6 class="col"> {{$product->company->name}} </h6>
+                          </div>
+                          <hr size="100%" width="100%">
+                          <div class="form-group row">
+                            <div class="col">
+                              <p style="text-align: justify;"> {{$product->description}}</p>
                             </div>
                           </div>
                         </div>

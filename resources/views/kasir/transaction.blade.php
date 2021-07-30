@@ -55,6 +55,7 @@
                             <thead>
                                 <tr>
                                     <th width="30px" class="text-center">No</th>
+                                    <th>Date</th>
                                     <th>Invoice Number</th>
                                     <th>Sales</th>
                                     <th>Price</th>
@@ -68,6 +69,7 @@
                                 @foreach ($transaction as $item)
                                     <tr>
                                         <td class="text-center">{{ $no++ }}</td>
+                                        <td>{{ $item->created_at->format('d/m/Y') }}</td>
                                         <td>{{ $item->invoice_number }}</td>
                                         <td>{{ $item->user->name }}</td>
                                         <td>Rp. {{ number_format($item->total_price) }}</td>
@@ -75,7 +77,7 @@
                                             @if($item->bukti)
                                                 <img src="{{ asset('bukti').'/'.$item->bukti }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px">
                                             @else
-                                                <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" width="100px"/>
+                                                <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px"/>
                                             @endif
                                         </td>
                                             @if($item->status =='cancel')
@@ -100,10 +102,10 @@
         </div>
         @foreach ($transaction as $item)
         <div class="modal fade" id="bukti{{ $item->id}}">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                        <h4 class="modal-title">Customer Name : {{ $item->customer_name}}</h4>
+                        <h5 class="modal-title">Customer Name: {{ $item->customer_name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -112,10 +114,10 @@
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
-                            <h3>Price : Rp.{{ number_format($item->total_price)}} </h3>
+                            <h3>Price: Rp.{{ number_format($item->total_price)}} </h3>
                             <div class="img-container">
                                 @if($item->bukti)
-                                    <img src="{{ asset('bukti') }}/{{ $item->bukti }}" class="zoom">
+                                    <img src="{{ asset('bukti') }}/{{ $item->bukti }}" class="zoom" style="width:70%; height:auto;">
                                 @endif
                             </div>
                             <br>
@@ -131,11 +133,10 @@
                                         {{ $message }}
                                     @enderror
                                 </div>
-
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-warning">Save</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
                 </div>
