@@ -100,10 +100,10 @@
         </div>
         @foreach ($transaction as $item)
         <div class="modal fade" id="bukti{{ $item->id}}">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                        <h4 class="modal-title">Customer Name : {{ $item->customer_name}}</h4>
+                        <h5 class="modal-title">Customer Name: {{ $item->customer_name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -115,7 +115,7 @@
                             <h3>Price : Rp.{{ number_format($item->total_price)}} </h3>
                             <div class="img-container">
                                 @if($item->bukti)
-                                    <img src="{{ asset('bukti') }}/{{ $item->bukti }}" class="zoom">
+                                    <img src="{{ asset('bukti') }}/{{ $item->bukti }}" class="zoom" style="width:70%; height:auto;">
                                 @endif
                             </div>
                             <br>
@@ -131,11 +131,10 @@
                                         {{ $message }}
                                     @enderror
                                 </div>
-
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-warning">Save</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
                 </div>
