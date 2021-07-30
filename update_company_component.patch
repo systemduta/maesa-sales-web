@@ -1,0 +1,88 @@
+Index: app/Transaction.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Transaction.php b/app/Transaction.php
+--- a/app/Transaction.php	(revision b78b5939303ce4b3662dfb4ee9f9ef50f14559a9)
++++ b/app/Transaction.php	(revision 27f940c397802701330c408684717cc20a9d0240)
+@@ -11,16 +11,16 @@
+         'user_id', 'company_id', 'invoice_number', 'customer_name', 'address', 'total_price', 'discount', 'voucher', 'noted', 'status', 'bukti',
+     ];
+ 
+-    protected $appends = ['invoice'];
++    protected $appends = ['invoice','payment'];
+ 
+     public function user()
+     {
+-        return $this->belongsTo('App\User');
++        return $this->belongsTo(User::class);
+     }
+ 
+     public function company()
+     {
+-        return $this->belongsTo('App\Company');
++        return $this->belongsTo(Company::class);
+     }
+ 
+     public function transaction_details()
+@@ -70,4 +70,9 @@
+     {
+         return route('invoice', ['id'=> $this->getKey()]);
+     }
++
++    public function getPaymentAttribute()
++    {
++        return $this->company->payment;
++    }
+ }
+Index: database/migrations/2021_07_30_024233_add_company_setting_to_companies_table.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/database/migrations/2021_07_30_024233_add_company_setting_to_companies_table.php b/database/migrations/2021_07_30_024233_add_company_setting_to_companies_table.php
+new file mode 100644
+--- /dev/null	(revision 27f940c397802701330c408684717cc20a9d0240)
++++ b/database/migrations/2021_07_30_024233_add_company_setting_to_companies_table.php	(revision 27f940c397802701330c408684717cc20a9d0240)
+@@ -0,0 +1,40 @@
++<?php
++
++use Illuminate\Database\Migrations\Migration;
++use Illuminate\Database\Schema\Blueprint;
++use Illuminate\Support\Facades\Schema;
++
++class AddCompanySettingToCompaniesTable extends Migration
++{
++    /**
++     * Run the migrations.
++     *
++     * @return void
++     */
++    public function up()
++    {
++        Schema::table('companies', function (Blueprint $table) {
++            $table->string('schema')->nullable();
++            $table->string('target_low')->nullable();
++            $table->string('target_middle')->nullable();
++            $table->string('target_high')->nullable();
++            $table->string('payment')->nullable();
++        });
++    }
++
++    /**
++     * Reverse the migrations.
++     *
++     * @return void
++     */
++    public function down()
++    {
++        Schema::table('companies', function (Blueprint $table) {
++            $table->dropColumn('schema');
++            $table->dropColumn('target_low');
++            $table->dropColumn('target_middle');
++            $table->dropColumn('target_high');
++            $table->dropColumn('payment');
++        });
++    }
++}
