@@ -34,14 +34,11 @@ class TransactionController extends Controller
             'title' => 'Data Transaction',
         ];
 
-        $sort         = $request->filled('sort') && ($request->sort=='desc')?$request->sort:null;
         $transaction  = Transaction::query();
 
         $transaction->when(auth()->user()->company_id, function($q){
             return $q->where('company_id',auth()->user()->company_id);
-        })->when($sort, function ($q) use ($sort) {
-            return $q->orderBy('created_at', $sort);
-        });
+        })->orderBy('created_at', 'desc');
 
         $transaction = $transaction->get();
 
