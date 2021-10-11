@@ -14,21 +14,37 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('cache_clear', function () {
-    \Illuminate\Support\Facades\Artisan::call('cache:clear');
-    dd("cache:clear");
+    try {
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        dd("Success to cache:clear");
+    } catch (Exception $exception){
+        throw $exception;
+    }
 });
 Route::get('config_clear', function () {
-    \Illuminate\Support\Facades\Artisan::call('config:clear');
-    dd("config:clear");
+    try {
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        dd("Success to config:clear");
+    } catch (Exception $exception){
+        throw $exception;
+    }
 });
 Route::get('storage', function () {
-    \Illuminate\Support\Facades\Artisan::call('storage:link');
-    dd("storage");
+    try {
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        dd("Success to storage");
+    } catch (Exception $exception){
+        throw $exception;
+    }
 });
 
 Route::get('migrate', function () {
-    \Illuminate\Support\Facades\Artisan::call('migrate');
-    dd("migrate");
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate');
+        dd("Success to migrate");
+    } catch (Exception $exception){
+        throw $exception;
+    }
 });
 
 Route::get('/', function () {
