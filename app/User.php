@@ -19,7 +19,7 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'company_id','devision_id','device_token'
+        'name', 'email', 'password', 'company_id','devision_id','device_token',
     ];
 
     /**
@@ -28,7 +28,8 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'company', 'devision', 'transaction', 'settings'
+        'password', 'remember_token', 'company', 'devision', 'transaction', 'settings', 'target_visit','target_low',
+        'target_middle','target_high', 'visits',
     ];
 //    update this
 
@@ -43,6 +44,7 @@ class User extends \TCG\Voyager\Models\User
 
     protected $appends = [
         'performance',
+        'visit_performance',
         'devision_name',
         'company_logo',
         'company_name'
@@ -63,14 +65,32 @@ class User extends \TCG\Voyager\Models\User
         return $this->hasMany('App\Transaction');
     }
 
+    public function visits()
+    {
+        return $this->hasMany(Visit::class);
+
+    }
+
     public function getPerformanceAttribute()
     {
         $achieved = $this->transaction->count();
         return collect([
             'achieved'      => $achieved,
-            'target_low'    => Voyager::setting('target_low', 3),
-            'target_middle' => Voyager::setting('target_middle', 5),
-            'target_hight'  => Voyager::setting('target_hight', 10),
+            'target_low'    => $this->target_low??0,
+            'target_middle' => $this->target_middle??0,
+            'target_high'  => $this->target_high??0,
+//            'target_low'    => Voyager::setting('target_low', 3),
+//            'target_middle' => Voyager::setting('target_middle', 5),
+//            'target_hight'  => Voyager::setting('target_hight', 10),
+        ]);
+    }
+
+    public function getVisitPerformanceAttribute()
+    {
+        $achieved = $this->visits->count();
+        return collect([
+            'achieved'  => $achieved,
+            'target'    => $this->target_visit??0
         ]);
     }
 

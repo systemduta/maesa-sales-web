@@ -38,8 +38,8 @@ Route::post('/transactions', 'API\TransactionController@store');
 Route::put('/transactions/{id}', 'API\TransactionController@update');
 Route::delete('/transactions/{id}', 'API\TransactionController@destroy');
 
-//Transaction
-Route::apiResource('visits', 'API\TransactionController', [ 'as' => 'api' ]);
+//Visit
+Route::apiResource('visits', 'API\VisitController', [ 'as' => 'api' ]);
 
 //NotificationHistory
 Route::get('/notifications','API\NotificationHistoryController@listNotification');

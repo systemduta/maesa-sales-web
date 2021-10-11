@@ -3,18 +3,31 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Visit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class VisitController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        //
+        $auth = Auth::user();
+        $visits = Visit::query()
+            ->where('user_id', $auth->id)
+            ->whereDate('visited_at', '=', date('Y-m-d'))
+            ->orderByDesc('id')->paginate();
+        return response()->json($visits);
     }
 
     /**
@@ -31,11 +44,48 @@ class VisitController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'      => 'required|string|max:255',
+            'address'   => 'required|string',
+            'phone'     => 'required|string',
+            'result'    => 'required|string',
+            'photo'     => 'required|mimes:jpg,jpeg,png|max:2048',
+
+        ]);
+
+        try {
+
+            $auth = Auth::user();
+            $photo = null;
+            if ($request->hasFile('photo')) {
+                $photo = $request
+                    ->file('photo')
+                    ->storeAs('visits', $auth->name.'_'.rand(100000,999999).'.'.$request->photo->getClientOriginalExtension(), 'public');
+            }
+
+            $visit = new Visit();
+            $visit->user_id = $auth->id;
+            $visit->name = $request->name;
+            $visit->address = $request->address;
+            $visit->phone = $request->phone;
+            $visit->result = $request->result;
+            $visit->visited_at = date('Y-m-d H:i:s');
+            $visit->photo = $photo;
+            $visit->save();
+
+            return response()->json([
+                'data' => $visit,
+                'message' => "Data created successfully"
+            ], 200);
+
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw new HttpException(500, $exception->getMessage(), $exception);
+        }
     }
 
     /**
