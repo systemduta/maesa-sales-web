@@ -104,12 +104,12 @@ class User extends \TCG\Voyager\Models\User
 
     public function getCompanyLogoAttribute()
     {
-        return $this->company->logo;
+        return $this->company ? $this->company->logo : null;
     }
 
     public function getCompanyNameAttribute()
     {
-        return $this->company->name;
+        return $this->company ? $this->company->name : null;
     }
 
     /**
