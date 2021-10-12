@@ -41,13 +41,13 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label for="nik">{{ __('NIK') }}</label>
-                                <input type="text" class="form-control" id="nik" name="nik" placeholder="{{ __('NIK') }}"
+                                <input type="text" class="form-control" id="nik" name="nik"
                                        value="{{ old('nik', $dataTypeContent->nik ?? '') }}">
                             </div>
 
                             <div class="form-group">
                                 <label for="name">{{ __('voyager::generic.name') }}</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="{{ __('voyager::generic.name') }}"
+                                <input type="text" class="form-control" id="name" name="name"
                                        value="{{ old('name', $dataTypeContent->name ?? '') }}">
                             </div>
 
@@ -141,6 +141,26 @@
                                     <img src="{{ filter_var($dataTypeContent->avatar, FILTER_VALIDATE_URL) ? $dataTypeContent->avatar : Voyager::image( $dataTypeContent->avatar ) }}" style="width:200px; height:auto; clear:both; display:block; padding:2px; border:1px solid #ddd; margin-bottom:10px;" />
                                 @endif
                                 <input type="file" data-name="avatar" name="avatar">
+                            </div>
+                            <div class="form-group">
+                                <label for="target_visit">{{ __('target visit') }}</label>
+                                <input type="number" class="form-control" id="target_visit" name="target_visit"
+                                       value="{{ old('target_visit', $dataTypeContent->target_visit ?? '') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="target_visit">{{ __('target low') }}</label>
+                                <input type="number" class="form-control" id="target_low" name="target_low"
+                                       value="{{ old('target_low', $dataTypeContent->target_low ?? '') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="target_visit">{{ __('target middle') }}</label>
+                                <input type="number" class="form-control" id="target_middle" name="target_middle"
+                                       value="{{ old('target_middle', $dataTypeContent->target_middle ?? '') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="target_visit">{{ __('target high') }}</label>
+                                <input type="number" class="form-control" id="target_high" name="target_high"
+                                       value="{{ old('target_high', $dataTypeContent->target_high ?? '') }}">
                             </div>
                         </div>
                     </div>
