@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,8 +29,8 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'company', 'devision', 'transaction', 'settings', 'target_visit','target_low',
-        'target_middle','target_high', 'visits',
+        'password', 'remember_token', 'company', 'devision', 'month_transaction', 'settings', 'target_visit','target_low',
+        'target_middle','target_high', 'visit_today'
     ];
 //    update this
 
@@ -65,6 +66,11 @@ class User extends \TCG\Voyager\Models\User
         return $this->hasMany('App\Transaction');
     }
 
+    public function month_transaction()
+    {
+        return $this->transaction()->whereMonth('created_at', Carbon::now()->format('m'));
+    }
+
     public function visits()
     {
         return $this->hasMany(Visit::class);
@@ -76,7 +82,7 @@ class User extends \TCG\Voyager\Models\User
 
     public function getPerformanceAttribute()
     {
-        $achieved = $this->transaction->count();
+        $achieved = $this->month_transaction->count();
         return collect([
             'achieved'      => $achieved,
             'target_low'    => $this->target_low??0,
