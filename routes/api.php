@@ -40,6 +40,7 @@ Route::delete('/transactions/{id}', 'API\TransactionController@destroy');
 
 //Visit
 Route::apiResource('visits', 'API\VisitController', [ 'as' => 'api' ]);
+Route::apiResource('books', 'API\BookController', [ 'as' => 'api' ]);
 
 //NotificationHistory
 Route::get('/notifications','API\NotificationHistoryController@listNotification');

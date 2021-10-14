@@ -36,13 +36,13 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="card card-outline card-primary">
+        <div class="card card-outline">
             <div class="card-header">
-                <h3 class="card-title">{{$title }}</h3>
-
-            <!-- /.card-tools -->
+                <div class="card-tools">
+                    <button class="btn btn-primary btn-sm">Create</button>
+{{--                    <span class="badge badge-primary">Label</span>--}}
+                </div>
             </div>
-            <!-- /.card-header -->
             <div class="card-body">
                 @if (session('status'))
                     <div class="alert alert-success alert-dismissible">

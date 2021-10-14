@@ -30,7 +30,7 @@ class VisitController extends Controller
 
         return response()->view('visits.index', [
             'visits' => $visits,
-            'title' => 'List Data Visit'
+            'title' => 'Visit Data'
         ]);
     }
 

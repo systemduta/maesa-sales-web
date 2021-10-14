@@ -31,7 +31,7 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $data = [
-            'title' => 'Data Transaction',
+            'title' => 'Transaction Data',
         ];
 
         $sort         = $request->filled('sort') && ($request->sort=='desc')?$request->sort:null;
