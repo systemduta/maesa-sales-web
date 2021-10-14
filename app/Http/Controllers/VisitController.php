@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Visit;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class VisitController extends Controller
@@ -12,9 +14,24 @@ class VisitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $request->validate([
+           'period' => 'string|nullable'
+        ]);
+        $period = $request->period;
+        $visits = Visit::query()->byCompany()->when($period && $period=='day', function (Builder $query) {
+            return $query->whereDate('visited_at', Carbon::now());
+        })->when($period && $period=='week', function (Builder $query) {
+            return $query->whereBetween('visited_at', [Carbon::now()->subWeek(), Carbon::now()]);
+        })->when($period && $period=='month', function (Builder $query) {
+            return $query->whereBetween('visited_at', [Carbon::now()->subMonth(), Carbon::now()]);
+        })->get();
+
+        return response()->view('visits.index', [
+            'visits' => $visits,
+            'title' => 'List Data Visit'
+        ]);
     }
 
     /**

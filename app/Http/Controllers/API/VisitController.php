@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Visit;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,11 +24,33 @@ class VisitController extends Controller
     public function index()
     {
         $auth = Auth::user();
+        $visit_count = Visit::query()
+            ->where('user_id', $auth->id)
+            ->whereDate('visited_at', '=', date('Y-m-d'))->get()->count();
         $visits = Visit::query()
             ->where('user_id', $auth->id)
             ->whereDate('visited_at', '=', date('Y-m-d'))
             ->orderByDesc('id')->paginate();
-        return response()->json($visits);
+
+//        return response()->json($visits);
+        return response()->json([
+            'current_page' => $visits->currentPage(),
+            'data' => $visits->items(),
+            'first_page_url' => null,
+            'from' => $visits->currentPage(),
+            'last_page' => $visits->lastPage(),
+            'last_page_url' => null,
+            'next_page_url' => $visits->nextPageUrl(),
+            'path' => $visits->path(),
+            'per_page' => $visits->perPage(),
+            'prev_page_url' => $visits->previousPageUrl(),
+            'to' => null,
+            'total' => $visits->total(),
+            'visit_performance' => [
+                'achieved'=> $visit_count,
+                'target'=> $auth->target_visit ?? 0
+            ]
+        ]);
     }
 
     /**

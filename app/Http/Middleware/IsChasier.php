@@ -16,7 +16,7 @@ class IsChasier
      */
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->hasRole(['admin','cashier']))
+        if (!auth()->user()->hasRole(['normal_user']))
             return $next($request);
 
         Auth::logout();

@@ -149,6 +149,14 @@ $daily_notification_count = \App\NotificationHistory::query()->when(auth()->user
                       </p>
                   </a>
               </li>
+              <li class="nav-item">
+                  <a href="{{route('visits.index')}}" class="nav-link {{request()->is('visits')? 'active': ''}}">
+                      <i class="nav-icon fa fa-child"></i>
+                      <p>
+                          Visit
+                      </p>
+                  </a>
+              </li>
               <!-- <li class="nav-item">
                 <a href="/customer" class="nav-link {{request()->is('customer')? 'active': ''}}">
                     <i class="nav-icon fas fa-clone"></i>
