@@ -15,7 +15,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::all();
-        return response()->view('books.index', ['books'=>$books]);
+        return response()->view('books.index', ['books'=>$books,'title'=>'Book List']);
     }
 
     /**
@@ -38,14 +38,14 @@ class BookController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'body' => 'required|string',
-            'cover' => 'required|mimes:jpg,jpeg,png|max:2048'
+            'description' => 'required|string',
+            'image' => 'required|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         $book = new Book;
         $book->title = $request->title;
-        $book->body = $request->body;
-        $book->cover = $request->file('cover')->store('covers', 'public');
+        $book->description = $request->description;
+        $book->image = $request->file('image')->store('books', 'public');
         $book->save();
 
         return response()->redirectToRoute('books.index');
@@ -89,10 +89,11 @@ class BookController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Book  $book
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return response()->redirectToRoute('books.index');
     }
 }

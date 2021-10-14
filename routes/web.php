@@ -84,3 +84,4 @@ Route::get('/customer/coba', 'CustomerController@coba');
 Route::get('/notifications','NotificationHistoryController@listNotification');
 
 Route::resource('visits', 'VisitController');
+Route::resource('books', 'BookController');

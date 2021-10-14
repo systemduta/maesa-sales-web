@@ -40,7 +40,6 @@
             <div class="card-header">
                 <div class="card-tools">
                     <button class="btn btn-primary btn-sm">Create</button>
-{{--                    <span class="badge badge-primary">Label</span>--}}
                 </div>
             </div>
             <div class="card-body">

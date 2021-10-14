@@ -48,6 +48,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-messaging.js"></script>
     <script src="{{ asset('firebase_notifications') }}/config.js"></script>
+    @stack('head')
 
 
 </head>
@@ -317,5 +318,6 @@ $daily_notification_count = \App\NotificationHistory::query()->when(auth()->user
     });
   </script>
   @stack('modals')
+    @stack('footer')
 </body>
 </html>
