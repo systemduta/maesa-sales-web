@@ -25,10 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        $schedule
-            ->call((new \App\Http\Controllers\VisitController)->daily_visit_notification())
-            ->days(range(1,6))->at('15:00');
+        // $schedule->command('inspire')->hourly(););
+        $schedule->call(function(){
+            (new \App\Http\Controllers\VisitController)->daily_visit_notification();
+        })->everyMinute();
+//            ->days(range(1,6))->at('15:00');
     }
 
     /**
