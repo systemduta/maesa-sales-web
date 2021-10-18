@@ -28,8 +28,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly(););
         $schedule->call(function(){
             (new \App\Http\Controllers\VisitController)->daily_visit_notification();
-        })->everyFiveMinutes();
-//            ->days(range(1,6))->at('15:00');
+        })->days(range(1,6))->at('15:00');
     }
 
     /**
