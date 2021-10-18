@@ -39,7 +39,7 @@
         <div class="card card-outline">
             <div class="card-header">
                 <div class="card-tools">
-                    <button class="btn btn-primary btn-sm">Create</button>
+                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#create-transaction">Create</button>
                 </div>
             </div>
             <div class="card-body">
@@ -99,7 +99,7 @@
         <div class="modal fade" id="bukti{{ $item->id}}">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
-                  <div class="modal-header">
+                    <div class="modal-header">
                         <h4 class="modal-title">Customer Name : {{ $item->customer_name}}</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -131,8 +131,8 @@
 
                         </div>
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-warning">Save</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info">Save</button>
                         </div>
                     </form>
                 </div>
@@ -141,6 +141,66 @@
             <!-- /.modal-dialog -->
         </div>
         @endforeach
+        {{--        modal create--}}
+        <div class="modal fade" id="create-transaction">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header" style="height:3.5rem; padding-left:1rem;">
+                        <h4 class="modal-title">Edit User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{route('users.store')}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-body" style="padding-left:2rem; padding-right:2rem;">
+                            <div class="form-group">
+                                <label>Name*</label>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>NIK*</label>
+                                <input type="text" class="form-control" name="nik" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email*</label>
+                                <input type="text" class="form-control" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password*</label>
+                                <input type="password" class="form-control" name="password" required>
+                            </div>
+                            @if(!auth()->user()->company_id)
+                                <div class="form-group">
+                                    <label>Company*</label>
+                                    <select class="form-control" aria-label="Select Company" name="company_id" required>
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            @endif
+                            <div class="form-group">
+                                <label>Division*</label>
+                                <select class="form-control" aria-label="Select Division" name="division_id" required>
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Target Visit</label>
+                                <input type="text" class="form-control" name="target_visit">
+                            </div>
+                            <div class="form-group">
+                                <label>Avatar</label>
+                                <input type="file" class="form-control-file" name="avatar">
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-info">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -157,15 +217,6 @@
         $("#example1").DataTable({
         "responsive": true,
         "autoWidth": false,
-        });
-        $('#example2').DataTable({
-        "paging": true,
-        "lengthChange": false,
-        "searching": false,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false,
-        "responsive": true,
         });
     });
 </script>

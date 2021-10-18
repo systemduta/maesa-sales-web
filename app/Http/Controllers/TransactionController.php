@@ -30,10 +30,6 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-        $data = [
-            'title' => 'Transaction Data',
-        ];
-
         $sort         = $request->filled('sort') && ($request->sort=='desc')?$request->sort:null;
         $transaction  = Transaction::query();
 
@@ -45,7 +41,10 @@ class TransactionController extends Controller
 
         $transaction = $transaction->get();
 
-        return view('kasir.transaction',compact('transaction'), $data);
+        return response()->view('transactions.index', [
+            'transaction' => $transaction,
+            'title'        => 'Transaction Data'
+        ]);
     }
 
     /**
@@ -56,13 +55,12 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        $data = [
-            'title' => 'Detail Data Pemesanan'
-        ];
-
         $transaction = Transaction::query()->with(['transaction_details'])->findOrFail($id);
 
-        return view('kasir.detail',compact('transaction'),$data);
+        return response()->view('transactions.show',[
+            'transaction' => $transaction,
+            'title'        => 'Transaction Detail'
+        ]);
     }
 
     /**

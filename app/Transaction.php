@@ -10,6 +10,7 @@ class Transaction extends Model
     protected $fillable = [
         'user_id', 'company_id', 'invoice_number', 'customer_name', 'address', 'total_price', 'discount', 'voucher', 'noted', 'status', 'bukti',
     ];
+    protected $hidden = ['company'];
 
     protected $appends = ['invoice','payment'];
 
@@ -76,5 +77,5 @@ class Transaction extends Model
         return $this->company->payment;
     }
 
-//    tetsing git git
+//    testing git git
 }

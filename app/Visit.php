@@ -17,8 +17,10 @@ class Visit extends Model
     public function scopeByCompany(Builder $query, User $user = null)
     {
         $user = $user ? : auth()->user();
-        return $query->whereHas('user', function (Builder $query) use ($user) {
-            return $query->where('company_id', $user->company_id);
+        return $query->when($user instanceof User && !$user->hasRole('admin'), function (Builder $query) use($user) {
+            return $query->whereHas('user', function (Builder $query) use ($user) {
+                return $query->where('company_id', $user->company_id);
+            });
         });
     }
 }

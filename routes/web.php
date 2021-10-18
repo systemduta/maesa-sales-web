@@ -62,8 +62,8 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 //pemesanan
-Route::get('/transactions', 'TransactionController@index');
-Route::put('/transactions/update/{id}', 'TransactionController@update');
+Route::get('/transactions', 'TransactionController@index')->name('transactions.index');
+Route::put('/transactions/update/{id}', 'TransactionController@update')->name('transactions.update');
 Route::get('/transactions/detail/{id}', 'TransactionController@show')->name('transactions.detail');
 Route::delete('/transactions/{id}', 'TransactionController@destroy')->name('transactions.delete');
 Route::get('/invoice/{id}', 'TransactionController@invoice')->name('invoice');
@@ -85,3 +85,4 @@ Route::get('/notifications','NotificationHistoryController@listNotification');
 
 Route::resource('visits', 'VisitController');
 Route::resource('books', 'BookController');
+Route::resource('users', 'UserController');

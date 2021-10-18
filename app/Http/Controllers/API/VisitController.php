@@ -76,7 +76,7 @@ class VisitController extends Controller
             'address'   => 'required|string',
             'phone'     => 'required|string',
             'result'    => 'required|string',
-            'photo'     => 'required|mimes:jpg,jpeg,png|max:2048',
+            'photo'     => 'required',
 
         ]);
 

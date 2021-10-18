@@ -12,6 +12,11 @@ class Company extends Model
         'code', 'name', 'description', 'address', 'color', 'logo', 'background',
     ];
 
+    public function devisions()
+    {
+        return $this->hasMany(Devision::class);
+    }
+
     public function users()
     {
         return $this->hasMany(User::class);

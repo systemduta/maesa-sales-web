@@ -23,12 +23,26 @@
           <div class="inner">
             <h3>{{$transactions->count()}}</h3>
 
-            <p>Number of Transactions</p>
+            <p>Total of Transactions</p>
           </div>
           <div class="icon">
             <i class="ion ion-bag"></i>
           </div>
-          <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          <a href="{{route('transactions.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div> <!-- ./col -->
+      <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success"> <!-- bg-success/bg-warning/bg-danger -->
+          <div class="inner">
+            <h3>{{$visits->count()}}</h3>
+
+            <p>Total of Visits</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-bag"></i>
+          </div>
+          <a href="{{route('visits.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
       </div> <!-- ./col -->
     </div> <!-- ./row -->

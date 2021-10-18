@@ -20,7 +20,7 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'company_id','devision_id','device_token',
+        'name', 'email', 'password', 'company_id','devision_id','device_token','target_visit','nik','avatar'
     ];
 
     /**
@@ -63,7 +63,7 @@ class User extends \TCG\Voyager\Models\User
 
     public function transaction()
     {
-        return $this->hasMany('App\Transaction');
+        return $this->hasMany('App\Transaction')->byCompany();
     }
 
     public function month_transaction()

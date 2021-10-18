@@ -5,6 +5,8 @@ use App\Product;
 use App\User;
 use App\Transaction;
 
+use App\Visit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -27,18 +29,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::query()->byCompany();
-        $products = Product::query()->byCompany();
-        $products = $products->orderBy('created_at', 'desc')->get();
-        $users = User::query();
-        $users = $users->when(auth()->user()->company_id, function ($query) {
-                return $query->where('company_id', auth()->user()->company_id);
-            })->where('role_id',2)
+        $transactions = Transaction::query()->byCompany()->whereMonth('created_at', Carbon::now()->format('m'));
+        $visits = Visit::query()->byCompany()->whereMonth('visited_at', Carbon::now()->format('m'));
+        $products = Product::query()->byCompany()->orderBy('created_at', 'desc')->get();
+        $users = User::query()->byUser()->where('role_id',2)
             ->orderBy('created_at', 'desc')
             ->get();
-        return view('home', ['title' => 'Dashboard',
-                            'transactions' => $transactions,
-                            'products' => $products, 
-                            'users' => $users]);
+        return view('home', [
+            'title' => 'Dashboard',
+            'transactions' => $transactions,
+            'visits' => $visits,
+            'products' => $products,
+            'users' => $users
+        ]);
     }
 }

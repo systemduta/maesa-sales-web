@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Devision;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +21,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::query()->byUser()->get();
+        $companies = Company::query()->when(auth()->user()->role_id != 1, function ($q) {
+            return $q->where('id', auth()->user()->company_id);
+        })->with('devisions')->get();
+        $divisions = Devision::query()->when(auth()->user()->company_id, function ($q) {
+            return $q->where('company_id', auth()->user()->company_id);
+        })->get();
+        return response()->view('users.index', [
+            'users' => $users,
+            'companies' => $companies,
+            'divisions' => $divisions,
+            'title' => 'User Data'
+        ]);
     }
 
     /**
@@ -32,11 +50,35 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'     => 'required|string',
+            'email'    => 'required|unique:users',
+            'nik'      => 'required|string',
+            'password' => 'required|string',
+            'company_id' => auth()->user()->role_id == 1 ?'required|':''.'numeric'.auth()->user()->role_id != 1 ?'':'|nullable',
+            'division_id' => 'required|numeric',
+            'target_visit' => 'numeric|nullable',
+            'avatar'   => 'mimes:jpeg,jpg,png,bmp,gif,svg|max:2048|nullable',
+        ]);
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->company_id = $request->company_id ?? auth()->user()->company_id;
+        $user->devision_id = $request->division_id;
+        $user->nik = $request->nik;
+        $user->target_visit = $request->target_visit;
+        if ($request->hasFile('avatar')) {
+            $user->avatar = $request->file('avatar')->store('users', 'public');
+        }
+        $user->save();
+
+        return response()->redirectToRoute('users.index');
     }
 
     /**
@@ -56,7 +98,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
         //
     }
@@ -65,27 +107,33 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  User $user
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request)
+    public function update(Request $request, User $user)
     {
         $request->validate([
-            'name'     => 'required|string',
-            'email'           => 'required|string',
-            'password'       => 'string|nullable',
-            'avatar'       => 'mimes:jpeg,jpg,png,bmp,gif,svg|max:2048|nullable',
+            'name'     => 'string|nullable',
+            'email'    => 'unique:users|nullable',
+            'nik'      => 'string|nullable',
+            'password' => 'string|nullable',
+            'division_id' => 'numeric|nullable',
+            'target_visit' => 'numeric|nullable',
+            'avatar'   => 'mimes:jpeg,jpg,png,bmp,gif,svg|max:2048|nullable',
         ]);
-        $user = User::query()->findOrFail(auth()->user()->id);
-        $user->name = $request->name;
-        $user->email = $request->email;
+
+        if ($request->name) $user->name = $request->name;
+        if ($request->email) $user->email = $request->email;
         if ($request->password) $user->password = Hash::make($request->password);
+        if ($request->nik) $user->nik = $request->nik;
+        if ($request->division_id) $user->devision_id = $request->division_id;
+        if ($request->target_visit) $user->target_visit = $request->target_visit;
         if ($request->hasFile('avatar')) {
             $user->avatar = $request->file('avatar')->store('users', 'public');
         }
         $user->save();
 
-        return response()->json(['message' => 'Profile updated successfully'], 200);
+        return response()->redirectToRoute('users.index');
     }
 
     /**

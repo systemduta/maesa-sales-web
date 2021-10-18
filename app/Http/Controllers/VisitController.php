@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Visit;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,6 +10,10 @@ use Illuminate\Http\Request;
 
 class VisitController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -98,5 +103,26 @@ class VisitController extends Controller
     public function destroy(Visit $visit)
     {
         //
+    }
+
+    public function daily_visit_notification()
+    {
+        $recipients = User::query()->whereNotNull('device_token')->pluck('device_token');
+        $title ='Selamat Siang Sales Budiman';
+        $body='Lihat pencapaian visit hari ini dengan klik notifikasi berikut';
+
+        return fcm()->to($recipients)
+            ->timeToLive(0)
+            ->priority('normal')
+            ->notification([
+                'title' => $title,
+                'body' => $body,
+            ])
+//            ->data([
+//                'id' => $transaction->getKey(),
+//                'title' => $title,
+//                'body' => $body,
+//            ])
+            ->send();
     }
 }
