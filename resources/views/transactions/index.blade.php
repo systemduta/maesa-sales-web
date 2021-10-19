@@ -5,7 +5,14 @@
 <div class="content-header">
     <div class="container-fluid">
         <div class="mb-2 row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i> Update Unsuccessfully!</h5>
+                    {!! implode('', $errors->all('<div>:message</div>')) !!}
+                </div>
+            @endif
             <h1 class="m-0">{{ $title }}</h1>
         </div>
         </div><!-- /.row -->
@@ -151,47 +158,48 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="{{route('users.store')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('transactions.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body" style="padding-left:2rem; padding-right:2rem;">
                             <div class="form-group">
-                                <label>Name*</label>
-                                <input type="text" class="form-control" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>NIK*</label>
-                                <input type="text" class="form-control" name="nik" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email*</label>
-                                <input type="text" class="form-control" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Password*</label>
-                                <input type="password" class="form-control" name="password" required>
-                            </div>
-                            @if(!auth()->user()->company_id)
-                                <div class="form-group">
-                                    <label>Company*</label>
-                                    <select class="form-control" aria-label="Select Company" name="company_id" required>
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                            @endif
-                            <div class="form-group">
-                                <label>Division*</label>
-                                <select class="form-control" aria-label="Select Division" name="division_id" required>
+                                <label>Sales</label>
+                                <select class="form-control" aria-label="Select Sales" name="user_id" required>
                                     <option value=""></option>
+                                    @foreach($users as $user)
+                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Target Visit</label>
-                                <input type="text" class="form-control" name="target_visit">
+                                <label>Customer Name*</label>
+                                <input type="text" class="form-control" name="customer_name" required>
                             </div>
                             <div class="form-group">
-                                <label>Avatar</label>
-                                <input type="file" class="form-control-file" name="avatar">
+                                <label>Address*</label>
+                                <textarea class="form-control" name="address" rows="3" required></textarea>
                             </div>
+                            <div class="form-group">
+                                <label>Total Price</label>
+                                <input type="number" class="form-control readonly" id="masterTotalPrice" name="total_price" required>
+                            </div>
+                            <h6><strong>Products</strong></h6>
+                            <div id="inputFormRow-0">
+                                <div class="form-inline">
+                                    <select class="form-control mb-2 mr-sm-2" id="selectProduct" style="width: 10rem;" name="products[0][product_id]" onchange="handleSelectProduct(0,value)">
+                                        <option value="">Choose Product...</option>
+                                        @foreach($products as $product)
+                                        <option value="{{$product->id}}">{{$product->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <input type="text" id="originPrice-0" class="form-control mb-2 mr-sm-2" style="width: 10rem;" name="products[0][price]" readonly>
+                                    <button type="button" class="btn btn-info mb-2 mr-sm-2" onclick="minAmount(0)">-</button>
+                                    <input type="text" class="form-control mb-2 mr-sm-2" id="amount-0" placeholder="0" style="width: 3em;" name="products[0][amount]" value="1">
+                                    <button type="button" class="btn btn-info mb-2 mr-sm-2" onclick="addAmount(0)">+</button>
+                                </div>
+                            </div>
+                            <div id="newProduct"></div>
+                            <button id="addProduct" type="button" class="btn btn-outline-secondary btn-sm">Add Product</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="calculatePrice()">Calculate</button>
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
@@ -221,3 +229,88 @@
     });
 </script>
 @endsection
+@push('footer')
+    <script type="text/javascript">
+        // add row
+        let id_input = 1;
+        let products = @json($products);
+        let product_choosen = [{}];
+        let amount_choosen = [1];
+        $("#addProduct").click(function () {
+            let form = '';
+            form += `<div id="inputFormRow">`;
+            form += '<div class="form-inline">';
+            form += `<select class="form-control mb-2 mr-sm-2" id="inlineFormCustomSelectPref" style="width: 10rem;" name="products[${id_input}][product_id]" onchange="handleSelectProduct(${id_input},value)">`;
+            form += '<option value="">Choose Product...</option>';
+            products.map(function (item) {
+                form += `<option value="${item.id}">${item.name}</option>`;
+            })
+            form += '</select>';
+            form += `<input type="text" id="originPrice-${id_input}" class="form-control mb-2 mr-sm-2" style="width: 10rem;" name="products[${id_input}][price]" readonly>`;
+            form += `<button type="button" class="btn btn-info mb-2 mr-sm-2" onclick="minAmount(${id_input})">-</button>`;
+            form += `<input type="text" class="form-control mb-2 mr-sm-2" id="amount-${id_input}" placeholder="0" style="width: 3em;" name="products[${id_input}][amount]" value="1">`;
+            form += `<button type="button" class="btn btn-info mb-2 mr-sm-2" onclick="addAmount(${id_input})">+</button>`;
+            form += `<button id="removeRow" type="button" class="btn btn-danger" data-value="${id_input}">Remove</button>`;
+            form += '</div>';
+            form += '</div>';
+
+            product_choosen.push({});
+            amount_choosen.push(1);
+            $(`#masterTotalPrice`).val(null);
+            id_input++;
+            $('#newProduct').append(form);
+        });
+
+        function handleSelectProduct(form_id, value) {
+            let product_selected = products.find(function (item) {
+                return item.id == parseInt(value);
+            });
+            product_choosen[form_id] = product_selected;
+            $(`#masterTotalPrice`).val(null);
+            $(`#originPrice-${form_id}`).val(product_selected.price);
+        }
+
+        function addAmount(id) {
+            let amount = $(`#amount-${id}`).val();
+            amount++;
+            amount_choosen[id] = amount;
+            $(`#amount-${id}`).val(amount);
+            $(`#masterTotalPrice`).val(null);
+        }
+
+        function minAmount(id) {
+            let amount = $(`#amount-${id}`).val();
+            if (amount > 1) {
+                amount--;
+                $(`#amount-${id}`).val(amount);
+            }
+            amount_choosen[id] = amount;
+            $(`#masterTotalPrice`).val(null);
+        }
+
+        function calculatePrice() {
+            let temp_price = 0;
+            product_choosen.forEach(function (item, index) {
+                if (Object.keys(item).length) {
+                    temp_price += item.price * amount_choosen[index];
+                }
+            });
+            $(`#masterTotalPrice`).val(temp_price);
+        }
+
+        // remove row
+        $(document).on('click', '#removeRow', function () {
+            let id = $(this).data("value");
+            product_choosen[id] = {};
+            amount_choosen[id] = null;
+            $(`#masterTotalPrice`).val(null);
+            $(this).closest('#inputFormRow').remove();
+        });
+    </script>
+    <script>
+{{--        setup read only--}}
+        $(".readonly").keydown(function(e){
+            e.preventDefault();
+        });
+    </script>
+@endpush

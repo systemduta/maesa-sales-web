@@ -55,16 +55,19 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'user_id' => 'exists:users,id|nullable',
             'customer_name' => 'required|string',
             'address'       => 'required|string',
             'total_price'   => 'required|string',
             'products'      => 'required|array',
         ]);
 
+        dd($request->all());
+
         try {
             DB::beginTransaction();
 
-            $user = auth()->user();
+            $user = ($request->has('user_id')) ? User::query()->findOrFail($request->user_id) : auth()->user();
             $company_code = $user->company_id ? $user->company->code : 'MH';
             $latest_trx = Transaction::query()
                 ->where('company_id', $user->company_id ?? 1)
@@ -133,7 +136,7 @@ class TransactionController extends Controller
             }
 
             DB::commit();
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             DB::rollBack();
             throw new HttpException(500, $exception->getMessage(), $exception);
         }

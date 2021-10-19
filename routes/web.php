@@ -63,6 +63,7 @@ Route::group(['prefix' => 'admin'], function () {
 
 //pemesanan
 Route::get('/transactions', 'TransactionController@index')->name('transactions.index');
+Route::post('/transactions', 'TransactionController@store')->name('transactions.store');
 Route::put('/transactions/update/{id}', 'TransactionController@update')->name('transactions.update');
 Route::get('/transactions/detail/{id}', 'TransactionController@show')->name('transactions.detail');
 Route::delete('/transactions/{id}', 'TransactionController@destroy')->name('transactions.delete');
