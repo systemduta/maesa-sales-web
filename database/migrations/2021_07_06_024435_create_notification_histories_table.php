@@ -15,7 +15,7 @@ class CreateNotificationHistoriesTable extends Migration
     {
         Schema::create('notification_histories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('transaction_id');
+            $table->unsignedBigInteger('transaction_id')->nullable();
             $table->string('title');
             $table->string('body')->nullable();
             $table->integer('from_user');

@@ -31,7 +31,7 @@ class VisitController extends Controller
             return $query->whereBetween('visited_at', [Carbon::now()->subWeek(), Carbon::now()]);
         })->when($period && $period=='month', function (Builder $query) {
             return $query->whereBetween('visited_at', [Carbon::now()->subMonth(), Carbon::now()]);
-        })->get();
+        })->orderByDesc('id')->get();
 
         return response()->view('visits.index', [
             'visits' => $visits,

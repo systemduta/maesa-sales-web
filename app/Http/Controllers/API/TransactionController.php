@@ -62,8 +62,6 @@ class TransactionController extends Controller
             'products'      => 'required|array',
         ]);
 
-        dd($request->all());
-
         try {
             DB::beginTransaction();
 

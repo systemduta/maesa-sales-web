@@ -82,7 +82,8 @@ Route::get('/customer/destroy/{id}', 'CustomerController@destroy')->name('custom
 Route::get('/customer/coba', 'CustomerController@coba');
 
 //notification
-Route::get('/notifications','NotificationHistoryController@listNotification');
+Route::get('/notifications','NotificationHistoryController@listNotification')->name('notifications.list');
+Route::post('/notifications','NotificationHistoryController@store')->name('notifications.store');
 
 Route::resource('visits', 'VisitController');
 Route::resource('books', 'BookController');
