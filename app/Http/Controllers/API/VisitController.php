@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Visit;
+use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,13 +27,13 @@ class VisitController extends Controller
         $auth = Auth::user();
         $visit_count = Visit::query()
             ->where('user_id', $auth->id)
-            ->whereDate('visited_at', '=', date('Y-m-d'))->get()->count();
+            ->whereMonth('visited_at', Carbon::now()->format('m'))
+            ->get()->count();
         $visits = Visit::query()
             ->where('user_id', $auth->id)
-            ->whereDate('visited_at', '=', date('Y-m-d'))
+            ->whereMonth('visited_at', Carbon::now()->format('m'))
             ->orderByDesc('id')->paginate();
 
-//        return response()->json($visits);
         return response()->json([
             'current_page' => $visits->currentPage(),
             'data' => $visits->items(),

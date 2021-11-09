@@ -90,6 +90,7 @@
     <h4 class="title">Invoice - {{$transaction->invoice_number}}</h4>
     <hr class="horizontal-line"/>
     <div class="section-1">
+        @if($transaction->transaction_details->count())
         <h5 class="subtitle">Detail Pembayaran</h5>
         <table class="product-table">
             <thead>
@@ -111,42 +112,7 @@
                 @endforeach
             </tbody>
         </table>
-{{--        <div class="section-2">--}}
-{{--            <div>--}}
-{{--                <img src="https://picsum.photos/200" class="product-img">--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <p class="product-label">Sepatu</p>--}}
-{{--                <p class="product-label">2</p>--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <p class="product-label">10.000</p>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="section-2">--}}
-{{--            <div>--}}
-{{--                <img src="https://picsum.photos/200" class="product-img">--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <p class="product-label">Sepatu</p>--}}
-{{--                <p class="product-label">2</p>--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <p class="product-label">10.000</p>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="section-2">--}}
-{{--            <div>--}}
-{{--                <img src="https://picsum.photos/200" class="product-img">--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <p class="product-label">Sepatu</p>--}}
-{{--                <p class="product-label">2</p>--}}
-{{--            </div>--}}
-{{--            <div>--}}
-{{--                <p class="product-label">10.000</p>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        @endif
     </div>
     <div class="section-payment-total">
         <div><h5 class="subtitle">Total Bayar</h5></div>
@@ -159,7 +125,7 @@
     </div>
     <div class="section-1">
         <h5 class="subtitle">Silahkan transfer ke nomor rekening:</h5>
-        <p class="product-label">2309802388987 - Pnd Ice Making System (Bank Mandiri)</p>
+        <p class="product-label">{{ $transaction->user->company->payment }}</p>
     </div>
 </div>
 <div class="save-button-wrapper">

@@ -82,7 +82,7 @@ class User extends \TCG\Voyager\Models\User
 
     public function getPerformanceAttribute()
     {
-        $achieved = $this->month_transaction->count();
+        $achieved = $this->month_transaction->sum('total_price');
         return collect([
             'achieved'      => $achieved,
             'target_low'    => $this->target_low??0,
