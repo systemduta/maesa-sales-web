@@ -32,6 +32,8 @@ Route::get('/product', 'API\ProductController@index');
 Route::get('/product/{id}', 'API\ProductController@show');
 
 //Transaction
+Route::get('/prama_transaction', 'API\TransactionController@index_prama_transaction');
+Route::post('/prama_transaction', 'API\TransactionController@store_prama_transaction');
 Route::get('/transactions', 'API\TransactionController@index');
 Route::get('/transactions/detail/{id}', 'API\TransactionController@show');
 Route::post('/transactions', 'API\TransactionController@store');

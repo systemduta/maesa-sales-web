@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     protected $fillable = [
-        'user_id', 'company_id', 'invoice_number', 'customer_name', 'address', 'total_price', 'discount', 'voucher', 'noted', 'status', 'bukti',
+        'user_id', 'company_id', 'invoice_number', 'customer_name', 'address', 'total_price', 'discount', 'voucher',
+        'noted', 'status', 'bukti','phone','origin','destination',
     ];
     protected $hidden = ['company'];
 

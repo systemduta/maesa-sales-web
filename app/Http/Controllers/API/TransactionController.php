@@ -217,4 +217,64 @@ class TransactionController extends Controller
 
         return response()->json(['message' => 'Data Deleted Successfully ']);
     }
+
+    public function index_prama_transaction()
+    {
+        $transaction = Transaction::query()->byUser()->latest()->get();
+        return response()->json(['transaction' => $transaction]);
+    }
+
+    public function store_prama_transaction(Request $request)
+    {
+        $request->validate([
+            'customer_name' => 'required|string',
+            'phone'         => 'required|string',
+            'address'       => 'required|string',
+            'price'         => 'required|string',
+            'origin'        => 'required|string',
+            'destination'   => 'required|string',
+            'noted'         => 'string|nullable',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $user = ($request->has('user_id')) ? User::query()->findOrFail($request->user_id) : auth()->user();
+            $company_code = $user->company_id ? $user->company->code : 'MH';
+            $latest_trx = Transaction::query()
+                ->where('company_id', $user->company_id ?? 1)
+                ->latest()->first();
+            $numb = str_pad(($latest_trx ? ($latest_trx->getKey() + 1) : 1), 4, '0', STR_PAD_LEFT);
+            $invoice_number = '#' . $company_code . $numb;
+
+            $transaction = Transaction::create([
+                'user_id' => $user->id ?? 1,
+                'company_id' => $user->company_id ?? 1,
+                'invoice_number' => $invoice_number,
+                'customer_name' => $request->customer_name,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'total_price' => $request->price,
+                'noted' => $request->noted,
+                'origin' => $request->origin,
+                'destination' => $request->destination,
+                'status' => "order"
+            ]);
+
+            $customers = new Customer;
+            $customers->user_id = $user->id;
+            $customers->transaction_id = $transaction->id;
+            $customers->name = $request->customer_name;
+            $customers->phone = $request->phone;
+            $customers->address = $request->address;
+            $customers->save();
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw new HttpException(500, $exception->getMessage(), $exception);
+        }
+
+        return response()->json(['message' => 'Transaction data added successfully']);
+    }
 }
