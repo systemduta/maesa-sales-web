@@ -87,7 +87,7 @@ class User extends \TCG\Voyager\Models\User
             'achieved'      => $achieved,
             'target_low'    => $this->target_low??0,
             'target_middle' => $this->target_middle??0,
-            'target_high'  => $this->target_high??0,
+            'target_hight'  => $this->target_high??0,
 //            'target_low'    => Voyager::setting('target_low', 3),
 //            'target_middle' => Voyager::setting('target_middle', 5),
 //            'target_hight'  => Voyager::setting('target_hight', 10),

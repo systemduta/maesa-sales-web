@@ -31,7 +31,7 @@
             datasets: [{
                 data: [low, middle, high],
                 value: achieved > high ? high : achieved,
-                backgroundColor: ['red', 'green', 'orange'],
+                backgroundColor: ['red', 'orange', 'green'],
                 borderWidth: 2
             }]
         },
