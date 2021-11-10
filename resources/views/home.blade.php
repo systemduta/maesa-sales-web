@@ -21,9 +21,9 @@
         <!-- small box -->
         <div class="small-box bg-info"> <!-- bg-success/bg-warning/bg-danger -->
           <div class="inner">
-            <h3>{{$transactions->count()}}</h3>
+            <h5>Rp {{number_format($transactions->sum('total_price'))}}</h5>
 
-            <p>Total of Transactions</p>
+            <p>Total of transactions</p>
           </div>
           <div class="icon">
             <i class="ion ion-bag"></i>
@@ -35,7 +35,7 @@
         <!-- small box -->
         <div class="small-box bg-success"> <!-- bg-success/bg-warning/bg-danger -->
           <div class="inner">
-            <h3>{{$visits->count()}}</h3>
+            <h5>{{$visits->count()}}</h5>
 
             <p>Total of Visits</p>
           </div>
