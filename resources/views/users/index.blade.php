@@ -64,7 +64,6 @@
                             <th>NIK</th>
                             <th>Email</th>
                             <th>Division</th>
-                            <th>Target Visit</th>
                             <th class="text-center">Action</th>
                         </tr>
                     </thead>
@@ -76,7 +75,6 @@
                                 <td>{{ $item->nik }}</td>
                                 <td>{{ $item->email }}</td>
                                 <td>{{ $item->devision_name }}</td>
-                                <td>{{ $item->target_visit }}</td>
                                 <td class="text-center">
                                     <button type="button" class="btn btn-info btn-sm" title="detail" data-toggle="modal" data-target="#detail-{{ $item->id}}">
                                         <i class="fa fa-eye"></i>
@@ -84,7 +82,6 @@
                                     <button type="button" class="btn btn-warning btn-sm" title="Edit" data-toggle="modal" data-target="#edit-{{ $item->id}}">
                                         <i class="fa fa-edit"></i>
                                     </button>
-{{--                                         <button class="btn btn-sm btn-flat btn-danger" data-toggle="modal" data-target="#delete{{ $item->id}}"><i class="fa fa-trash"></i></button> --}}
                                 </td>
                             </tr>
                         @endforeach
@@ -121,6 +118,12 @@
                         <hr size="100%" width="100%">
                         <p class="font-weight-bold">Target Visit</p>
                         <p>{{$user->target_visit}}</p>
+                        <p class="font-weight-bold">Target Low</p>
+                        <p>{{number_format($user->target_low)}}</p>
+                        <p class="font-weight-bold">Target Middle</p>
+                        <p>{{number_format($user->target_middle)}}</p>
+                        <p class="font-weight-bold">Target High</p>
+                        <p>{{number_format($user->target_high)}}</p>
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
@@ -172,6 +175,19 @@
                             <label>Target Visit</label>
                             <input type="text" class="form-control" name="target_visit" value="{{$user->target_visit}}">
                         </div>
+                        <div class="form-group">
+                            <label>Target Low</label>
+                            <input type="text" class="form-control" name="target_low" value="{{$user->target_low}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Target Middle</label>
+                            <input type="text" class="form-control" name="target_middle" value="{{$user->target_middle}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Target High</label>
+                            <input type="text" class="form-control" name="target_high" value="{{$user->target_high}}">
+                        </div>
+
                         <div class="form-group">
                             <label>Avatar</label>
                             <input type="file" class="form-control-file" name="avatar">
@@ -239,6 +255,18 @@
                             <div class="form-group">
                                 <label>Target Visit</label>
                                 <input type="text" class="form-control" name="target_visit">
+                            </div>
+                            <div class="form-group">
+                                <label>Target Low</label>
+                                <input type="text" class="form-control" name="target_low">
+                            </div>
+                            <div class="form-group">
+                                <label>Target Middle</label>
+                                <input type="text" class="form-control" name="target_middle">
+                            </div>
+                            <div class="form-group">
+                                <label>Target High</label>
+                                <input type="text" class="form-control" name="target_high">
                             </div>
                             <div class="form-group">
                                 <label>Avatar</label>

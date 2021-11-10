@@ -62,6 +62,9 @@ class UserController extends Controller
             'company_id' => auth()->user()->role_id == 1 ?'required|':''.'numeric'.auth()->user()->role_id != 1 ?'':'|nullable',
             'division_id' => 'required|numeric',
             'target_visit' => 'numeric|nullable',
+            'target_low' => 'numeric|nullable',
+            'target_middle' => 'numeric|nullable',
+            'target_high' => 'numeric|nullable',
             'avatar'   => 'mimes:jpeg,jpg,png,bmp,gif,svg|max:2048|nullable',
         ]);
 
@@ -73,6 +76,9 @@ class UserController extends Controller
         $user->devision_id = $request->division_id;
         $user->nik = $request->nik;
         $user->target_visit = $request->target_visit;
+        $user->target_low = $request->target_low;
+        $user->target_middle = $request->target_middle;
+        $user->target_high = $request->target_high;
         if ($request->hasFile('avatar')) {
             $user->avatar = $request->file('avatar')->store('users', 'public');
         }
@@ -119,6 +125,9 @@ class UserController extends Controller
             'password' => 'string|nullable',
             'division_id' => 'numeric|nullable',
             'target_visit' => 'numeric|nullable',
+            'target_low' => 'numeric|nullable',
+            'target_middle' => 'numeric|nullable',
+            'target_high' => 'numeric|nullable',
             'avatar'   => 'mimes:jpeg,jpg,png,bmp,gif,svg|max:2048|nullable',
         ]);
 
@@ -128,6 +137,9 @@ class UserController extends Controller
         if ($request->nik) $user->nik = $request->nik;
         if ($request->division_id) $user->devision_id = $request->division_id;
         if ($request->target_visit) $user->target_visit = $request->target_visit;
+        if ($request->target_low) $user->target_low = $request->target_low;
+        if ($request->target_middle) $user->target_middle = $request->target_middle;
+        if ($request->target_high) $user->target_high = $request->target_high;
         if ($request->hasFile('avatar')) {
             $user->avatar = $request->file('avatar')->store('users', 'public');
         }

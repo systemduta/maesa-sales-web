@@ -75,6 +75,10 @@ class User extends \TCG\Voyager\Models\User
     {
         return $this->hasMany(Visit::class);
     }
+    public function visit_month()
+    {
+        return $this->visits()->whereMonth('visited_at', Carbon::now()->format('m'));
+    }
     public function visit_today()
     {
         return $this->visits()->whereDate('visited_at', '=', date('Y-m-d'));
@@ -96,7 +100,7 @@ class User extends \TCG\Voyager\Models\User
 
     public function getVisitPerformanceAttribute()
     {
-        $achieved = $this->visit_today->count();
+        $achieved = $this->visit_month->count();
         return collect([
             'achieved'  => $achieved,
             'target'    => $this->target_visit??0

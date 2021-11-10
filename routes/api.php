@@ -55,4 +55,8 @@ Route::get('/performance',function (){
     return view('web_views/performance');
 });
 
+Route::get('/visit_performance',function (){
+    return view('web_views/visit_performance');
+});
+
 
