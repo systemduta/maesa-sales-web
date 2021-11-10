@@ -19,6 +19,8 @@ class CreateVisitsTable extends Migration
             $table->string('name');
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
+            $table->string('product')->nullable();
+            $table->string('status')->nullable();
             $table->text('result')->nullable();
             $table->string('photo')->nullable();
             $table->timestamp('visited_at')->nullable();

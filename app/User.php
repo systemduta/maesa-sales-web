@@ -30,7 +30,7 @@ class User extends \TCG\Voyager\Models\User
      */
     protected $hidden = [
         'password', 'remember_token', 'company', 'devision', 'month_transaction', 'settings', 'target_visit','target_low',
-        'target_middle','target_high', 'visit_today'
+        'target_middle','target_high', 'visit_today', 'visit_month',
     ];
 //    update this
 

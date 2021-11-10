@@ -114,6 +114,12 @@
                         <p class="font-weight-bold">Address</p>
                         <p>{{$item->address}}</p>
                         <hr size="100%" width="100%">
+                        <p class="font-weight-bold">Status</p>
+                        <p>{{$item->status}}</p>
+                        <hr size="100%" width="100%">
+                        <p class="font-weight-bold">Product</p>
+                        <p>{{$item->product}}</p>
+                        <hr size="100%" width="100%">
                         <p class="font-weight-bold">Result</p>
                         <p>{{$item->result}}</p>
                     </div>

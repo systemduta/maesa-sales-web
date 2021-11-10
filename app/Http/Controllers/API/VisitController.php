@@ -76,13 +76,14 @@ class VisitController extends Controller
             'name'      => 'required|string|max:255',
             'address'   => 'required|string',
             'phone'     => 'required|string',
+            'product'     => 'string|nullable',
+            'status'     => 'string|nullable',
             'result'    => 'required|string',
-            'photo'     => 'required',
+            'photo'     => 'nullable',
 
         ]);
 
         try {
-
             $auth = Auth::user();
             $photo = null;
             if ($request->hasFile('photo')) {
@@ -96,6 +97,8 @@ class VisitController extends Controller
             $visit->name = $request->name;
             $visit->address = $request->address;
             $visit->phone = $request->phone;
+            $visit->product = $request->product;
+            $visit->status = $request->status;
             $visit->result = $request->result;
             $visit->visited_at = date('Y-m-d H:i:s');
             $visit->photo = $photo;
