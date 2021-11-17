@@ -46,6 +46,7 @@ class User extends \TCG\Voyager\Models\User
     protected $appends = [
         'performance',
         'visit_performance',
+        'new_partnert',
         'devision_name',
         'company_logo',
         'company_name'
@@ -89,9 +90,9 @@ class User extends \TCG\Voyager\Models\User
         $achieved = $this->month_transaction->sum('total_price');
         return collect([
             'achieved'      => $achieved,
-            'target_low'    => $this->target_low??0,
-            'target_middle' => $this->target_middle??0,
-            'target_hight'  => $this->target_high??0,
+            'target_low'    => number_format($this->target_low??0),
+            'target_middle' => number_format($this->target_middle??0),
+            'target_hight'  => number_format($this->target_high??0),
 //            'target_low'    => Voyager::setting('target_low', 3),
 //            'target_middle' => Voyager::setting('target_middle', 5),
 //            'target_hight'  => Voyager::setting('target_hight', 10),
@@ -103,8 +104,13 @@ class User extends \TCG\Voyager\Models\User
         $achieved = $this->visit_month->count();
         return collect([
             'achieved'  => $achieved,
-            'target'    => $this->target_visit??0
+            'target'    => number_format($this->target_visit??0)
         ]);
+    }
+
+    public function getNewPartnertAttribute()
+    {
+        return $this->visits->where("status","new")->count();
     }
 
     public function getDevisionNameAttribute()

@@ -79,6 +79,7 @@ class TransactionController extends Controller
             'address'       => 'required|string',
             'total_price'   => 'required|string',
             'products'      => 'required|array',
+            'status'      => 'required',
         ]);
 
         try {
@@ -100,7 +101,7 @@ class TransactionController extends Controller
                 'address'           => $request->address,
                 'total_price'       => $request->total_price,
                 'noted'             => $request->noted,
-                'status'            => "order"
+                'status'            => $request->status,
             ]);
 
             $new_products = [];

@@ -65,6 +65,7 @@
                                 <th>Sales</th>
                                 <th>Customer</th>
                                 <th>Phone</th>
+                                <th>Status</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -76,6 +77,13 @@
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->phone }}</td>
+                                    <td>
+                                        @if($item->status =='new')
+                                            <span class="badge badge-primary">New</span>
+                                        @elseif($item->status == 'reorder')
+                                            <span class="badge badge-success">Reorder</span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <button type="button" class="btn btn-info btn-sm" title="detail" data-toggle="modal" data-target="#visit-{{ $item->id}}">
                                             <i class="fa fa-eye"></i>
