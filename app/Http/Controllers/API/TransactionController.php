@@ -87,7 +87,7 @@ class TransactionController extends Controller
             foreach ($request->products as $product) {
                 array_push($new_products,[
                     'transaction_id' => $transaction->getKey(),
-                    'product_id'     => $product['id'],
+                    'product_id'     => $product['product_id'],
                     'amount'         => $product['amount'],
                     'price'          => $product['price'],
                 ]);
@@ -95,7 +95,7 @@ class TransactionController extends Controller
             TransactionDetail::insert($new_products);
 
             $customers          = new Customer;
-            $customers->user_id = $user->id;
+            // $customers->user_id = $user->id;
             $customers->name    = $request->customer_name;
             $customers->address = $request->address;
             $customers->save();
