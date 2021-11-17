@@ -83,12 +83,10 @@
                                             <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px"/>
                                         @endif
                                     </td>
-                                        @if($item->status =='cancel')
-                                            <td class="text-center"><span class="badge badge-primary">Cancel</span></td>
-                                        @elseif($item->status == 'order')
-                                            <td class="text-center"><span class="badge badge-danger">Order</span></td>
-                                        @elseif($item->status == 'paid')
-                                            <td class="text-center"><span class="badge badge-success">Paid</span></td>
+                                        @if($item->status =='new')
+                                            <td class="text-center"><span class="badge badge-primary">New</span></td>
+                                        @elseif($item->status == 'repeat order')
+                                            <td class="text-center"><span class="badge badge-danger">Repeat Order</span></td>
                                         @endif
                                     <td class="text-center">
                                         <a href="/transactions/detail/{{ $item->id}}" class="btn btn-sm btn-flat btn-warning"><i class="fa fa-eye"></i></a>

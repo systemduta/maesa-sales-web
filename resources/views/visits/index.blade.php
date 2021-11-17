@@ -80,8 +80,10 @@
                                     <td>
                                         @if($item->status =='new')
                                             <span class="badge badge-primary">New</span>
-                                        @elseif($item->status == 'reorder')
-                                            <span class="badge badge-success">Reorder</span>
+                                        @elseif($item->status == 'follow')
+                                            <span class="badge badge-danger">Follow</span>
+                                        @elseif($item->status == 'existing')
+                                            <span class="badge badge-warning">Existing</span>
                                         @endif
                                     </td>
                                     <td class="text-center">
