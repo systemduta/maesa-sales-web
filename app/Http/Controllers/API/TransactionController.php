@@ -234,6 +234,7 @@ class TransactionController extends Controller
             'origin'        => 'required|string',
             'destination'   => 'required|string',
             'noted'         => 'string|nullable',
+            'status'         => 'string|nullable',
         ]);
 
         try {
@@ -258,7 +259,7 @@ class TransactionController extends Controller
                 'noted' => $request->noted,
                 'origin' => $request->origin,
                 'destination' => $request->destination,
-                'status' => "order"
+                'status' => $request->status
             ]);
 
             $customers = new Customer;

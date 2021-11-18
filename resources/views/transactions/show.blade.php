@@ -64,6 +64,10 @@ $(document).ready(function(){
                             <table class="table table-bordered table-striped">
                                 <tbody>
                                     <tr>
+                                        <td style="width: 25%;">Date</td>
+                                        <td>{{$transaction->created_at}}</td>
+                                    </tr>
+                                    <tr>
                                         <td style="width: 25%;">Name Sales</td>
                                         <td>{{$transaction->user->name}}</td>
                                     </tr>

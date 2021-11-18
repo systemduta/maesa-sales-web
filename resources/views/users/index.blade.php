@@ -132,7 +132,7 @@
             </div>
         </div>
         @endforeach
-        @foreach ($users as $user)
+        @foreach ($users as $key => $user)
         <div class="modal fade" id="edit-{{ $user->id}}">
             <div class="modal-dialog" style="width:25rem;">
                 <div class="modal-content">
@@ -173,19 +173,22 @@
                         </div>
                         <div class="form-group">
                             <label>Target Visit</label>
-                            <input type="text" class="form-control" name="target_visit" value="{{$user->target_visit}}">
+                            <input type="text" class="form-control" name="target_visit" value="{{$user->target_visit}}" id="target-visit-{{$key}}">
                         </div>
                         <div class="form-group">
                             <label>Target Low</label>
-                            <input type="text" class="form-control" name="target_low" value="{{$user->target_low}}">
+                            <input type="text" class="form-control" value="{{number_format($user->target_low)}}" id="target-low-{{$key}}">
+                            <input type="hidden" name="target_low" id="target-low-hidden-{{$key}}">
                         </div>
                         <div class="form-group">
                             <label>Target Middle</label>
-                            <input type="text" class="form-control" name="target_middle" value="{{$user->target_middle}}">
+                            <input type="text" class="form-control" value="{{number_format($user->target_middle)}}" id="target-middle-{{$key}}">
+                            <input type="hidden" name="target_middle" id="target-middle-hidden-{{$key}}">
                         </div>
                         <div class="form-group">
                             <label>Target High</label>
-                            <input type="text" class="form-control" name="target_high" value="{{$user->target_high}}">
+                            <input type="text" class="form-control" value="{{number_format($user->target_high)}}" id="target-high-{{$key}}">
+                            <input type="hidden" name="target_high" id="target-high-hidden-{{$key}}">
                         </div>
 
                         <div class="form-group">
@@ -202,6 +205,46 @@
                 </div>
             </div>
         </div>
+            <script>
+                function updateTextView(_obj){
+                    var num = getNumber(_obj.val());
+                    if(num==0){
+                        _obj.val('');
+                    }else{
+                        _obj.val(num.toLocaleString());
+                    }
+                }
+                function getNumber(_str){
+                    var arr = _str.split('');
+                    var out = new Array();
+                    for(var cnt=0;cnt<arr.length;cnt++){
+                        if(isNaN(arr[cnt])==false){
+                            out.push(arr[cnt]);
+                        }
+                    }
+                    return Number(out.join(''));
+                }
+                function removeComma(value){
+                    let a=value;
+                    a=a.replace(/\,/g,'');
+                    return parseInt(a,10);
+                }
+
+                $(document).ready(function() {
+                    $('#target-low-{{$key}}').on('keyup', function () {
+                        updateTextView($(this));
+                        $('#target-low-hidden-{{$key}}').val(removeComma($('#target-low-{{$key}}').val()));
+                    });
+                    $('#target-middle-{{$key}}').on('keyup', function () {
+                        updateTextView($(this));
+                        $('#target-middle-hidden-{{$key}}}').val(removeComma($('#target-middle-{{$key}}').val()));
+                    });
+                    $('#target-high-{{$key}}').on('keyup', function () {
+                        updateTextView($(this));
+                        $('#target-high-hidden-{{$key}}').val(removeComma($('#target-high-{{$key}}').val()));
+                    });
+                });
+            </script>
         @endforeach
 {{--        modal create--}}
         <div class="modal fade" id="create-user">
@@ -258,15 +301,18 @@
                             </div>
                             <div class="form-group">
                                 <label>Target Low</label>
-                                <input type="text" class="form-control" name="target_low">
+                                <input type="text" class="form-control" id="target-low">
+                                <input type="hidden" name="target_low" id="target-low-hidden">
                             </div>
                             <div class="form-group">
                                 <label>Target Middle</label>
-                                <input type="text" class="form-control" name="target_middle">
+                                <input type="text" class="form-control" id="target-middle">
+                                <input type="hidden" name="target_middle" id="target-middle-hidden">
                             </div>
                             <div class="form-group">
                                 <label>Target High</label>
-                                <input type="text" class="form-control" name="target_high">
+                                <input type="text" class="form-control" id="target-high">
+                                <input type="hidden" name="target_high" id="target-high-hidden">
                             </div>
                             <div class="form-group">
                                 <label>Avatar</label>
@@ -285,7 +331,44 @@
 </div>
 
 <script>
+    function updateTextView(_obj){
+        var num = getNumber(_obj.val());
+        if(num==0){
+            _obj.val('');
+        }else{
+            _obj.val(num.toLocaleString());
+        }
+    }
+    function getNumber(_str){
+        var arr = _str.split('');
+        var out = new Array();
+        for(var cnt=0;cnt<arr.length;cnt++){
+            if(isNaN(arr[cnt])==false){
+                out.push(arr[cnt]);
+            }
+        }
+        return Number(out.join(''));
+    }
+    function removeComma(value){
+        let a=value;
+        a=a.replace(/\,/g,'');
+        return parseInt(a,10);
+    }
+
     $(document).ready(function(){
+        $('#target-low').on('keyup',function(){
+            updateTextView($(this));
+            $('#target-low-hidden').val(removeComma($('#target-low').val()));
+        });
+        $('#target-middle').on('keyup',function(){
+            updateTextView($(this));
+            $('#target-middle-hidden').val(removeComma($('#target-middle').val()));
+        });
+        $('#target-high').on('keyup',function(){
+            updateTextView($(this));
+            $('#target-high-hidden').val(removeComma($('#target-high').val()));
+        });
+
         $(function () {
             $("#example1").DataTable({
                 "responsive": true,

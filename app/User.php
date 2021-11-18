@@ -46,7 +46,7 @@ class User extends \TCG\Voyager\Models\User
     protected $appends = [
         'performance',
         'visit_performance',
-        'new_partnert',
+        'new_partner',
         'devision_name',
         'company_logo',
         'company_name'
@@ -108,9 +108,9 @@ class User extends \TCG\Voyager\Models\User
         ]);
     }
 
-    public function getNewPartnertAttribute()
+    public function getNewPartnerAttribute()
     {
-        return $this->transactions->where("status","new")->count();
+        return $this->month_transaction->where("status","new")->count();
     }
 
     public function getDevisionNameAttribute()

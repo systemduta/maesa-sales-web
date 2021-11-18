@@ -78,11 +78,11 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->phone }}</td>
                                     <td>
-                                        @if($item->status =='new')
+                                        @if($item->status =='New')
                                             <span class="badge badge-primary">New</span>
-                                        @elseif($item->status == 'follow')
-                                            <span class="badge badge-danger">Follow</span>
-                                        @elseif($item->status == 'existing')
+                                        @elseif($item->status == 'Follup')
+                                            <span class="badge badge-danger">Follup</span>
+                                        @elseif($item->status == 'Existing')
                                             <span class="badge badge-warning">Existing</span>
                                         @endif
                                     </td>

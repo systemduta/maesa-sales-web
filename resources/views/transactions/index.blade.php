@@ -60,6 +60,7 @@
                         <thead>
                             <tr>
                                 <th width="30px" class="text-center">No</th>
+                                <th>Date</th>
                                 <th>Invoice Number</th>
                                 <th>Sales</th>
                                 <th>Price</th>
@@ -73,6 +74,7 @@
                             @foreach ($transaction as $item)
                                 <tr>
                                     <td class="text-center">{{ $no++ }}</td>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->invoice_number }}</td>
                                     <td>{{ $item->user->name }}</td>
                                     <td>Rp. {{ number_format($item->total_price) }}</td>
@@ -83,10 +85,12 @@
                                             <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px"/>
                                         @endif
                                     </td>
-                                        @if($item->status =='new')
+                                        @if($item->status =='New')
                                             <td class="text-center"><span class="badge badge-primary">New</span></td>
-                                        @elseif($item->status == 'repeat order')
+                                        @elseif($item->status == 'Repeat Order')
                                             <td class="text-center"><span class="badge badge-danger">Repeat Order</span></td>
+                                        @else
+                                            <td class="text-center"><span class="badge badge-light">{{$item->status}}</span></td>
                                         @endif
                                     <td class="text-center">
                                         <a href="/transactions/detail/{{ $item->id}}" class="btn btn-sm btn-flat btn-warning"><i class="fa fa-eye"></i></a>

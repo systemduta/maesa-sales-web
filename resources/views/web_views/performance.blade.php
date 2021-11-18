@@ -53,11 +53,14 @@
                 color: 'rgba(0, 0, 0, 1)'
             },
             valueLabel: {
-                formatter: Math.round,
-                backgroundColor: 'rgba(0, 0, 0, 1)',
-                fontSize: 24,
+                formatter: function (value, context) {
+                    return Math.round(value).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
+                },
+                fontSize: 16,
+                fontWeight: 'bold',
+                backgroundColor: '#d57f00',
                 color: 'rgb(255,255,255)',
-                borderRadius: 50,
+                borderRadius: 5,
                 padding: {
                     top: 10,
                     right: 15,
@@ -69,14 +72,14 @@
                 datalabels: {
                     display: true,
                     formatter: function (value, context) {
-                        return context.chart.data.labels[context.dataIndex];
+                        return Math.round(value).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
                     },
                     color: function (context) {
                         return context.dataset.backgroundColor;
                     },
                     backgroundColor: null,
                     font: {
-                        size: 20,
+                        size: 14,
                         weight: 'bold'
                     },
                     color: 'rgba(0, 0, 0, 1.0)'
