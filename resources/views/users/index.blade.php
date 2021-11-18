@@ -237,7 +237,7 @@
                     });
                     $('#target-middle-{{$key}}').on('keyup', function () {
                         updateTextView($(this));
-                        $('#target-middle-hidden-{{$key}}}').val(removeComma($('#target-middle-{{$key}}').val()));
+                        $('#target-middle-hidden-{{$key}}').val(removeComma($('#target-middle-{{$key}}').val()));
                     });
                     $('#target-high-{{$key}}').on('keyup', function () {
                         updateTextView($(this));
