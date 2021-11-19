@@ -110,7 +110,7 @@ class User extends \TCG\Voyager\Models\User
 
     public function getNewPartnerAttribute()
     {
-        return $this->month_transaction->where("status","new")->count();
+        return $this->month_transaction->where("status","New")->count();
     }
 
     public function getDevisionNameAttribute()

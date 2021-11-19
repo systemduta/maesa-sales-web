@@ -101,12 +101,12 @@ $(document).ready(function(){
                                     </tr>
                                     <tr>
                                         <td>Status</td>
-                                        @if($transaction->status =='cancel')
-                                            <td><span class="text-primary">Cancel</span></td>
-                                        @elseif($transaction->status == 'order')
-                                            <td><span class="text-danger">Order</span></td>
-                                        @elseif($transaction->status == 'paid')
-                                            <td><span class="text-success">Paid</span></td>
+                                        @if($item->status =='New')
+                                            <td><span class="badge badge-primary">New</span></td>
+                                        @elseif($item->status == 'Repeat Order')
+                                            <td><span class="badge badge-danger">Repeat Order</span></td>
+                                        @else
+                                            <td><span class="badge badge-light">{{$item->status}}</span></td>
                                         @endif
                                     </tr>
                                 </tbody>
