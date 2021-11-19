@@ -101,12 +101,12 @@ $(document).ready(function(){
                                     </tr>
                                     <tr>
                                         <td>Status</td>
-                                        @if($item->status =='New')
+                                        @if($transaction->status =='New')
                                             <td><span class="badge badge-primary">New</span></td>
-                                        @elseif($item->status == 'Repeat Order')
+                                        @elseif($transaction->status == 'Repeat Order')
                                             <td><span class="badge badge-danger">Repeat Order</span></td>
                                         @else
-                                            <td><span class="badge badge-light">{{$item->status}}</span></td>
+                                            <td><span class="badge badge-light">{{$transaction->status}}</span></td>
                                         @endif
                                     </tr>
                                 </tbody>
