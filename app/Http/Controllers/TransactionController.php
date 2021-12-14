@@ -78,7 +78,7 @@ class TransactionController extends Controller
             'customer_name' => 'required|string',
             'address'       => 'required|string',
             'total_price'   => 'required|string',
-            'products'      => 'required|array',
+            // 'products'      => 'required|array',
         ]);
 
         try {
@@ -92,7 +92,7 @@ class TransactionController extends Controller
             $numb = str_pad(($latest_trx ? ($latest_trx->getKey() + 1) : 1), 4, '0', STR_PAD_LEFT);
             $invoice_number = '#'.$company_code.$numb;
 
-            $transaction = Transaction::create([
+            Transaction::create([
                 'user_id'           => $user->id ?? 1,
                 'company_id'        => $user->company_id ?? 1,
                 'invoice_number'    => $invoice_number,
@@ -103,16 +103,16 @@ class TransactionController extends Controller
                 'status'            => "Order",
             ]);
 
-            $new_products = [];
-            foreach ($request->products as $product) {
-                array_push($new_products,[
-                    'transaction_id' => $transaction->getKey(),
-                    'product_id'     => $product['product_id'],
-                    'amount'         => $product['amount'],
-                    'price'          => $product['price'],
-                ]);
-            }
-            TransactionDetail::insert($new_products);
+            // $new_products = [];
+            // foreach ($request->products as $product) {
+            //     array_push($new_products,[
+            //         'transaction_id' => $transaction->getKey(),
+            //         'product_id'     => $product['product_id'],
+            //         'amount'         => $product['amount'],
+            //         'price'          => $product['price'],
+            //     ]);
+            // }
+            // TransactionDetail::insert($new_products);
 
             $customers          = new Customer;
             $customers->user_id = $user->id;
@@ -181,39 +181,54 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transaction         = Transaction::findOrFail($id);
-        $transaction->status = $request->status;
-        $transaction->save();
+        $request->validate([
+            // 'user_id' => 'exists:users,id|nullable',
+            'customer_name' => 'required|string',
+            'address'       => 'required|string',
+            'total_price'   => 'required|string',
+            'noted'         => 'required|string',
+            // 'products'      => 'required|array',
+        ]);
 
-        if ($transaction->user->device_token) {
-            $recipients = [$transaction->user->device_token];
-            $title ='Hai, update status tagihan!';
-            $body='Tagihan atas nama pelanggan '.$transaction->customer_name.' telah berubah status menjadi '.$transaction->status;
+        Transaction::findOrFail($id)->update([
+            'customer_name'     => $request->customer_name,
+            'address'           => $request->address,
+            'total_price'       => $request->total_price,
+            'noted'             => $request->noted,
+        ]);
+//         $transaction         = Transaction::findOrFail($id);
+//         $transaction->status = $request->status;
+//         $transaction->save();
 
-            $res = fcm()->to($recipients)
-                ->timeToLive(0)
-                ->priority('normal')
-                ->data([
-                    'id' => $transaction->getKey(),
-                    'title' => $title,
-                    'body' => $body,
-                ])
-                ->notification([
-                    'title' => $title,
-                    'body' => $body,
-                ])->send();
+//         if ($transaction->user->device_token) {
+//             $recipients = [$transaction->user->device_token];
+//             $title ='Hai, update status tagihan!';
+//             $body='Tagihan atas nama pelanggan '.$transaction->customer_name.' telah berubah status menjadi '.$transaction->status;
 
-//        save history notification
-            $notification_history = new NotificationHistory;
-            $notification_history->transaction_id = $transaction->getKey();
-            $notification_history->title = $title;
-            $notification_history->body = $body;
-            $notification_history->from_user = auth()->user()->id;
-            $notification_history->to_user = $transaction->user->id;
-            $notification_history->save();
-        }
+//             $res = fcm()->to($recipients)
+//                 ->timeToLive(0)
+//                 ->priority('normal')
+//                 ->data([
+//                     'id' => $transaction->getKey(),
+//                     'title' => $title,
+//                     'body' => $body,
+//                 ])
+//                 ->notification([
+//                     'title' => $title,
+//                     'body' => $body,
+//                 ])->send();
 
-        return redirect('transactions')->with('status','Status Berhasil di Update');
+// //        save history notification
+//             $notification_history = new NotificationHistory;
+//             $notification_history->transaction_id = $transaction->getKey();
+//             $notification_history->title = $title;
+//             $notification_history->body = $body;
+//             $notification_history->from_user = auth()->user()->id;
+//             $notification_history->to_user = $transaction->user->id;
+//             $notification_history->save();
+//         }
+
+        return redirect('transactions')->with('status','Data Berhasil di Update');
     }
 
     /**

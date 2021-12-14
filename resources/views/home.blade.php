@@ -77,16 +77,30 @@
                           </button>
                         </div>
                         <div class="modal-body" style="padding-left:2rem; padding-right:2rem;">
-                          <img src="/storage/{{ $user->avatar }}" class="rounded-circle mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
-                          <div style="height: 2rem;"></div>
-                          <p class="font-weight-bold">Name</p>
-                          <p>{{$user->name}}</p>
-                          <hr size="100%" width="100%">
-                          <p class="font-weight-bold">Email</p>
-                          <p>{{$user->email}}</p>
-                          <hr size="100%" width="100%">
-                          <p class="font-weight-bold">NIK</p>
-                          <p>{{$user->nik}}</p>
+                            <img src="/storage/{{ $user->avatar }}" class="rounded-circle mx-auto d-block" style="height: 10rem; width:10rem;" alt="Product Image">
+                            <div style="height: 2rem;"></div>
+                            <p class="font-weight-bold">Name</p>
+                            <p>{{$user->name}}</p>
+                            <hr size="100%" width="100%">
+                            <p class="font-weight-bold">Email</p>
+                            <p>{{$user->email}}</p>
+                            <hr size="100%" width="100%">
+                            <p class="font-weight-bold">NIK</p>
+                            <p>{{$user->nik}}</p>
+                            <p class="font-weight-bold">Target Visit</p>
+                            <p>{{$user->target_visit}}</p>
+                            <p class="font-weight-bold">Target Low</p>
+                            <p>{{number_format($user->target_low)}}</p>
+                            <p class="font-weight-bold">Target Middle</p>
+                            <p>{{number_format($user->target_middle)}}</p>
+                            <p class="font-weight-bold">Target High</p>
+                            <p>{{number_format($user->target_high)}}</p>
+                            <p class="font-weight-bold">Omset</p>
+                            <p>{{number_format($user->month_transaction()->sum('total_price'))}}</p>
+                            <p class="font-weight-bold">Overachieved</p>
+                            <p>{{number_format($user->month_transaction()->sum('total_price') - $user->target_high)}}</p>
+                            <p class="font-weight-bold">New Partner</p>
+                            <p>{{$user->getNewPartnerAttribute()}}</p>
                         </div>
                       </div> <!-- /.modal-content -->
                     </div> <!-- /.modal-dialog -->

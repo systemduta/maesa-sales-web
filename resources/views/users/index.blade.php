@@ -124,6 +124,12 @@
                         <p>{{number_format($user->target_middle)}}</p>
                         <p class="font-weight-bold">Target High</p>
                         <p>{{number_format($user->target_high)}}</p>
+                        <p class="font-weight-bold">Omset</p>
+                        <p>{{number_format($user->month_transaction()->sum('total_price'))}}</p>
+                        <p class="font-weight-bold">Overachieved</p>
+                        <p>{{number_format($user->month_transaction()->sum('total_price') - $user->target_high)}}</p>
+                        <p class="font-weight-bold">New Partner</p>
+                        <p>{{$user->getNewPartnerAttribute()}}</p>
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
