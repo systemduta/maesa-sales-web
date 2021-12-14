@@ -60,6 +60,7 @@
                         <thead>
                             <tr>
                                 <th width="30px" class="text-center">No</th>
+                                <th>Date</th>
                                 <th>Invoice Number</th>
                                 <th>Sales</th>
                                 <th>Price</th>
@@ -73,6 +74,7 @@
                             @foreach ($transaction as $item)
                                 <tr>
                                     <td class="text-center">{{ $no++ }}</td>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->invoice_number }}</td>
                                     <td>{{ $item->user->name }}</td>
                                     <td>Rp. {{ number_format($item->total_price) }}</td>
@@ -83,16 +85,18 @@
                                             <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px"/>
                                         @endif
                                     </td>
-                                        @if($item->status =='cancel')
-                                            <td class="text-center"><span class="badge badge-primary">Cancel</span></td>
-                                        @elseif($item->status == 'order')
-                                            <td class="text-center"><span class="badge badge-danger">Order</span></td>
-                                        @elseif($item->status == 'paid')
-                                            <td class="text-center"><span class="badge badge-success">Paid</span></td>
+                                        @if($item->status =='New')
+                                            <td class="text-center"><span class="badge badge-primary">New</span></td>
+                                        @elseif($item->status == 'Repeat Order')
+                                            <td class="text-center"><span class="badge badge-danger">Repeat Order</span></td>
+                                        @else
+                                            <td class="text-center"><span class="badge badge-light">{{$item->status}}</span></td>
                                         @endif
                                     <td class="text-center">
                                         <a href="/transactions/detail/{{ $item->id}}" class="btn btn-sm btn-flat btn-warning"><i class="fa fa-eye"></i></a>
-                                        {{-- <button class="btn btn-sm btn-flat btn-danger" data-toggle="modal" data-target="#delete{{ $item->id}}"><i class="fa fa-trash"></i></button> --}}
+                                        <button class="btn btn-sm btn-flat btn-primary" data-toggle="modal" data-target="#bukti{{ $item->id}}"><i class="fa fa-edit"></i></button>
+                                        {{-- <a href="/transactions/edit/{{ $item->id}}" class="btn btn-sm btn-flat btn-primary"><i class="fa fa-edit"></i></a> --}}
+                                        <a href="/transactions/delete/{{$item->id}}" class="btn btn-sm btn-flat btn-danger"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -104,10 +108,10 @@
          <!-- /.card -->
         @foreach ($transaction as $item)
         <div class="modal fade" id="bukti{{ $item->id}}">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Customer Name : {{ $item->customer_name}}</h4>
+                        <h4 class="modal-title">Update Transaction</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -115,30 +119,47 @@
                     <form action="/transactions/update/{{$item->id}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <div class="modal-body">
-                            <h3>Price : Rp.{{ number_format($item->total_price)}} </h3>
-                            <div class="img-container">
-                                @if($item->bukti)
-                                    <img src="{{ asset('bukti') }}/{{ $item->bukti }}" class="zoom">
-                                @endif
-                            </div>
-                            <br>
-                            <label>Update Status</label>
-                                <select name="status" class="form-control">
-                                    <option value="{{$item->status}}">{{$item->status}}</option>
-                                    <option value="cancel">Cancel</option>
-                                    <option value="order">Order</option>
-                                    <option value="paid">Paid</option>
-                                </select>
+                        <div class="modal-body" style="padding-left:2rem; padding-right:2rem;">
+                            <div class="form-group">
+                                <label>Customer Name</label>
+                                <input type="text" class="form-control" name="customer_name" value="{{ $item->customer_name }}">
                                 <div class="text-danger">
-                                    @error('status')
+                                    @error('customer_name')
                                         {{ $message }}
                                     @enderror
                                 </div>
-
+                            </div>
+                            <div class="form-group">
+                                <label>Noted</label>
+                                <input type="text" class="form-control" name="noted" value="{{ $item->noted }}">
+                                <div class="text-danger">
+                                    @error('noted')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea class="form-control" name="address" rows="3" required>{{ $item->address}}</textarea>
+                                <div class="text-danger">
+                                    @error('address')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="number" class="form-control"  name="total_price" value="{{ $item->total_price}}">
+                                <div class="text-danger">
+                                    @error('total_price')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
+
                         <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                            <a href="/transactions" class="btn btn-outline-secondary">Back</a>
                             <button type="submit" class="btn btn-info">Save</button>
                         </div>
                     </form>
@@ -179,10 +200,10 @@
                                 <textarea class="form-control" name="address" rows="3" required></textarea>
                             </div>
                             <div class="form-group">
-                                <label>Total Price</label>
-                                <input type="number" class="form-control readonly" id="masterTotalPrice" name="total_price" required>
+                                <label>Price</label>
+                                <input type="number" class="form-control" id="masterTotalPrice" name="total_price" required>
                             </div>
-                            <h6><strong>Products</strong></h6>
+                            {{-- <h6><strong>Products</strong></h6>
                             <div id="inputFormRow-0">
                                 <div class="form-inline">
                                     <select class="form-control mb-2 mr-sm-2" id="selectProduct" style="width: 10rem;" name="products[0][product_id]" onchange="handleSelectProduct(0,value)">
@@ -199,7 +220,7 @@
                             </div>
                             <div id="newProduct"></div>
                             <button id="addProduct" type="button" class="btn btn-outline-secondary btn-sm">Add Product</button>
-                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="calculatePrice()">Calculate</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="calculatePrice()">Calculate</button> --}}
                         </div>
                         <div class="modal-footer justify-content-between">
                             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>

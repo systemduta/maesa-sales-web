@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Devision;
+use App\Transaction;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -21,7 +24,10 @@ class UserController extends Controller
      */
     public function index()
     {
+
         $users = User::query()->byUser()->get();
+        // $achieved = $users->transaction()->sum('total_price');
+        // dd($achieved);
         $companies = Company::query()->when(auth()->user()->role_id != 1, function ($q) {
             return $q->where('id', auth()->user()->company_id);
         })->with('devisions')->get();

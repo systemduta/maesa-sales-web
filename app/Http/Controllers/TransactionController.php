@@ -12,6 +12,7 @@ use App\User;
 use App\TransactionDetail;
 use App\Company;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -55,10 +56,11 @@ class TransactionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function show($id)
     {
-        $transaction = Transaction::query()->with(['transaction_details'])->findOrFail($id);
 
+        $transaction = Transaction::query()->with(['transaction_details'])->findOrFail($id);
         return response()->view('transactions.show',[
             'transaction' => $transaction,
             'title'        => 'Transaction Detail'
@@ -78,7 +80,7 @@ class TransactionController extends Controller
             'customer_name' => 'required|string',
             'address'       => 'required|string',
             'total_price'   => 'required|string',
-            'products'      => 'required|array',
+            // 'products'      => 'required|array',
         ]);
 
         try {
@@ -92,7 +94,7 @@ class TransactionController extends Controller
             $numb = str_pad(($latest_trx ? ($latest_trx->getKey() + 1) : 1), 4, '0', STR_PAD_LEFT);
             $invoice_number = '#'.$company_code.$numb;
 
-            $transaction = Transaction::create([
+            Transaction::create([
                 'user_id'           => $user->id ?? 1,
                 'company_id'        => $user->company_id ?? 1,
                 'invoice_number'    => $invoice_number,
@@ -103,16 +105,16 @@ class TransactionController extends Controller
                 'status'            => "order"
             ]);
 
-            $new_products = [];
-            foreach ($request->products as $product) {
-                array_push($new_products,[
-                    'transaction_id' => $transaction->getKey(),
-                    'product_id'     => $product['product_id'],
-                    'amount'         => $product['amount'],
-                    'price'          => $product['price'],
-                ]);
-            }
-            TransactionDetail::insert($new_products);
+            // $new_products = [];
+            // foreach ($request->products as $product) {
+            //     array_push($new_products,[
+            //         'transaction_id' => $transaction->getKey(),
+            //         'product_id'     => $product['product_id'],
+            //         'amount'         => $product['amount'],
+            //         'price'          => $product['price'],
+            //     ]);
+            // }
+            // TransactionDetail::insert($new_products);
 
             $customers          = new Customer;
             $customers->user_id = $user->id;
@@ -169,7 +171,19 @@ class TransactionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $company_id = auth()->user()->company_id ?? 1;
+        // $transaction  = Transaction::query()->when($company_id, function($q) use ($company_id){
+        //     return $q->where('company_id',$company_id);
+        // })->orderBy('created_at', 'desc')->get();
+        $users = User::query()->where('company_id', $company_id)->get();
+        $products = Product::query()->where('company_id', $company_id)->get();
+
+        $transaksi = Transaction::find($id);
+        return view('transactions.edit', [
+            'transactions' => $transaksi,
+            'users'         => $users,
+            'products'      => $products,
+        ]);
     }
 
     /**
@@ -181,39 +195,51 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $transaction         = Transaction::findOrFail($id);
-        $transaction->status = $request->status;
-        $transaction->save();
+        $request->validate([
+            // 'user_id' => 'exists:users,id|nullable',
+            'customer_name' => 'required|string',
+            'address'       => 'required|string',
+            // 'total_price'   => 'required|string',
+            // 'products'      => 'required|array',
+        ]);
 
-        if ($transaction->user->device_token) {
-            $recipients = [$transaction->user->device_token];
-            $title ='Hai, update status tagihan!';
-            $body='Tagihan atas nama pelanggan '.$transaction->customer_name.' telah berubah status menjadi '.$transaction->status;
+        Transaction::findOrFail($id)->update([
+            'customer_name'     => $request->customer_name,
+                'address'           => $request->address,
+                'total_price'       => $request->total_price,
+                'noted'             => $request->noted,
+        ]);
 
-            $res = fcm()->to($recipients)
-                ->timeToLive(0)
-                ->priority('normal')
-                ->data([
-                    'id' => $transaction->getKey(),
-                    'title' => $title,
-                    'body' => $body,
-                ])
-                ->notification([
-                    'title' => $title,
-                    'body' => $body,
-                ])->send();
 
-//        save history notification
-            $notification_history = new NotificationHistory;
-            $notification_history->transaction_id = $transaction->getKey();
-            $notification_history->title = $title;
-            $notification_history->body = $body;
-            $notification_history->from_user = auth()->user()->id;
-            $notification_history->to_user = $transaction->user->id;
-            $notification_history->save();
-        }
+//         if ($transaction->user->device_token) {
+//             $recipients = [$transaction->user->device_token];
+//             $title ='Hai, update status tagihan!';
+//             $body='Tagihan atas nama pelanggan '.$transaction->customer_name.' telah berubah status menjadi '.$transaction->status;
 
-        return redirect('transactions')->with('status','Status Berhasil di Update');
+//             $res = fcm()->to($recipients)
+//                 ->timeToLive(0)
+//                 ->priority('normal')
+//                 ->data([
+//                     'id' => $transaction->getKey(),
+//                     'title' => $title,
+//                     'body' => $body,
+//                 ])
+//                 ->notification([
+//                     'title' => $title,
+//                     'body' => $body,
+//                 ])->send();
+
+// //        save history notification
+//             $notification_history = new NotificationHistory;
+//             $notification_history->transaction_id = $transaction->getKey();
+//             $notification_history->title = $title;
+//             $notification_history->body = $body;
+//             $notification_history->from_user = auth()->user()->id;
+//             $notification_history->to_user = $transaction->user->id;
+//             $notification_history->save();
+//         }
+
+        return redirect('transactions')->with('status','Data Berhasil di Update');
     }
 
     /**

@@ -87,6 +87,12 @@
                           <hr size="100%" width="100%">
                           <p class="font-weight-bold">NIK</p>
                           <p>{{$user->nik}}</p>
+                          {{-- <p class="font-weight-bold">Target Visit</p>
+                          <p>{{$user->target_visit}}</p>
+                          <p class="font-weight-bold">Target Low</p>
+                          <p>{{$user->target_low}}</p>
+                          <p class="font-weight-bold">Target Middle</p>
+                          <p>{{$user->target_middle}}</p> --}}
                         </div>
                       </div> <!-- /.modal-content -->
                     </div> <!-- /.modal-dialog -->

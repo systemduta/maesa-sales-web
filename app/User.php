@@ -20,7 +20,8 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'company_id','devision_id','device_token','target_visit','nik','avatar'
+        'name', 'email', 'password', 'company_id','devision_id','device_token','target_visit','nik','avatar','target_low',
+        'target_middle','target_high', 'visit_today', 'visit_month','month_transaction'
     ];
 
     /**
@@ -29,8 +30,7 @@ class User extends \TCG\Voyager\Models\User
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'company', 'devision', 'month_transaction', 'settings', 'target_visit','target_low',
-        'target_middle','target_high', 'visit_today', 'visit_month',
+        'password', 'remember_token', 'company', 'devision', 'settings',
     ];
 //    update this
 

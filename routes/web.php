@@ -64,9 +64,10 @@ Route::group(['prefix' => 'admin'], function () {
 //pemesanan
 Route::get('/transactions', 'TransactionController@index')->name('transactions.index');
 Route::post('/transactions', 'TransactionController@store')->name('transactions.store');
+Route::get('/transactions/edit/{id}', 'TransactionController@edit')->name('transactions.edit');
 Route::put('/transactions/update/{id}', 'TransactionController@update')->name('transactions.update');
 Route::get('/transactions/detail/{id}', 'TransactionController@show')->name('transactions.detail');
-Route::delete('/transactions/{id}', 'TransactionController@destroy')->name('transactions.delete');
+Route::get('/transactions/delete/{id}', 'TransactionController@destroy')->name('transactions.delete');
 Route::get('/invoice/{id}', 'TransactionController@invoice')->name('invoice');
 
 Route::post('/update_token','UserController@update_token')->name('update_token');
