@@ -13,6 +13,10 @@
 </div>
 @endsection
 @section('content')
+<!-- for export -->
+<link href="{{asset('assets1/css/plugins/dataTables/datatables.min.css')}}" rel="stylesheet">
+<link href="{{asset('assets1/css/style.css')}}" rel="stylesheet">
+
 <style type="text/css">
     .img-container{
         text-align: center;
@@ -47,6 +51,19 @@
                             <h5><i class="icon fas fa-check"></i> {{session('status')}}</h5>
                     </div>
                 @endif
+                <form class="form-inline" action="{{ route('visits.periode') }}" method="GET">
+                    <div class="form-group">
+                        <label for="date">Tanggal Awal : </label>
+                        <input type="date" class="form-control datepicker" name="tgl_awal" autocomplete="off" value="{{ date('Y-m-d') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Tanggal Akhir : </label>
+                        <input type="date" class="form-control datepicker" name="tgl_akhir" autocomplete="off" value="{{ date('Y-m-d') }}">
+                    </div>
+                    <div class="form-group ml-2">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </form>
                     <div class="row mb-2">
                         <div class="col-sm-12">
                             <div class="d-flex justify-content-end">
@@ -57,13 +74,14 @@
                             </div>
                         </div>
                     </div>
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="example" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th width="30px" class="text-center">No</th>
                                 <th>Visited At</th>
                                 <th>Sales</th>
                                 <th>Customer</th>
+                                <th>Product</th>
                                 <th>Phone</th>
                                 <th>Status</th>
                                 <th class="text-center">Action</th>
@@ -76,6 +94,7 @@
                                     <td>{{ $item->visited_at }}</td>
                                     <td>{{ $item->user->name }}</td>
                                     <td>{{ $item->name }}</td>
+                                    <td>{{ $item->product }}</td>
                                     <td>{{ $item->phone }}</td>
                                     <td>
                                         @if($item->status =='New')
@@ -143,6 +162,11 @@
     </div>
 </div>
 
+<!-- for export all -->
+<script src="{{URL::to('assets1/js/plugins/dataTables/datatables.min.js')}}"></script>
+<script src="{{URL::to('assets1/js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
+
+
 <script>
     $(document).ready(function(){
         $('.zoom').hover(function() {
@@ -167,5 +191,32 @@
         "responsive": true,
         });
     });
+</script>
+<script>
+    $(document).ready(function(){
+        $('#example').DataTable({
+            pageLength: 25,
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy'},
+                {extend: 'csv'},
+                {extend: 'excel', title: 'Data Visit {{ date("d-m-Y") }}'},
+                {extend: 'pdf', title: 'Data Visit {{ date("d-m-Y") }}'},
+
+                {extend: 'print',
+                 customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                    .addClass('compact')
+                    .css('font-size', 'inherit');
+                }
+                }
+            ]
+        });
+    });
+
 </script>
 @endsection

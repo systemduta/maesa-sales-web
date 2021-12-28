@@ -89,6 +89,8 @@
                             <p>{{$user->nik}}</p>
                             <p class="font-weight-bold">Target Visit</p>
                             <p>{{$user->target_visit}}</p>
+                            <p class="font-weight-bold">Target Pencapaian</p>
+                            <p>{{$user->visit_month()->count()}}</p>
                             <p class="font-weight-bold">Target Low</p>
                             <p>{{number_format($user->target_low)}}</p>
                             <p class="font-weight-bold">Target Middle</p>
@@ -98,7 +100,11 @@
                             <p class="font-weight-bold">Omset</p>
                             <p>{{number_format($user->month_transaction()->sum('total_price'))}}</p>
                             <p class="font-weight-bold">Overachieved</p>
-                            <p>{{number_format($user->month_transaction()->sum('total_price') - $user->target_high)}}</p>
+                            @if($user->month_transaction()->sum('total_price') <= $user->target_high)
+                              <p>0</p>
+                            @else
+                              <p>{{number_format($user->month_transaction()->sum('total_price') - $user->target_high)}}</p>
+                            @endif
                             <p class="font-weight-bold">New Partner</p>
                             <p>{{$user->getNewPartnerAttribute()}}</p>
                         </div>

@@ -125,4 +125,30 @@ class VisitController extends Controller
 //            ])
             ->send();
     }
+
+    public function periode(Request $request)
+    {
+        $awal  = date('Y-m-d', strtotime($request->tgl_awal));
+        $akhir = date('Y-m-d', strtotime($request->tgl_akhir));
+        $request->validate([
+            'period' => 'string|nullable'
+         ]);
+         $period = $request->period;
+         $visits = Visit::query()->byCompany()->when($period && $period=='day', function (Builder $query) {
+             return $query->whereDate('visited_at', Carbon::now());
+         })->when($period && $period=='week', function (Builder $query) {
+             return $query->whereBetween('visited_at', [Carbon::now()->subWeek(), Carbon::now()]);
+         })->when($period && $period=='month', function (Builder $query) {
+             return $query->whereBetween('visited_at', [Carbon::now()->subMonth(), Carbon::now()]);
+         })->when($awal, function($awl) use ($awal){
+            return $awl->where('created_at', '>=', $awal);
+        })->when($akhir, function($ahr) use ($akhir){
+            return $ahr->whereDate('created_at', '<=', $akhir);
+        })->orderByDesc('id')->get();
+
+         return response()->view('visits.index', [
+             'visits' => $visits,
+             'title' => 'Visit Data'
+         ]);
+    }
 }

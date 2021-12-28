@@ -67,6 +67,9 @@ Route::post('/transactions', 'TransactionController@store')->name('transactions.
 Route::put('/transactions/update/{id}', 'TransactionController@update')->name('transactions.update');
 Route::get('/transactions/detail/{id}', 'TransactionController@show')->name('transactions.detail');
 Route::get('/transactions/delete/{id}', 'TransactionController@destroy')->name('transactions.delete');
+Route::get('/transactions/laporan', 'TransactionController@periode')->name('transactions.periode');
+
+
 Route::get('/invoice/{id}', 'TransactionController@invoice')->name('invoice');
 
 Route::post('/update_token','UserController@update_token')->name('update_token');
@@ -85,6 +88,8 @@ Route::get('/customer/coba', 'CustomerController@coba');
 Route::get('/notifications','NotificationHistoryController@listNotification')->name('notifications.list');
 Route::post('/notifications','NotificationHistoryController@store')->name('notifications.store');
 
+Route::get('/visits/laporan', 'VisitController@periode')->name('visits.periode');
 Route::resource('visits', 'VisitController');
+
 Route::resource('books', 'BookController');
 Route::resource('users', 'UserController');

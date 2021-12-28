@@ -248,4 +248,33 @@ class TransactionController extends Controller
         $transaction = Transaction::query()->findOrFail($id);
         return view('invoice', ['transaction' => $transaction]);
     }
+
+    public function periode(Request $request)
+    {
+        $awal  = date('Y-m-d', strtotime($request->tgl_awal));
+        $akhir = date('Y-m-d', strtotime($request->tgl_akhir));
+        $title = "Cetak Data";
+        // $data  = Transaction::where('created_at', '>=', $tanggal_awal. '00:00:00')->where('created_at', '<=', $tanggal_akhir. '23:59:59')->get();
+
+        $company_id = auth()->user()->company_id ?? 1;
+        $transaction  = Transaction::query()->when($company_id, function($q) use ($company_id){
+            return $q->where('company_id',$company_id);
+        })->when($awal, function($awl) use ($awal){
+            return $awl->where('created_at', '>=', $awal);
+        })->when($akhir, function($ahr) use ($akhir){
+            return $ahr->whereDate('created_at', '<=', $akhir);
+        })->orderBy('created_at', 'desc')->get();
+        // dd($transaction);
+        $users = User::query()->where('company_id', $company_id)->get();
+        $products = Product::query()->where('company_id', $company_id)->get();
+
+        return response()->view('transactions.index', [
+            // 'transaction'          => $data,
+            'transaction'   => $transaction,
+            'users'         => $users,
+            'products'      => $products,
+            'title'         => $title,
+
+        ]);
+    }
 }

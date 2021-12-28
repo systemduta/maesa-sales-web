@@ -2,28 +2,36 @@
 
 
 @section('judul1')
+
 <div class="content-header">
     <div class="container-fluid">
         <div class="mb-2 row">
-        <div class="col-sm-12">
-            @if($errors->any())
+            <div class="col-sm-12">
+                @if($errors->any())
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h5><i class="icon fas fa-ban"></i> Update Unsuccessfully!</h5>
                     {!! implode('', $errors->all('<div>:message</div>')) !!}
                 </div>
-            @endif
-            <h1 class="m-0">{{ $title }}</h1>
-        </div>
+                @endif
+                <h1 class="m-0">{{ $title }}</h1>
+            </div>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
 </div>
 @endsection
 @section('content')
+<!-- for export -->
+<link href="{{asset('assets1/css/plugins/dataTables/datatables.min.css')}}" rel="stylesheet">
+<link href="{{asset('assets1/css/style.css')}}" rel="stylesheet">
+
 <style type="text/css">
     .img-container{
         text-align: center;
     }
+    /* .main-sidebar{
+        width: 350px;
+    } */
     img.zoom {
         width: 750px;
         height: 400px;
@@ -48,6 +56,19 @@
                 <div class="card-tools">
                     <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#create-transaction">Create</button>
                 </div>
+                <form class="form-inline" action="{{ route('transactions.periode') }}" method="GET">
+                    <div class="form-group">
+                        <label for="date">Tanggal Awal : </label>
+                        <input type="date" class="form-control datepicker" name="tgl_awal" autocomplete="off" value="{{ date('Y-m-d') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Tanggal Akhir : </label>
+                        <input type="date" class="form-control datepicker" name="tgl_akhir" autocomplete="off" value="{{ date('Y-m-d') }}">
+                    </div>
+                    <div class="form-group ml-2">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </form>
             </div>
             <div class="card-body">
                 @if (session('status'))
@@ -56,7 +77,8 @@
                             <h5><i class="icon fas fa-check"></i> {{session('status')}}</h5>
                     </div>
                 @endif
-                    <table id="example1" class="table table-bordered table-striped">
+
+                    <table id="example" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th width="30px" class="text-center">No</th>
@@ -64,7 +86,7 @@
                                 <th>Invoice Number</th>
                                 <th>Sales</th>
                                 <th>Price</th>
-                                <th>Bukti</th>
+                                <th>Address</th>
                                 <th>Status</th>
                                 <th class="text-center">Action</th>
                             </tr>
@@ -78,13 +100,14 @@
                                     <td>{{ $item->invoice_number }}</td>
                                     <td>{{ $item->user->name }}</td>
                                     <td>Rp. {{ number_format($item->total_price) }}</td>
-                                    <td class="text-center">
+                                    <td>{{ $item->address }}</td>
+                                    {{-- <td class="text-center">
                                         @if($item->bukti)
                                             <img src="{{ asset('bukti').'/'.$item->bukti }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px">
                                         @else
                                             <img src="{{ asset('AdminLTE/icon/no-image-icon.png') }}" data-toggle="modal" data-target="#bukti{{ $item->id}}" width="100px"/>
                                         @endif
-                                    </td>
+                                    </td> --}}
                                         @if($item->status =='New')
                                             <td class="text-center"><span class="badge badge-primary">New</span></td>
                                         @elseif($item->status == 'Repeat Order')
@@ -109,7 +132,7 @@
         @foreach ($transaction as $item)
         <div class="modal fade" id="bukti{{ $item->id}}">
             <div class="modal-dialog modal-xl">
-                <div class="modal-content">
+                <div class="modal-content example">
                     <div class="modal-header">
                         <h4 class="modal-title">Customer Name : {{ $item->customer_name}}</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -233,6 +256,11 @@
     </div>
 </div>
 
+<!-- for export all -->
+<script src="{{URL::to('assets1/js/plugins/dataTables/datatables.min.js')}}"></script>
+<script src="{{URL::to('assets1/js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
+
+
 <script>
     $(document).ready(function(){
         $('.zoom').hover(function() {
@@ -249,6 +277,34 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function(){
+        $('#example').DataTable({
+            pageLength: 25,
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy'},
+                {extend: 'csv'},
+                {extend: 'excel', title: 'Data Transaksi {{ date("d-m-Y") }}'},
+                {extend: 'pdf', title: 'Data Transaksi {{ date("d-m-Y") }}'},
+
+                {extend: 'print',
+                 customize: function (win){
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                    .addClass('compact')
+                    .css('font-size', 'inherit');
+                }
+                }
+            ]
+        });
+    });
+
+</script>
+
 @endsection
 @push('footer')
     <script type="text/javascript">
